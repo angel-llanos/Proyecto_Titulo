@@ -18,7 +18,8 @@
     <!-- Header/Navbar -->
     <nav class="navbar navbar-expand-lg bg-black navbar-settings p-4">
         <div class="container-fluid">
-            <a class="navbar-brand" style="color: white;" href="" onclick="location.reload(); return false;">Monkey Foods</a>
+            <a class="navbar-brand" style="color: white;" href="" onclick="location.reload(); return false;">Monkey
+                Foods</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
@@ -28,10 +29,20 @@
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li></li>
                 </ul>
+                {% if request.user.is_authenticated %}
+                <p class="me-3 mt-2 text-white fs-6">¡Bienvenido, {{ user.username | upper }}!</p>
                 <form class="d-flex gap-3" role="search">
-                    <button class="btn btn-outline-light btn-settings" type="submit">Historia</button>
-                    <button class="btn btn-warning btn-settings" type="submit">Acceder</button>
+                    <a href="{% url 'exit' %}">
+                        <button class="btn btn-warning btn-settings" type="button">Salir</button>
+                    </a>
                 </form>
+                {% else %}
+                <form class="d-flex gap-3" role="search">
+                    <a href="{% url 'registrar' %}">
+                        <button class="btn btn-warning btn-settings" type="button">Acceder</button> 
+                    </a>
+                </form>
+                {% endif %}
             </div>
         </div>
     </nav>
@@ -43,14 +54,7 @@
                 <div class="col-lg-6 col-md-12 mb-4 mb-md-0 text-center">
                     <h5 class="text">SOBRE NOSOTROS</h5>
                     <p class="mt-3">
-                        Descubre el vehículo de tus sueños aquí en Autos del Mar. Contamos con una ámplia selección de
-                        autos nuevos
-                        y usados, atención
-                        personalizada y financiamiento disponible. Contamos con más de 30 años de experiencia
-                        especializándonos en
-                        la
-                        venta de vehículos.
-                        ¡Encuentra el auto perfecto para ti con nosotros!.
+                        MONKEY FOODS
                     </p>
                 </div>
 

@@ -1,0 +1,16 @@
+.form-login-registro {
+    padding: 20px;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    color: white;
+    background-color: black;
+    border-radius: 10px;
+}
+
+.form-text {
+    color: #ffc107;
+}
+
+.nav-tabs .nav-link.active {
+    color: black !important;
+}
