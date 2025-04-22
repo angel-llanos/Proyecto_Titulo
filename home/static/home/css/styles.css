@@ -1,10 +1,82 @@
-/* clases home */
-
+/* borde del navbar */
 .navbar-settings {
-    border-bottom: 1px solid;
-    border-color: white;
+    border-bottom: 3px solid;
+    color: white;
 }
-
+/* nose */
 .btn-settings {
     border-radius: 40px;
+}
+/* marca monkey foods */
+.marca {
+    color: white;
+    background-color: black;
+    text-transform: uppercase;
+    font-weight: bold;
+    text-align: right;
+    background-size: 20%;
+}
+/* fondo de la pagina */
+.body-fondo{
+    background-image: url(../img/fondo.png);
+    background-size: cover;
+    background-position: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+/* titulo */
+.letras {
+    margin-top: 50px;
+    margin-bottom: 40px;
+    text-transform: uppercase;
+    font-size: 36px;
+    font-weight: bold;
+    color: black;
+    background-color: white;
+    margin-left: 30%;
+    margin-right: 30%;
+    text-align: center;
+    border-radius: 10px;
+
+}
+/* centrar boton */
+.boton {
+    color: black;
+    margin-left: 40%;
+    margin-right: 40%;
+    text-transform: uppercase;
+    font-weight: bold;
+    margin-bottom: 270px;
+}
+/* Titulo del carrusel */
+.letra-carrusel{
+    text-decoration: underline;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    font-size: 36px;
+    font-weight: bold;
+    color:black;
+    background-color: khaki;
+    text-align: center;
+    border-radius: 10px;
+    margin-left: 25%;
+    margin-right: 25%;
+}
+
+/* carrusel */
+.carrusel {
+    border-radius: 10px;
+    max-width: 900px;
+    height: 500px; /* altura fija para que todas se vean igual */
+    margin: 0 auto 20px auto;
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 60px;
+}
+
+.carrusel img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* recorta la imagen para llenar todo el contenedor */
+    display: block;
 }

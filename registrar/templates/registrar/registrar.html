@@ -15,12 +15,15 @@
     <link rel="stylesheet" href="{% static 'registrar/css/styles.css' %}">
 </head>
 
-<body>
+<body class="body-fondo">
 
     <!-- Header/Navbar -->
-    <nav class="navbar navbar-expand-lg bg-black navbar-settings p-4">
+    <nav class="navbar navbar-expand-lg bg-body-primary navbar-settings p-4">
         <div class="container-fluid">
-            <a class="navbar-brand" style="color: white;" href="" onclick="location.reload(); return false;">Monkey
+            <div>
+                <img src="{% static 'registrar/img/marca.png' %}" alt="marca">
+            </div>
+            <a class="navbar-brand marca" href="" onclick="location.reload(); return false;">Monkey
                 Foods</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
