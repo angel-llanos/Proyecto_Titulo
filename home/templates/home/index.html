@@ -33,52 +33,65 @@
                     <li></li>
                 </ul>
                 {% if request.user.is_authenticated %}
+                <p class="me-3 mt-2 text-white fs-6">¡Bienvenido, {{ user.username|upper }}!</p>
                 <form class="d-flex gap-3" role="search">
                     <button class="btn btn-dark history" type="submit">Historia</button>
-                </form>
-                <p class="me-3 mt-2 text-white fs-6">¡Bienvenido, {{ user.username | upper }}!</p>
-                <form class="d-flex gap-3" role="search">
+
+                    {% if request.user.rol == 4 %}
+                    <a href="{% url 'crear_trabajador' %}">
+                        <button class="btn btn-danger" type="button">Crear trabajador</button>
+                    </a>
+                    {% endif %}
+
                     <a href="{% url 'exit' %}">
                         <button class="btn btn-warning btn-settings" type="button">Salir</button>
                     </a>
                 </form>
                 {% else %}
-                <form class="d-flex gap-3" role="search">
-                    <button class="btn btn-dark history" type="submit">Historia</button>
-                </form>
-                <form class="d-flex gap-3" role="search">
-                    <a href="{% url 'registrar' %}">
-                        <button class="btn btn-warning btn-settings" type="button">Ingresar</button> 
-                    </a>
-                </form>
+                <div class="d-flex gap-3"> <!-- botones navbar -->
+                    <form class="d-flex" role="search">
+                        <button class="btn btn-outline-light history" type="submit">Historia</button>
+                    </form>
+                    <form class="d-flex" role="search">
+                        <a href="{% url 'registrar' %}">
+                            <button class="btn btn-warning btn-settings" type="button">Ingresar</button>
+                        </a>
+                    </form>
+                </div>
                 {% endif %}
+
             </div>
         </div>
     </nav>
+
     <!-- Titulo de la pagina -->
     <div class="letras">
-        <h1>Disfruta de un ambiente unico y especial</h1>
+        <h1 style="font-size: 72px;">Disfruta de un ambiente unico y especial.</h1>
     </div>
+
     <!-- boton para reservar mesas -->
-    <div class="row boton">
-        <button type="button" class="btn btn-warning">Reservar mesa</button>
+    <div class="row" style="margin-left: 40%; margin-right: 40%;">
+        <button type="button" class="btn btn-warning btn-lg boton" style="--bs-btn-font-size: 1.5rem;">Reservar
+            mesa</button>
     </div>
+
     <!-- Titulo de el carrusel -->
     <div class="letra-carrusel">
         <h2>Fotos destacadas del restaurante:</h2>
     </div>
+
     <!-- carrusel -->
     <div id="carouselExampleSlidesOnly" class="carousel slide carrusel" data-bs-ride="carousel">
         <div class="carousel-inner">
-          <div class="carousel-item active carrusel">
-            <img src="{% static 'home/img/restaurante.jpg' %}" class="d-block w-100" alt="restaurante">
-          </div>
-          <div class="carousel-item">
-            <img src="{% static 'home/img/plato_servido.jpg' %}" class="d-block w-100" alt="palto servido">
-          </div>
-          <div class="carousel-item">
-            <img src="{% static 'home/img/platos_con_amigos.jpg' %}" class="d-block w-100" alt="plato con amigos">
-          </div>
+            <div class="carousel-item active carrusel">
+                <img src="{% static 'home/img/restaurante.jpg' %}" class="d-block w-100" alt="restaurante">
+            </div>
+            <div class="carousel-item">
+                <img src="{% static 'home/img/plato_servido.jpg' %}" class="d-block w-100" alt="palto servido">
+            </div>
+            <div class="carousel-item">
+                <img src="{% static 'home/img/platos_con_amigos.jpg' %}" class="d-block w-100" alt="plato con amigos">
+            </div>
         </div>
     </div>
 
@@ -92,6 +105,7 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
 </body>
+
 <!-- Pie de página -->
 <footer class="text-white text-center" style="background-color: black;">
     <div class="container p-4">

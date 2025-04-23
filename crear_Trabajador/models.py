@@ -1,3 +1,2 @@
-from django.db import models
+from registrar.models import CustomUser
 
-# Create your models here.

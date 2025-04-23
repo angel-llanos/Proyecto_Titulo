@@ -42,7 +42,7 @@ INSTALLED_APPS = [
 
     'home',
     'registrar',
-    'crear_Trabajador',
+    'crear_trabajador'
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"

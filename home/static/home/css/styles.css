@@ -10,7 +10,6 @@
 /* boton de historia*/
 .history {
     border-radius: 40px;
-    margin-right: 20px;
 }
 /* marca monkey foods */
 .marca {
@@ -32,14 +31,13 @@
 /* titulo */
 .letras {
     margin-top: 50px;
-    margin-bottom: 40px;
+    margin-bottom: 50px;
     text-transform: uppercase;
-    font-size: 36px;
     font-weight: bold;
     color: black;
     background-color: white;
-    margin-left: 30%;
-    margin-right: 30%;
+    margin-left: 20%;
+    margin-right: 20%;
     text-align: center;
     border-radius: 10px;
 
@@ -47,11 +45,9 @@
 /* centrar boton */
 .boton {
     color: black;
-    margin-left: 40%;
-    margin-right: 40%;
     text-transform: uppercase;
     font-weight: bold;
-    margin-bottom: 270px;
+    margin-bottom: 180px;
 }
 /* Titulo del carrusel */
 .letra-carrusel{
