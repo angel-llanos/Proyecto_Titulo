@@ -3,9 +3,14 @@
     border-bottom: 3px solid;
     color: white;
 }
-/* nose */
+/* boton de ingresar*/
 .btn-settings {
     border-radius: 40px;
+}
+/* boton de historia*/
+.history {
+    border-radius: 40px;
+    margin-right: 20px;
 }
 /* marca monkey foods */
 .marca {

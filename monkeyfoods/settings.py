@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'home',
-    'registrar'
+    'registrar',
+    'crear_Trabajador',
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
