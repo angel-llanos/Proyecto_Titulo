@@ -1,0 +1,160 @@
+{% load static %}
+
+{% load crispy_forms_tags %}
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monkey Foods - Registro</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="{% static 'registrar/css/styles.css' %}">
+</head>
+
+<body class="body-fondo">
+
+    <!-- Header/Navbar -->
+    <nav class="navbar navbar-expand-lg bg-body-primary navbar-settings p-4">
+        <div class="container-fluid">
+            <a href="{% url 'index' %}">
+                <img src="{% static 'registrar/img/marca.png' %}" alt="marca">
+                <a class="navbar-brand marca" href="{% url 'index' %}">Monkey
+                    Foods</a>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Tabs login/register -->
+    <div class="container">
+
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-4 form-login-registro">
+                <ul class="nav nav-tabs" id="authTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link {% if active_tab == 'login' %}active{% endif %} text-warning"
+                            id="login-tab" data-bs-toggle="tab" data-bs-target="#login" type="text" role="tab">Inicio de
+                            sesión</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link {% if active_tab == 'register' %}active{% endif %} text-warning"
+                            id="register-tab" data-bs-toggle="tab" data-bs-target="#register" type="text"
+                            role="tab">Regístrate</button>
+                    </li>
+                </ul>
+
+                <div class="tab-content mt-3" id="authTabsContent">
+
+                    <div class="tab-pane fade {% if active_tab == 'login' %}show active{% endif %}" id="login"
+                        role="tabpanel">
+                        <form action="{% url 'registrar' %}" method="post">
+                            {% csrf_token %}
+                            {{ login_form|crispy }}
+                            <button type="submit" class="btn btn-warning" name="login_submit">Acceder</button>
+                        </form>
+                        <p class="d-flex justify-content-center mt-3">¿Olvidaste tu contraseña?</p>
+                        <a class="d-flex justify-content-center" href="">
+                            <p>Recuperar contraseña</p>
+                        </a>
+                        <a class="d-flex justify-content-center mt-5 mb-3" href="{% url 'index' %}">
+                            <button type="submit" class="btn btn-outline-warning" name="back">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
+                                    class="bi bi-arrow-left" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd"
+                                        d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8" />
+                                </svg> Volver al inicio</button>
+                        </a>
+                    </div>
+
+                    <div class="tab-pane fade {% if active_tab == 'register' %}show active{% endif %}" id="register"
+                        role="tabpanel">
+                        <form action="{% url 'registrar' %}" method="post">
+                            {% csrf_token %}
+                            {{ register_form|crispy }}
+
+                            {% if register_form.errors %}
+                            <div class="alert alert-danger mt-2">
+                                <ul>
+                                    {% for field, errors in register_form.errors.items %}
+                                    <li>{{ field }}: {{ errors }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            {% endif %}
+
+                            <button type="submit" class="btn btn-warning" name="register_submit">Registrarse</button>
+                        </form>
+                        <a class="d-flex justify-content-center mt-5 mb-3" href="{% url 'index' %}">
+                            <button type="submit" class="btn btn-outline-warning" name="back">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
+                                    class="bi bi-arrow-left" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd"
+                                        d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8" />
+                                </svg> Volver al inicio</button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-white text-center" style="background-color: black;">
+        <div class="container p-4">
+            <div class="row">
+                <div class="col-lg-6 col-md-12 mb-4 mb-md-0 text-center">
+                    <h5 class="text">SOBRE NOSOTROS</h5>
+                    <p class="mt-3">
+                        MONKEY FOODS
+                    </p>
+                </div>
+
+                <div class="col-lg-3 col-md-6 mb-4 mb-md-0 ms-auto text-center">
+                    <h5 class="text">CONTÁCTANOS:</h5>
+                    <ul class="list-unstyled mb-0">
+                        <li>
+                            <a class="text-white" href="#">
+                                <i class="bi bi-facebook" style="font-size: 23px;"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="text-white" href="#">
+                                <i class="bi bi-instagram" style="font-size: 23px;"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- Parte inferior footer -->
+        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+            © 2025
+            <a class="text-white" href="" onclick="location.reload(); return false;">Monkey Foods</a>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl5/0U5Y1Uhe5z4K0P/dFYi5PUFEnFUn9LohPybU8a"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+        integrity="sha384-oBqDVmMz4fnFO9gybXV8FQFt4rAHg7S4FczD/OSa1u/p5p1F9p38BennQG8suC2g"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <script src="{% static 'registrar/js/script.js' %}"></script>
+</body>
+
+</html>

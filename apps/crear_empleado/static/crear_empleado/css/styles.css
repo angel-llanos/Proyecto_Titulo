@@ -1,0 +1,46 @@
+/* borde del navbar */
+.navbar-settings {
+    background-color: black;
+    border-bottom: 3px solid;
+    color: white;
+}
+/* boton de ingresar*/
+.btn-settings {
+    border-radius: 40px;
+}
+/* boton de historia*/
+.history {
+    border-radius: 40px;
+}
+/* marca monkey foods */
+.marca {
+    color: white;
+    background-color: black;
+    text-transform: uppercase;
+    font-weight: bold;
+    text-align: right;
+    background-size: 20%;
+}
+
+/* fondo de la pagina */
+.body-fondo{
+    background-image: url(../img/fondo.png);
+    background-size: cover;
+    background-position: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+.form-registro {
+    padding: 20px;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    color: white;
+    background-color: black;
+    border-radius: 10px;
+}
+
+.form-text {
+    color: #ffc107;
+}
+

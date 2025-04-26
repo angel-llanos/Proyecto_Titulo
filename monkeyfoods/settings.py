@@ -40,9 +40,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'home',
-    'registrar',
-    'crear_trabajador'
+    'apps.home',
+    'apps.registrar',
+    'apps.crear_empleado',
+    'apps.historia'
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"

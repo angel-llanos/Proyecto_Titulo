@@ -1,0 +1,182 @@
+/* borde del navbar */
+.navbar-settings {
+    background-color: black;
+    border-bottom: 3px solid;
+    color: white;
+}
+/* boton de ingresar*/
+.btn-settings {
+    border-radius: 40px;
+}
+/* boton de historia*/
+.history {
+    border-radius: 40px;
+}
+/* marca monkey foods */
+.marca {
+    color: white;
+    background-color: black;
+    text-transform: uppercase;
+    font-weight: bold;
+    text-align: right;
+    background-size: 20%;
+}
+/* fondo de la pagina */
+.body-fondo{
+    background-image: url(../img/fondo.jpg);
+    background-size: cover;
+    background-position: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+/* titulo */
+.letras {
+    margin-top: 50px;
+    margin-bottom: 50px;
+    text-transform: uppercase;
+    font-weight: bold;
+    color: black;
+    background-color: white;
+    margin-left: 20%;
+    margin-right: 20%;
+    text-align: center;
+    border-radius: 10px;
+
+}
+/* centrar boton */
+.boton {
+    color: black;
+    text-transform: uppercase;
+    font-weight: bold;
+    margin-bottom: 180px;
+}
+/* Titulo del carrusel */
+.letra-carrusel{
+    text-decoration: underline;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    font-size: 36px;
+    font-weight: bold;
+    color:black;
+    background-color: khaki;
+    text-align: center;
+    border-radius: 10px;
+    margin-left: 25%;
+    margin-right: 25%;
+}
+
+/* carrusel */
+.carrusel {
+    border-radius: 10px;
+    max-width: 900px;
+    height: 500px; /* altura fija para que todas se vean igual */
+    margin: 0 auto 20px auto;
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 60px;
+}
+
+.carrusel img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* recorta la imagen para llenar todo el contenedor */
+    display: block;
+}
+
+/* caja de texto 'nuestra historia' */
+.container-box {
+    display: flex;
+    justify-content: flex-end;
+    width: 40%;
+    height: 100%;
+    display: grid;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    color: white;
+    background-color: black;
+    border-radius: 10px;
+}
+
+.container-box h2 {
+    font-size: 50px;
+}
+
+.container-box p {
+    font-size: 20px;
+}
+
+/* MEDIA QUERY para móviles */
+@media (max-width: 768px) {
+    /* Ajustar márgenes y tamaño de los títulos */
+    .letras,
+    .letra-carrusel {
+        margin-left: 5%;
+        margin-right: 5%;
+        padding: 1rem;
+        font-size: 22px;
+    }
+
+    /* Ajustar el título principal directamente */
+    .letras h1 {
+        font-size: 32px; /* Reducimos más el tamaño en móvil */
+        line-height: 1.2;
+    }
+
+    /* Ajuste para botones */
+    .row {
+        margin-left: 15%;
+        margin-right: 15%;
+    }
+
+    .boton {
+        font-size: 1.2rem; /* Hacemos el texto del botón un poquito más pequeño */
+        padding: 10px 20px;
+    }
+
+    /* Botones del navbar */
+    .btn-settings,
+    .history {
+        padding: 8px 16px;
+        font-size: 0.9rem;
+    }
+
+    /* Carrusel responsivo */
+    .carrusel {
+        max-width: 100%;
+        height: 250px; /* Altura más amigable en móvil */
+    }
+
+    .carrusel img {
+        height: 100%;
+        object-fit: cover;
+    }
+
+    /* Marca del navbar */
+    .marca {
+        font-size: 18px;
+        text-align: center;
+    }
+
+    /* Footer */
+    footer .container {
+        padding: 2rem 1rem;
+    }
+}
+
+/* MEDIA QUERY para móviles muy pequeños */
+@media (max-width: 576px) {
+    .letras h1 {
+        font-size: 28px; /* Más pequeño aún para celulares chicos */
+    }
+
+    .boton {
+        font-size: 1rem;
+        padding: 8px 16px;
+    }
+
+    .btn-settings,
+    .history {
+        font-size: 0.8rem;
+        padding: 6px 12px;
+    }
+}
