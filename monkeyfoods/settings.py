@@ -64,7 +64,7 @@ ROOT_URLCONF = 'monkeyfoods.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -132,3 +132,11 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Configuración para el envío de correos usando Gmail
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'           # Servidor SMTP de Gmail
+EMAIL_PORT = 25                        # Puerto para conexión TLS
+EMAIL_USE_TLS = True                    # Usar TLS para seguridad
+EMAIL_HOST_USER = 'monkeyfoodspswrdreset@gmail.com'  # Tu correo de Gmail (el que enviará los correos)
+EMAIL_HOST_PASSWORD = 'oygtaszkjqtznqbm'    # La contraseña (o contraseña de aplicación) para esta cuenta

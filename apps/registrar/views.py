@@ -1,8 +1,11 @@
+from django.contrib.auth.views import PasswordResetView
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm
 from django.contrib import messages
-from .forms import CustomUserCreationForm
+from .forms import CustomUserCreationForm, CustomPasswordResetForm
+from django.urls import reverse_lazy
+from .models import CustomUser
 
 def exit(request):
     logout(request)
@@ -40,3 +43,22 @@ def registrar(request):
     }
 
     return render(request, 'registrar/registrar.html', context)
+
+
+class CustomPasswordResetView(PasswordResetView):
+    form_class = PasswordResetForm
+    template_name = 'registration/password_reset_form.html'
+    email_template_name = 'registration/password_reset_email.html'
+    html_email_template_name = 'registration/password_reset_email_html.html'  # Asegúrate de que este archivo exista
+    subject_template_name = 'registration/password_reset_subject.txt'
+    success_url = reverse_lazy('password_reset_done')
+    
+    def form_valid(self, form):
+        email = form.cleaned_data['email']
+        
+        # Validar si el correo está registrado en la base de datos
+        if not CustomUser.objects.filter(email=email).exists():
+            form.add_error('email', 'El correo electrónico no está registrado.')
+            return self.form_invalid(form)
+        
+        return super().form_valid(form)

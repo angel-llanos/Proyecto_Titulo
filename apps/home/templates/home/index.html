@@ -33,12 +33,12 @@
                     <li></li>
                 </ul>
                 {% if request.user.is_authenticated %}
-                <p class="me-3 mt-2 text-white fs-6">¡Bienvenido, {{ user.username|upper }}!</p>
+                <p class="me-3 mt-2 text-white fs-6">¡Bienvenido, {{ user.first_name|upper }}!</p>
                 <form class="d-flex gap-3" role="search">
-                    {% if request.user.rol == 4 %}
                     <a href="{% url 'historia' %}">
                         <button class="btn btn-outline-light history" type="button">Historia</button>
                     </a>
+                    {% if request.user.rol == 4 %}
                     <a href="{% url 'crear_empleado' %}">
                         <button class="btn btn-danger" type="button">Crear empleado</button>
                     </a>
