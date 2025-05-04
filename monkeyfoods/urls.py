@@ -20,14 +20,20 @@ from django.urls import path, include # type: ignore
 from apps.registrar.views import CustomPasswordResetView
 
 urlpatterns = [
+    
+    # urls de apps de monkeyfoods
     path('admin/', admin.site.urls),
     path('', include('apps.home.urls')),
     path('registrar/',include('apps.registrar.urls')),
     path('crear_empleado/',include('apps.crear_empleado.urls')),
     path('historia/',include('apps.historia.urls')),
 
+    # urls de recuperación de contraseña
     path('password_reset/', CustomPasswordResetView.as_view(), name='password_reset'),
     path('password_reset/done/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
     path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
     path('reset/done/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
+
+    # url de accounts, se utiliza para el login con google
+    path('accounts/', include('allauth.urls')),
 ]

@@ -21,6 +21,11 @@
     text-align: right;
     background-size: 20%;
 }
+
+.marca:hover {
+    color:#ffc107;
+}
+
 .form-login-registro {
     padding: 20px;
     margin-top: 40px;

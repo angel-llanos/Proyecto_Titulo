@@ -1,6 +1,7 @@
 {% load static %}
 
 {% load crispy_forms_tags %}
+{% load socialaccount %}
 
 <!DOCTYPE html>
 <html lang="es">
@@ -43,6 +44,23 @@
 
         <div class="row justify-content-center">
             <div class="col-md-6 col-lg-4 form-login-registro">
+
+                <!-- css hipervínculo inferior / no cambiar, por favor.-->
+                <style>
+                    .boton-volver {
+                      text-decoration: none;
+                      color: #ffc107;
+                    }
+                  
+                    .boton-volver:hover {
+                      color: white;
+                      text-decoration: none;
+                    }
+                  </style>
+
+                <a href="{% url 'index' %}" class="boton-volver">
+                    <p> < Volver al inicio </p>
+                </a>
                 <ul class="nav nav-tabs" id="authTabs" role="tablist">
                     <li class="nav-item" role="presentation">
                         <button class="nav-link {% if active_tab == 'login' %}active{% endif %} text-warning"
@@ -65,17 +83,14 @@
                             {{ login_form|crispy }}
                             <button type="submit" class="btn btn-warning" name="login_submit">Acceder</button>
                         </form>
-                        <p class="d-flex justify-content-center mt-3">¿Olvidaste tu contraseña? <a
-                                href="{% url 'password_reset' %}">Click
+                        <div class="d-flex justify-content-center">
+                            <a href="{% provider_login_url 'google' %}" class="btn btn-primary mt-4">
+                                <i class="bi bi-google"></i> Iniciar sesión con Google
+                            </a>
+                        </div>
+                        <p class="d-flex justify-content-center mt-4 gap-2">¿Olvidaste tu contraseña?<a
+                                href="{% url 'password_reset' %}" style="color: #ffc107">Click
                                 aquí</a></p>
-                        <a class="d-flex justify-content-center mt-5 mb-3" href="{% url 'index' %}">
-                            <button type="submit" class="btn btn-outline-warning" name="back">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
-                                    class="bi bi-arrow-left" viewBox="0 0 16 16">
-                                    <path fill-rule="evenodd"
-                                        d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8" />
-                                </svg> Volver al inicio</button>
-                        </a>
                     </div>
 
                     <div class="tab-pane fade {% if active_tab == 'register' %}show active{% endif %}" id="register"
@@ -96,14 +111,6 @@
 
                             <button type="submit" class="btn btn-warning" name="register_submit">Registrarse</button>
                         </form>
-                        <a class="d-flex justify-content-center mt-5 mb-3" href="{% url 'index' %}">
-                            <button type="submit" class="btn btn-outline-warning" name="back">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
-                                    class="bi bi-arrow-left" viewBox="0 0 16 16">
-                                    <path fill-rule="evenodd"
-                                        d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8" />
-                                </svg> Volver al inicio</button>
-                        </a>
                     </div>
                 </div>
             </div>

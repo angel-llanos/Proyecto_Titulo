@@ -21,6 +21,11 @@
     text-align: right;
     background-size: 20%;
 }
+
+.marca:hover {
+    color:#ffc107;
+}
+
 /* fondo de la pagina */
 .body-fondo{
     background-image: url(../img/fondo.jpg);

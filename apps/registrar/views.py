@@ -1,6 +1,6 @@
 from django.contrib.auth.views import PasswordResetView
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, get_backends
 from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm
 from django.contrib import messages
 from .forms import CustomUserCreationForm, CustomPasswordResetForm
@@ -30,6 +30,10 @@ def registrar(request):
             register_form = CustomUserCreationForm(request.POST)
             if register_form.is_valid():
                 user = register_form.save()
+
+                backend = get_backends()[0]  # Usa el primer backend definido
+                user.backend = f"{backend.__module__}.{backend.__class__.__name__}"
+
                 login(request, user)
                 return redirect('index')
             else:

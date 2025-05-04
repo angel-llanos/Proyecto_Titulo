@@ -1,3 +1,10 @@
+# dependencias principales
 Django>=5.0
 Pillow
 crispy-bootstrap5
+
+# dependencias para login con google
+django-allauth
+requests
+PyJWT
+cryptography
