@@ -5,7 +5,8 @@ Proyecto de título APT 2025
 
 1.- Clonar el repositorio:
     https://github.com/angel-llanos/Proyecto_Titulo.git
-Dentro de la carpeta 'Proyecto_Titulo', abrir con VS Code.
+    
+*Dentro de la carpeta 'Proyecto_Titulo', abrir con VS Code.*
 
 2.- Crear ambiente virtual (myvenv):
     py -m venv myvenv
