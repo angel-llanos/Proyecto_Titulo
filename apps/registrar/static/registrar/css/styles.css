@@ -1,17 +1,19 @@
 /* fondo de la pagina */
-.body-fondo{
+.body-fondo {
     background-image: url(../img/fondo.png);
     background-size: cover;
     background-position: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
 }
+
 /* borde del navbar */
 .navbar-settings {
     background-color: black;
     border-bottom: 3px solid;
     color: white;
 }
+
 /* marca monkey foods */
 .marca {
     color: white;
@@ -23,7 +25,7 @@
 }
 
 .marca:hover {
-    color:#ffc107;
+    color: #ffc107;
 }
 
 .form-login-registro {
