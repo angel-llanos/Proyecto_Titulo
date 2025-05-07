@@ -7,6 +7,7 @@ from .forms import CustomUserCreationForm, CustomPasswordResetForm
 from django.urls import reverse_lazy
 from .models import CustomUser
 
+
 def exit(request):
     logout(request)
     return redirect('index')
