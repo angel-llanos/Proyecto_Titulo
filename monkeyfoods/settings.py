@@ -50,13 +50,16 @@ INSTALLED_APPS = [
     'apps.home',
     'apps.registrar',
     'apps.crear_empleado',
-    'apps.historia'
+    'apps.historia',
+    'apps.perfil',
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 LOGIN_REDIRECT_URL = '/'
+
+LOGIN_URL = '/accounts/login/'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

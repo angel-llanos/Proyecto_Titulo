@@ -27,6 +27,7 @@ urlpatterns = [
     path('registrar/',include('apps.registrar.urls')),
     path('crear_empleado/',include('apps.crear_empleado.urls')),
     path('historia/',include('apps.historia.urls')),
+    path('perfil/',include('apps.perfil.urls')),
 
     # urls de recuperación de contraseña
     path('password_reset/', CustomPasswordResetView.as_view(), name='password_reset'),

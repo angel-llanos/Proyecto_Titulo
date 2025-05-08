@@ -1,0 +1,87 @@
+/* borde del navbar */
+.navbar-settings {
+    background-color: black;
+    border-bottom: 3px solid;
+    color: white;
+}
+
+/* boton de historia*/
+.history {
+    border-radius: 40px;
+}
+
+/* marca monkey foods */
+.marca {
+    color: white;
+    background-color: black;
+    text-transform: uppercase;
+    font-weight: bold;
+    text-align: right;
+    background-size: 20%;
+}
+
+.marca:hover {
+    color:#ffc107;
+}
+
+/* fondo de la pagina */
+.body-fondo{
+    background-image: url(../img/fondo.png);
+    background-size: cover;
+    background-position: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+.dropdown-perfil {
+    min-width: auto; /* Cambia según lo que necesites */
+    max-width: auto;
+    width: auto;      /* o un valor fijo como 250px */
+}
+
+.dropdown-menu.dropdown-perfil {
+    right: 0;
+    left: auto;
+    position: absolute;  /* Asegura que el dropdown se posicione correctamente */
+}
+
+/* Contenedor principal del formulario */
+.form-container {
+    max-width: 600px;
+    width: 90%;
+    display: grid;
+    color: white;
+    background-color: black;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 2rem auto;
+}
+
+/* Fila que agrupa nombre y apellido */
+.form-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+}
+
+/* Cada campo individual */
+.form-group {
+    flex: 1;
+    min-width: 150px;
+}
+
+/* Estilo de los labels */
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: white;
+}
+
+/* Estilo de los inputs deshabilitados */
+.form-control[disabled] {
+    background-color: #333;
+    color: white;
+    border: 1px solid #777;
+    border-radius: 5px;
+}

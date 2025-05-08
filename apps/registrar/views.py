@@ -3,9 +3,10 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout, get_backends
 from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm
 from django.contrib import messages
-from .forms import CustomUserCreationForm, CustomPasswordResetForm
+from .forms import CustomUserCreationForm
 from django.urls import reverse_lazy
 from .models import CustomUser
+from django.contrib.auth.decorators import login_required
 
 
 def exit(request):
