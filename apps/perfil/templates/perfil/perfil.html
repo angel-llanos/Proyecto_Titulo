@@ -57,7 +57,8 @@
                             <li>
                                 <p class="text-black text-end mx-1 text-center" style="font-weight: bold;">{{ user.first_name|upper }} {{ user.last_name|upper }}</p>
                             </li>
-                            <li><a class="dropdown-item" href="" onclick="location.reload(); return false;">Mi perfil</a></li>
+                            <li><a class="dropdown-item" href="" onclick="location.reload(); return false;">Mi
+                                    perfil</a></li>
                             <li><a class="dropdown-item" href="{% url 'exit' %}">Salir</a></li>
                         </ul>
                     </div>
@@ -80,6 +81,26 @@
         </div>
     </nav>
 
+    <!-- mensaje de edición -->
+
+    {% if messages %}
+    <div class="container mt-3">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags|default:'info' }} text-dark bg-light border border-{{ message.tags }}"
+            role="alert">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if abrir_modal %}
+    <script>
+        const modal = new bootstrap.Modal(document.getElementById('editarPerfilModal'));
+        modal.show();
+    </script>
+    {% endif %}
+
     <!-- form de datos peronales del usuario -->
     <div class="form-container">
         <div>
@@ -87,20 +108,24 @@
                 <!-- css hipervínculo inferior / no cambiar, por favor.-->
                 <style>
                     .boton-volver {
-                    text-decoration: none;
-                    color: #ffc107;
+                        text-decoration: none;
+                        color: #ffc107;
                     }
-                
+
                     .boton-volver:hover {
-                    color: white;
-                    text-decoration: none;
+                        color: white;
+                        text-decoration: none;
                     }
                 </style>
 
-                <a href="{% url 'index' %}" class="boton-volver"  style="margin: auto; padding: auto;">
-                    <p> < Volver al inicio </p>
+                <a href="{% url 'index' %}" class="boton-volver" style="margin: auto; padding: auto;">
+                    <p>
+                        < Volver al inicio </p>
                 </a>
             </div>
+
+            <h1 class="text-center mb-4">Mi perfil</h1>
+
             <!-- nombre/apellido -->
             <div class="form-row">
                 <div class="form-group">
@@ -123,6 +148,59 @@
             <div class="form-group">
                 <label for="email">Correo:</label>
                 <input type="email" id="email" class="form-control" value="{{ user.email }}" disabled>
+            </div>
+
+            <div class="text-center mt-3">
+                <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                    data-bs-target="#editarPerfilModal">
+                    Editar perfil
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- modal para editar perfil -->
+    <div class="modal fade" id="editarPerfilModal" tabindex="-1" aria-labelledby="editarPerfilModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="background-color: #1e1e1e; color: white;">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editarPerfilModalLabel">Editar Perfil</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Cerrar"></button>
+                </div>
+                <form method="POST" action="{% url 'editar_perfil' %}" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        <!-- Campos de nombre, apellido, username y email -->
+                        <div class="form-group mb-3">
+                            <label for="editNombre">Nombre:</label>
+                            <input type="text" class="form-control" id="editNombre" name="first_name"
+                                value="{{ user.first_name }}"
+                                {% if user.rol != 4 %}required{% endif %}>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="editApellido">Apellido:</label>
+                            <input type="text" class="form-control" id="editApellido" name="last_name"
+                                value="{{ user.last_name }}"
+                                {% if user.rol != 4 %}required{% endif %}>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="editUsername">Nombre de Usuario:</label>
+                            <input type="text" class="form-control" id="editUsername" name="username"
+                                value="{{ user.username }}" required>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="editEmail">Correo:</label>
+                            <input type="email" class="form-control" id="editEmail" name="email"
+                                value="{{ user.email }}" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-warning">Guardar cambios</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

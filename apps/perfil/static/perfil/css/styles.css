@@ -34,15 +34,16 @@
 }
 
 .dropdown-perfil {
-    min-width: auto; /* Cambia según lo que necesites */
+    min-width: auto;
     max-width: auto;
-    width: auto;      /* o un valor fijo como 250px */
+    width: auto;
 }
 
+/* posición dropdown */
 .dropdown-menu.dropdown-perfil {
     right: 0;
     left: auto;
-    position: absolute;  /* Asegura que el dropdown se posicione correctamente */
+    position: absolute;
 }
 
 /* Contenedor principal del formulario */
@@ -62,13 +63,13 @@
     display: flex;
     gap: 10px;
     flex-wrap: wrap;
-    margin-bottom: 15px;
 }
 
 /* Cada campo individual */
 .form-group {
     flex: 1;
     min-width: 150px;
+    margin-bottom: 15px;
 }
 
 /* Estilo de los labels */

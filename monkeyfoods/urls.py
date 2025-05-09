@@ -18,6 +18,8 @@ from django.contrib import admin # type: ignore
 from django.contrib.auth import views as auth_views # type: ignore
 from django.urls import path, include # type: ignore
 from apps.registrar.views import CustomPasswordResetView
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     
@@ -38,3 +40,4 @@ urlpatterns = [
     # url de accounts, se utiliza para el login con google
     path('accounts/', include('allauth.urls')),
 ]
+
