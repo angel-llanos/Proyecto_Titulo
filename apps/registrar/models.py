@@ -11,6 +11,8 @@ class CustomUser(AbstractUser):
 
     rol = models.PositiveSmallIntegerField(choices=ROL_CHOICES, default=1)
 
+    foto_perfil = models.ImageField(upload_to='fotos_perfil/', blank=True, null=True)
+
     def save(self, *args, **kwargs):
         if self.is_superuser:
             self.rol = 4  #4 = rol admin

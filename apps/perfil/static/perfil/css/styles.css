@@ -21,11 +21,11 @@
 }
 
 .marca:hover {
-    color:#ffc107;
+    color: #ffc107;
 }
 
 /* fondo de la pagina */
-.body-fondo{
+.body-fondo {
     background-image: url(../img/fondo.png);
     background-size: cover;
     background-position: cover;
@@ -85,4 +85,13 @@
     color: white;
     border: 1px solid #777;
     border-radius: 5px;
+}
+
+.foto-perfil {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid #ffc107;
+    margin-bottom: 15px;
 }

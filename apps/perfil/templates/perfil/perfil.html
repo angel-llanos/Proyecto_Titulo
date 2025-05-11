@@ -82,7 +82,6 @@
     </nav>
 
     <!-- mensaje de edición -->
-
     {% if messages %}
     <div class="container mt-3">
         {% for message in messages %}
@@ -103,61 +102,74 @@
 
     <!-- form de datos peronales del usuario -->
     <div class="form-container">
-        <div>
-            <div style="margin: auto;">
-                <!-- css hipervínculo inferior / no cambiar, por favor.-->
-                <style>
-                    .boton-volver {
-                        text-decoration: none;
-                        color: #ffc107;
-                    }
+        <div style="margin: auto;">
+            <!-- css hipervínculo inferior / no cambiar, por favor.-->
+            <style>
+                .boton-volver {
+                    text-decoration: none;
+                    color: #ffc107;
+                }
 
-                    .boton-volver:hover {
-                        color: white;
-                        text-decoration: none;
-                    }
-                </style>
+                .boton-volver:hover {
+                    color: white;
+                    text-decoration: none;
+                }
+            </style>
 
-                <a href="{% url 'index' %}" class="boton-volver" style="margin: auto; padding: auto;">
-                    <p>
-                        < Volver al inicio </p>
-                </a>
-            </div>
+            <a href="{% url 'index' %}" class="boton-volver" style="margin: auto; padding: auto;">
+                <p>
+                    < Volver al inicio </p>
+            </a>
+        </div>
 
-            <h1 class="text-center mb-4">Mi perfil</h1>
+        <h1 class="text-center mb-4">Mi perfil</h1>
 
-            <!-- nombre/apellido -->
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="nombre">Nombre:</label>
-                    <input type="text" id="nombre" class="form-control" value="{{ user.first_name }}" disabled>
-                </div>
-                <div class="form-group">
-                    <label for="apellido">Apellido:</label>
-                    <input type="text" id="apellido" class="form-control" value="{{ user.last_name }}" disabled>
-                </div>
-            </div>
+        <!-- foto de perfil -->
+        <div class="text-center">
+            {% if user.foto_perfil %}
+            <img src="{{ user.foto_perfil.url }}" alt="Foto de perfil" class="foto-perfil">
+            {% else %}
+            <svg xmlns="http://www.w3.org/2000/svg" style="color: #ffc107" fill="currentColor"
+                class="bi bi-person-circle foto-perfil" viewBox="0 0 16 16">
+                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
+                <path fill-rule="evenodd"
+                    d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1" />
+            </svg>
+            <p style="font-style: italic; color: grey">Actualmente, no tienes ninguna foto de perfil.</p>
+            {% endif %}
+        </div>
 
-            <!-- nombre de usuario -->
+        <!-- nombre/apellido -->
+        <div class="form-row">
             <div class="form-group">
-                <label for="username">Nombre de Usuario:</label>
-                <input type="text" id="username" class="form-control" value="{{ user.username }}" disabled>
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" class="form-control" value="{{ user.first_name }}" disabled>
             </div>
-
-            <!-- correo electrónico -->
             <div class="form-group">
-                <label for="email">Correo:</label>
-                <input type="email" id="email" class="form-control" value="{{ user.email }}" disabled>
-            </div>
-
-            <div class="text-center mt-3">
-                <button type="button" class="btn btn-warning" data-bs-toggle="modal"
-                    data-bs-target="#editarPerfilModal">
-                    Editar perfil
-                </button>
+                <label for="apellido">Apellido:</label>
+                <input type="text" id="apellido" class="form-control" value="{{ user.last_name }}" disabled>
             </div>
         </div>
+
+        <!-- nombre de usuario -->
+        <div class="form-group">
+            <label for="username">Nombre de Usuario:</label>
+            <input type="text" id="username" class="form-control" value="{{ user.username }}" disabled>
+        </div>
+
+        <!-- correo electrónico -->
+        <div class="form-group">
+            <label for="email">Correo:</label>
+            <input type="email" id="email" class="form-control" value="{{ user.email }}" disabled>
+        </div>
+
+        <div class="text-center mt-3">
+            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editarPerfilModal">
+                Editar perfil
+            </button>
+        </div>
     </div>
+
 
     <!-- modal para editar perfil -->
     <div class="modal fade" id="editarPerfilModal" tabindex="-1" aria-labelledby="editarPerfilModalLabel"
@@ -172,18 +184,49 @@
                 <form method="POST" action="{% url 'editar_perfil' %}" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="modal-body">
+
+                        <!-- foto actual -->
+                        <div class="text-center mb-3">
+                            {% if user.foto_perfil %}
+                            <img src="{{ user.foto_perfil.url }}" alt="Foto actual"
+                                style="width: 150px; height: 150px; object-fit: cover; border-radius: 50%; border: 2px solid #ffc107;">
+                            {% else %}
+                            <svg xmlns="http://www.w3.org/2000/svg" style="color: #ffc107" fill="currentColor"
+                                class="bi bi-person-circle foto-perfil" viewBox="0 0 16 16">
+                                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
+                                <path fill-rule="evenodd"
+                                    d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1" />
+                            </svg>
+                            {% endif %}
+                        </div>
+
+                        <!-- subir foto -->
+                        <div class="form-group mb-3">
+                            <label for="fotoPerfil">Nueva foto de perfil:</label>
+                            <input type="file" class="form-control" id="fotoPerfil" name="foto_perfil" accept="image/*">
+                        </div>
+
+                        <!-- eliminar foto -->
+                        {% if user.foto_perfil %}
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" value="on" id="eliminarFoto"
+                                name="eliminar_foto">
+                            <label class="form-check-label" for="eliminarFoto">
+                                Eliminar foto
+                            </label>
+                        </div>
+                        {% endif %}
+
                         <!-- Campos de nombre, apellido, username y email -->
                         <div class="form-group mb-3">
                             <label for="editNombre">Nombre:</label>
                             <input type="text" class="form-control" id="editNombre" name="first_name"
-                                value="{{ user.first_name }}"
-                                {% if user.rol != 4 %}required{% endif %}>
+                                value="{{ user.first_name }}" {% if user.rol != 4 %} required {% endif %}>
                         </div>
                         <div class="form-group mb-3">
                             <label for="editApellido">Apellido:</label>
                             <input type="text" class="form-control" id="editApellido" name="last_name"
-                                value="{{ user.last_name }}"
-                                {% if user.rol != 4 %}required{% endif %}>
+                                value="{{ user.last_name }}" {% if user.rol != 4 %} required {% endif %}>
                         </div>
                         <div class="form-group mb-3">
                             <label for="editUsername">Nombre de Usuario:</label>
@@ -204,6 +247,7 @@
             </div>
         </div>
     </div>
+
 
     <!-- pie de página -->
     <footer class="text-white text-center" style="background-color: black;">
