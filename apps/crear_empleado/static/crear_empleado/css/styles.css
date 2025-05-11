@@ -48,3 +48,14 @@
     color: #ffc107;
 }
 
+.dropdown-perfil {
+    min-width: auto; /* Cambia según lo que necesites */
+    max-width: auto;
+    width: auto;      /* o un valor fijo como 250px */
+}
+
+.dropdown-menu.dropdown-perfil {
+    right: 0;
+    left: auto;
+    position: absolute;  /* Asegura que el dropdown se posicione correctamente */
+}

@@ -38,7 +38,7 @@
                     </a>
                     {% if request.user.rol == 4 %}
                     <a href="{% url 'crear_empleado' %}">
-                        <button class="btn btn-danger" type="button">Crear empleado</button>
+                        <button class="btn btn-outline-danger history" type="button">Crear empleado</button>
                     </a>
                     {% endif %}
                     <div class="nav-item dropdown dropdown-perfil me-2">
@@ -100,7 +100,7 @@
                 contar.
             </p>
             
-            <a class="d-flex justify-content-center mt-5 mb-3" href="{% url 'index' %}">
+            <a class="d-flex justify-content-center mt-5 mb-3" href="{% url 'index' %}" style="text-decoration: none;">
                 <button type="submit" class="btn btn-warning" name="back">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
                         class="bi bi-arrow-left" viewBox="0 0 16 16">

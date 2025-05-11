@@ -50,6 +50,9 @@
                         <ul class="dropdown-menu dropdown-perfil">
                            <li><p class="text-black text-end mx-1 text-center" style="font-weight: bold;">{{ user.first_name|upper }} {{ user.last_name|upper }}</p></li>
                             <li><a class="dropdown-item" href="{% url 'perfil' %}">Mi perfil</a></li>
+                            {% if request.user.rol == 4 %}
+                            <li><a class="dropdown-item" href="#">Usuarios</a></li>
+                            {% endif %}
                             <li><a class="dropdown-item" href="{% url 'exit' %}">Salir</a></li>
                         </ul>
                     </div>
