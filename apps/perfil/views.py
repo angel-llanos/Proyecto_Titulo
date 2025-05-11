@@ -1,7 +1,8 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
 from django.contrib.auth import get_user_model
+from apps.registrar.models import CustomUser
 
 # Create your views here.
 def perfil(request):
@@ -49,3 +50,32 @@ def editar_perfil(request):
         return redirect('perfil')
 
     return redirect('perfil')
+
+
+# funciones admin
+def es_admin(user):
+    return user.is_authenticated and user.rol == 4
+
+@login_required
+@user_passes_test(es_admin)
+def admin_usuarios(request):
+    usuarios = CustomUser.objects.exclude(pk=request.user.pk)
+    return render(request, 'perfil/admin_usuarios.html', {'usuarios': usuarios})
+
+@login_required
+@user_passes_test(es_admin)
+def cambiar_rol(request, user_id):
+    usuario = get_object_or_404(CustomUser, pk=user_id)
+    nuevo_rol = int(request.POST.get('nuevo_rol'))
+    usuario.rol = nuevo_rol
+    usuario.save()
+    messages.success(request, 'Rol actualizado correctamente.')
+    return redirect('admin_usuarios')
+
+@login_required
+@user_passes_test(es_admin)
+def eliminar_usuario(request, user_id):
+    usuario = get_object_or_404(CustomUser, pk=user_id)
+    usuario.delete()
+    messages.success(request, 'Usuario eliminado correctamente.')
+    return redirect('admin_usuarios')
