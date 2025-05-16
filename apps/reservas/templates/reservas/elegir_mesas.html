@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div style="max-width: 600px;
+    width: 90%;
+    display: grid;
+    color: white;
+    background-color: black;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 2rem auto;">
+    <h2>Selecciona las mesas para tu reserva</h2>
+
+    <p><strong>Reserva para:</strong> {{ reserva.fecha }} a las {{ reserva.hora }}</p>
+    <p><strong>Zona:</strong> {{ reserva.zona }}</p>
+    <p><strong>Comensales:</strong> {{ reserva.comensales }}</p>
+
+    {% if error %}
+    <div style="color:red;">{{ error }}</div>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+
+        <div style="display:flex; flex-wrap: wrap; gap: 10px;">
+            {% for mesa in mesas_disponibles %}
+            <label
+                style="border: 1px solid #ccc; padding: 10px; border-radius: 8px; cursor: pointer; user-select: none;">
+                <input type="checkbox" name="mesas" value="{{ mesa.id }}" style="margin-right: 8px;">
+                Mesa {{ mesa.numero }} (Capacidad: {{ mesa.capacidad }})
+            </label>
+            {% empty %}
+            <p>No hay mesas disponibles en esta zona para esta fecha y hora.</p>
+            {% endfor %}
+        </div>
+
+        <br>
+        <button type="submit">Confirmar mesas</button>
+    </form>
+</div>
+
+{% endblock %}

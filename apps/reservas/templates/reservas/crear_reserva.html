@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div style="max-width: 600px;
+    width: 90%;
+    display: grid;
+    color: white;
+    background-color: black;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 2rem auto;">
+    <div class="container mt-5">
+        <h2>Crear una Reserva</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+
+            <button type="submit" class="btn btn-primary">Continuar y Elegir Mesas</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

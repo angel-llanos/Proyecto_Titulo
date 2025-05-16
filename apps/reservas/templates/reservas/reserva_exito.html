@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div style="max-width: 600px; width: 90%; display: grid; color: white; background-color: black; border-radius: 10px;padding: 20px; margin: 2rem auto;">
+    <h2>¡Reserva realizada con éxito!</h2>
+    <p><strong>ID de Reserva:</strong> #{{ reserva.id_reserva }}</p>
+    <p><strong>Nombre de Reserva:</strong> {{ reserva.nombre_reserva }}</p>
+    <p><strong>Fecha:</strong> {{ reserva.fecha }}</p>
+    <p><strong>Hora:</strong> {{ reserva.hora }}</p>
+    <p><strong>Teléfono:</strong> {{ reserva.telefono }}</p>
+    <p><strong>Abono:</strong> ${{ reserva.abono }}</p>
+
+    <h3>Cliente</h3>
+    <p><strong>Nombre:</strong> {{ reserva.cliente.first_name }}</p>
+    <p><strong>Apellido:</strong> {{ reserva.cliente.last_name }}</p>
+    <p><strong>Correo:</strong> {{ reserva.cliente.email }}</p>
+    <p><strong>Nombre de usuario:</strong> {{ reserva.cliente.username }}</p>
+
+    <h3>Mesas reservadas</h3>
+    <ul>
+      {% for mesa in reserva.mesas.all %}
+        <li>{{ mesa.numero }} (Capacidad: {{ mesa.capacidad }})</li>
+      {% empty %}
+        <li>No hay mesas asignadas</li>
+      {% endfor %}
+    </ul>
+
+    <h3>Menú</h3>
+    <p>{{ reserva.menu.nombre|default:"Sin menú asignado" }}</p>
+
+    <a href="{% url 'reservas' %}">Volver a reservas</a>
+</div>
+{% endblock %}
