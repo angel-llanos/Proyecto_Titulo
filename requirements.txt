@@ -8,3 +8,6 @@ django-allauth
 requests
 PyJWT
 cryptography
+
+# dependencia reservas
+django-widget-tweaks

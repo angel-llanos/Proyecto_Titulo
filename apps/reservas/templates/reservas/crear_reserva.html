@@ -1,22 +1,73 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block extra_head %}
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
+<link rel="stylesheet" href="{% static 'reservas/css/styles.css' %}">
+{% endblock %}
 
 {% block content %}
-<div style="max-width: 600px;
-    width: 90%;
-    display: grid;
-    color: white;
-    background-color: black;
-    border-radius: 10px;
-    padding: 20px;
-    margin: 2rem auto;">
-    <div class="container mt-5">
-        <h2>Crear una Reserva</h2>
-        <form method="post">
+<div class="reserva-container">
+    <div class="reserva-card">
+        <h2 class="reserva-title">Crear Reserva</h2>
+        <form method="post" id="reservaForm" novalidate>
             {% csrf_token %}
-            {{ form.as_p }}
+            
+            {% if form.non_field_errors %}
+                <div class="alert alert-danger">
+                    {% for error in form.non_field_errors %}
+                        <div>{{ error }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
 
-            <button type="submit" class="btn btn-primary">Continuar y Elegir Mesas</button>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="{{ form.nombre_reserva.id_for_label }}">Nombre</label>
+                    {{ form.nombre_reserva }}
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="{{ form.fecha.id_for_label }}">Fecha</label>
+                    {{ form.fecha }}
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.hora.id_for_label }}">Hora</label>
+                    {{ form.hora }}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.telefono.id_for_label }}">Teléfono</label>
+                {{ form.telefono }}
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="{{ form.zona.id_for_label }}">Zona</label>
+                    {{ form.zona }}
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.menu.id_for_label }}">Menú</label>
+                    {{ form.menu }}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.comensales.id_for_label }}">Comensales</label>
+                {{ form.comensales }}
+            </div>
+
+            <button type="submit" class="btn-submit">Continuar y Elegir Mesas</button>
         </form>
     </div>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script src="{% static 'reservas/js/reservas.js' %}"></script>
 {% endblock %}
