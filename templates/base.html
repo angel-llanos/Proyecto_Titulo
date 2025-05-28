@@ -16,9 +16,9 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg bg-body-primary navbar-settings p-4">
         <div class="container-fluid">
-            <a href="#">
+            <a href="{% url 'index' %}">
                 <img src="{% static 'registrar/img/marca.png' %}" alt="marca">
-                <a class="navbar-brand marca" href="#">MonkeyFoods</a>
+                <a class="navbar-brand marca" href="{% url 'index' %}">MonkeyFoods</a>
             </a>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">

@@ -44,7 +44,7 @@
     font-weight: 500;
 }
 
-/* Campos de formulario */
+/* estilos de formulario*/
 input[type="text"],
 input[type="date"],
 input[type="time"],
@@ -98,19 +98,18 @@ textarea:focus {
 .btn-submit {
     width: 100%;
     padding: 1rem;
-    background-color: #6c63ff;
-    color: white;
+    background-color: #ffc107;
+    color: black;
     border: none;
     border-radius: 8px;
     font-size: 1rem;
-    font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
     margin-top: 1rem;
 }
 
 .btn-submit:hover {
-    background-color: #5a52d3;
+    background-color: #14a839;
     transform: translateY(-2px);
 }
 

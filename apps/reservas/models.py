@@ -37,19 +37,20 @@ class Reserva(models.Model):
     fecha = models.DateField()
     hora = models.TimeField()
     telefono = models.CharField(max_length=20)
+    comensales = models.PositiveIntegerField(default=1)
     abono = models.DecimalField(max_digits=8, decimal_places=2)
     mesas = models.ManyToManyField('Mesa')
     menu = models.ForeignKey('Menu', on_delete=models.SET_NULL, null=True, blank=True)
     zona = models.ForeignKey('Zona', on_delete=models.CASCADE, null=True, blank=True)
-    
-    # ➕ NUEVO CAMPO
     estado = models.CharField(max_length=20, choices=ESTADOS_RESERVA, default='borrador')
 
     def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
         if not self.id_reserva:
+            super().save(*args, **kwargs)
             self.id_reserva = self.generar_id_alfanumerico()
             super().save(update_fields=['id_reserva'])
+        else:
+            super().save(*args, **kwargs)
 
     def generar_id_alfanumerico(self):
         base36 = ''

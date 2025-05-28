@@ -1,42 +1,181 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div style="max-width: 600px;
-    width: 90%;
+<style>
+  .container {
+    max-width: 900px;
+    margin: 2rem auto;
+    display: flex;
+    gap: 2rem;
+    color: #222;
+  }
+  .left-panel, .right-panel {
+    background: #f0f0f0;
+    border-radius: 8px;
+    padding: 1rem 1.5rem;
+    box-shadow: 0 0 8px rgba(0,0,0,0.1);
+  }
+  .left-panel {
+    flex: 1;
+  }
+  .right-panel {
+    flex: 2;
+  }
+  h2 {
+    margin-top: 0;
+    color: #222;
+  }
+  .reserva-info p {
+    margin: 0.4rem 0;
+    font-size: 1.1rem;
+  }
+  .filters {
+    margin-bottom: 1rem;
+    display: flex;
+    gap: 1rem;
+  }
+  select {
+    padding: 0.3rem 0.6rem;
+    font-size: 1rem;
+  }
+  .mesas-grid {
     display: grid;
-    color: white;
-    background-color: black;
-    border-radius: 10px;
-    padding: 20px;
-    margin: 2rem auto;">
-    <h2>Selecciona las mesas para tu reserva</h2>
+    grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+    gap: 10px;
+  }
+  .mesa-btn {
+    border: 2px solid #666;
+    background-color: #fff;
+    border-radius: 6px;
+    padding: 10px;
+    cursor: pointer;
+    user-select: none;
+    text-align: center;
+    font-weight: bold;
+    transition: background-color 0.3s, border-color 0.3s;
+  }
+  .mesa-btn.capacidad-2 { background-color: #d0f0fd; }
+  .mesa-btn.capacidad-4 { background-color: #c8f7c5; }
+  .mesa-btn.capacidad-6 { background-color: #fddac8; }
+  .mesa-btn.capacidad-8 { background-color: #f8d7e6; }
+  /* etc según capacidades que tengas */
 
-    <p><strong>Reserva para:</strong> {{ reserva.fecha }} a las {{ reserva.hora }}</p>
-    <p><strong>Zona:</strong> {{ reserva.zona }}</p>
-    <p><strong>Comensales:</strong> {{ reserva.comensales }}</p>
+  .mesa-btn.selected {
+    background-color: #007bff;
+    color: white;
+    border-color: #0056b3;
+  }
+  .mesa-btn.unavailable {
+    background-color: #bbb;
+    color: #666;
+    cursor: not-allowed;
+    border-color: #999;
+  }
+  button[type="submit"] {
+    margin-top: 1rem;
+    padding: 0.6rem 1.2rem;
+    font-size: 1.1rem;
+    cursor: pointer;
+  }
+</style>
+
+<div class="container">
+  <!-- Panel Izquierdo: Datos Reserva -->
+  <div class="left-panel">
+    <h2>Datos de la Reserva</h2>
+    <div class="reserva-info">
+      <p><strong>Nombre de la reserva:</strong> {{ reserva.nombre_reserva }}</p>
+      <p><strong>Fecha:</strong> {{ reserva.fecha }}</p>
+      <p><strong>Hora:</strong> {{ reserva.hora }}</p>
+      <p><strong>Zona:</strong> {{ reserva.zona.nombre }}</p>
+      <p><strong>Comensales:</strong> {{ reserva.comensales }}</p>
+      {% if reserva.menu %}
+      <p><strong>Menú:</strong> {{ reserva.menu }}</p>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- Panel Derecho: Filtros y Selección de Mesas -->
+  <div class="right-panel">
+    <h2>Selecciona las Mesas</h2>
 
     {% if error %}
-    <div style="color:red;">{{ error }}</div>
+      <div style="color:red; margin-bottom: 1rem;">{{ error }}</div>
     {% endif %}
 
-    <form method="post">
-        {% csrf_token %}
+    <form method="post" id="mesasForm">
+      {% csrf_token %}
 
-        <div style="display:flex; flex-wrap: wrap; gap: 10px;">
-            {% for mesa in mesas_disponibles %}
-            <label
-                style="border: 1px solid #ccc; padding: 10px; border-radius: 8px; cursor: pointer; user-select: none;">
-                <input type="checkbox" name="mesas" value="{{ mesa.id }}" style="margin-right: 8px;">
-                Mesa {{ mesa.numero }} (Capacidad: {{ mesa.capacidad }})
-            </label>
-            {% empty %}
-            <p>No hay mesas disponibles en esta zona para esta fecha y hora.</p>
+      <div class="filters">
+        <!-- QUITAMOS el filtro Zona porque ya está seleccionada -->
+        <label for="filtroCapacidad">Capacidad mínima:
+          <select id="filtroCapacidad" name="capacidad_min">
+            <option value="0">Cualquier capacidad</option>
+            {% for c in capacidades_disponibles %}
+              <option value="{{ c }}">{{ c }}+</option>
             {% endfor %}
-        </div>
+          </select>
+        </label>
+      </div>
 
-        <br>
-        <button type="submit">Confirmar mesas</button>
+      <div class="mesas-grid" id="mesasGrid">
+        {% for mesa in mesas %}
+          <div 
+            class="mesa-btn capacidad-{{ mesa.capacidad }}{% if not mesa.disponible %} unavailable{% endif %}" 
+            data-zona="{{ mesa.zona.id }}"
+            data-capacidad="{{ mesa.capacidad }}"
+            data-id="{{ mesa.id }}"
+            title="Mesa {{ mesa.numero }} - Capacidad: {{ mesa.capacidad }}"
+          >
+            <input type="checkbox" 
+                   name="mesas" 
+                   value="{{ mesa.id }}" 
+                   style="display:none;"
+                   {% if not mesa.disponible %} disabled {% endif %}
+            >
+            Mesa {{ mesa.numero }}
+          </div>
+        {% endfor %}
+      </div>
+
+      <button type="submit">Confirmar Mesas</button>
     </form>
+  </div>
 </div>
 
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const filtroCapacidad = document.getElementById('filtroCapacidad');
+    const mesasGrid = document.getElementById('mesasGrid');
+
+    function filterMesas() {
+      const capacidadFiltro = parseInt(filtroCapacidad.value) || 0;
+
+      const mesas = mesasGrid.querySelectorAll('.mesa-btn');
+      mesas.forEach(mesa => {
+        const capacidad = parseInt(mesa.getAttribute('data-capacidad')) || 0;
+        const disponible = !mesa.classList.contains('unavailable');
+
+        let visible = true;
+        if (capacidadFiltro > 0 && capacidad < capacidadFiltro) visible = false;
+
+        mesa.style.display = visible ? 'block' : 'none';
+      });
+    }
+
+    filtroCapacidad.addEventListener('change', filterMesas);
+
+    filterMesas();
+
+    // Selector visual de mesas: clic en div.toggle checkbox y cambio de clase
+    mesasGrid.querySelectorAll('.mesa-btn').forEach(mesa => {
+      mesa.addEventListener('click', function() {
+        if (mesa.classList.contains('unavailable')) return; // no selectable
+        const checkbox = mesa.querySelector('input[type="checkbox"]');
+        checkbox.checked = !checkbox.checked;
+        mesa.classList.toggle('selected', checkbox.checked);
+      });
+    });
+  });
+</script>
 {% endblock %}
