@@ -1,12 +1,12 @@
 from django.contrib.auth.views import PasswordResetView
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login, logout, get_backends
+from django.contrib.auth import login, logout, get_backends
 from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm
 from django.contrib import messages
 from .forms import CustomUserCreationForm
 from django.urls import reverse_lazy
 from .models import CustomUser
-from django.contrib.auth.decorators import login_required
+from allauth.socialaccount.models import SocialAccount
 
 
 def exit(request):
@@ -33,7 +33,7 @@ def registrar(request):
             if register_form.is_valid():
                 user = register_form.save()
 
-                backend = get_backends()[0]  # Usa el primer backend definido
+                backend = get_backends()[0]
                 user.backend = f"{backend.__module__}.{backend.__class__.__name__}"
 
                 login(request, user)
@@ -55,16 +55,31 @@ class CustomPasswordResetView(PasswordResetView):
     form_class = PasswordResetForm
     template_name = 'registration/password_reset_form.html'
     email_template_name = 'registration/password_reset_email.html'
-    html_email_template_name = 'registration/password_reset_email_html.html'  # Asegúrate de que este archivo exista
+    html_email_template_name = 'registration/password_reset_email_html.html'
     subject_template_name = 'registration/password_reset_subject.txt'
     success_url = reverse_lazy('password_reset_done')
-    
+    extra_context = {}
+
     def form_valid(self, form):
         email = form.cleaned_data['email']
-        
-        # Validar si el correo está registrado en la base de datos
-        if not CustomUser.objects.filter(email=email).exists():
+
+        # Intentar obtener el usuario con ese correo
+        try:
+            user = CustomUser.objects.get(email=email)
+        except CustomUser.DoesNotExist:
             form.add_error('email', 'El correo electrónico no está registrado.')
             return self.form_invalid(form)
-        
+
+        # Verificar si el usuario tiene cuenta social vinculada (Google)
+        if SocialAccount.objects.filter(user=user, provider='google').exists():
+            form.add_error('email', 'Esta cuenta está registrada mediante inicio con Google. No puedes recuperar la contraseña aquí.')
+            return self.form_invalid(form)
+
+        # Si todo ok, guardamos el flag para la plantilla "correo enviado"
+        self.extra_context = {'is_google_account': False}
         return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update(self.extra_context)
+        return context
