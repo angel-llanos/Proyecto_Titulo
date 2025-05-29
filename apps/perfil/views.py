@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from apps.registrar.models import CustomUser
+from allauth.socialaccount.models import SocialAccount
 
 # Create your views here.
 def perfil(request):
@@ -18,17 +19,28 @@ def editar_perfil(request):
         username = request.POST.get('username')
         email = request.POST.get('email')
 
+        # Si el usuario tiene cuenta social, no debe modificar su correo
+        tiene_google = SocialAccount.objects.filter(user=user, provider='google').exists()
+        
         # Validar que el username no esté en uso por otro usuario
         if User.objects.filter(username=username).exclude(pk=user.pk).exists():
             messages.error(request, 'Ese nombre de usuario ya está en uso.')
             request.session['abrir_modal'] = True
             return redirect('perfil')
 
-        # Validar que el email no esté en uso por otro usuario
-        if User.objects.filter(email=email).exclude(pk=user.pk).exists():
-            messages.error(request, 'Ese correo ya está registrado en otra cuenta.')
-            request.session['abrir_modal'] = True
-            return redirect('perfil')
+        # Validar correo solo si puede modificarlo
+        if not tiene_google:
+            if User.objects.filter(email=email).exclude(pk=user.pk).exists():
+                messages.error(request, 'Ese correo ya está registrado en otra cuenta.')
+                request.session['abrir_modal'] = True
+                return redirect('perfil')
+            user.email = email
+        else:
+            # Evita que lo cambie y muestra mensaje si intenta
+            if email != user.email:
+                messages.error(request, 'No puedes cambiar el correo porque iniciaste sesión con Google.')
+                request.session['abrir_modal'] = True
+                return redirect('perfil')
 
         # Eliminar foto si se marcó la opción
         if request.POST.get('eliminar_foto') == 'on' and user.foto_perfil:
@@ -43,7 +55,6 @@ def editar_perfil(request):
         user.first_name = request.POST.get('first_name')
         user.last_name = request.POST.get('last_name')
         user.username = username
-        user.email = email
         user.save()
 
         messages.success(request, 'Perfil actualizado correctamente.')

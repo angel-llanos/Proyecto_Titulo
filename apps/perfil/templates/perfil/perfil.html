@@ -240,8 +240,14 @@
                         </div>
                         <div class="form-group mb-3">
                             <label for="editEmail">Correo:</label>
-                            <input type="email" class="form-control" id="editEmail" name="email"
-                                value="{{ user.email }}" required>
+                            {% if user.socialaccount_set.exists %}
+                                <input type="email" class="form-control" id="editEmail" name="email"
+                                    value="{{ user.email }}" disabled readonly>
+                                <small class="form-text text-muted">Este correo está vinculado a tu cuenta de Google y no puede modificarse.</small>
+                            {% else %}
+                                <input type="email" class="form-control" id="editEmail" name="email"
+                                    value="{{ user.email }}" required>
+                            {% endif %}
                         </div>
                     </div>
                     <div class="modal-footer">
