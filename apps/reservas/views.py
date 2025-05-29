@@ -3,6 +3,8 @@ from django.contrib.auth.decorators import login_required
 from .forms import ReservaForm
 from .models import Reserva, Mesa, Menu, Zona
 from decimal import Decimal
+from datetime import datetime, timedelta
+from django.db.models import Q
 
 ABONO_PORCENTAJE = Decimal('0.3')
 
@@ -56,12 +58,26 @@ def elegir_mesas(request, reserva_id):
     hora = reserva.hora
     comensales = reserva.comensales
 
-    # IDs de mesas ocupadas excepto las asignadas a esta reserva (para permitir re-selección)
+    # Combinar fecha y hora en un datetime completo
+    hora_inicio = datetime.combine(fecha, hora)
+    hora_fin = hora_inicio + timedelta(hours=2)
+    hora_limite_inferior = hora_inicio - timedelta(hours=2)
+
+    # Buscar reservas que se solapen en el rango de 2 horas (excepto la misma reserva actual)
+    reservas_solapadas = Reserva.objects.filter(
+        fecha=fecha,
+        zona=zona
+    ).exclude(id=reserva.id).filter(
+        Q(
+            hora__gte=hora_limite_inferior.time(),
+            hora__lt=hora_fin.time()
+        )
+    )
+
+    # Obtener los IDs de mesas ocupadas en esas reservas
     mesas_ocupadas_ids = Mesa.objects.filter(
-        reserva__fecha=fecha,
-        reserva__hora=hora,
-        reserva__zona=zona
-    ).exclude(reserva=reserva).values_list('id', flat=True)
+        reserva__in=reservas_solapadas
+    ).values_list('id', flat=True)
 
     mesas = Mesa.objects.filter(zona=zona).all()
 

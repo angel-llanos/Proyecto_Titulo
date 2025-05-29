@@ -18,10 +18,10 @@
     <!-- Header/Navbar -->
     <nav class="navbar navbar-expand-lg bg-body-primary navbar-settings p-4">
         <div class="container-fluid">
-            <div onclick="location.reload(); return false;">
+            <a href="{% url 'index' %}">
                 <img src="{% static 'home/img/marca.png' %}" alt="marca">
-            </div>
-            <a class="navbar-brand marca" href="..." onclick="location.reload(); return false;">MonkeyFoods</a>
+                <a class="navbar-brand marca" href="{% url 'index' %}">MonkeyFoods</a>
+            </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
@@ -157,7 +157,7 @@
     <!-- Parte inferior footer -->
     <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
         © 2025
-        <a class="text-white" href="" onclick="location.reload(); return false;">MonkeyFoods</a>
+        <a class="text-white" href="{% url 'index' %}">MonkeyFoods</a>
     </div>
 </footer>
 

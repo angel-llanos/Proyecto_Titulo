@@ -9,5 +9,5 @@ requests
 PyJWT
 cryptography
 
-# dependencia reservas
+# dependencia para reservas
 django-widget-tweaks
