@@ -65,6 +65,17 @@
     position: absolute;  /* Asegura que el dropdown se posicione correctamente */
 }
 
+.form-container {
+    max-width: 600px;
+    width: 90%;
+    display: grid;
+    color: white;
+    background-color: black;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 2rem auto;
+}
+
 /* MEDIA QUERY para móviles */
 @media (max-width: 768px) {
     /* Ajustar márgenes y tamaño de los títulos */

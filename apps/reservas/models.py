@@ -32,7 +32,7 @@ class Reserva(models.Model):
     comensales = models.PositiveIntegerField(default=1)
     abono = models.DecimalField(max_digits=8, decimal_places=2)
     mesas = models.ManyToManyField('Mesa')
-    menu = models.ForeignKey(Menu, on_delete=models.SET_NULL, null=True, blank=True)  # Nuevo modelo aquí
+    menu = models.ForeignKey(Menu, on_delete=models.SET_NULL, null=True, blank=True)  #modelo menú
     zona = models.ForeignKey('Zona', on_delete=models.CASCADE, null=True, blank=True)
     estado = models.CharField(max_length=20, choices=ESTADOS_RESERVA, default='borrador')
 

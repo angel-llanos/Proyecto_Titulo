@@ -21,7 +21,7 @@
     <nav class="navbar navbar-expand-lg bg-body-primary navbar-settings p-4">
         <div class="container-fluid">
             <a href="{% url 'index' %}">
-                <img src="{% static 'perfil/img/marca.png' %}" alt="marca">
+                <img src="{% static 'home/img/marca.png' %}" alt="marca">
                 <a class="navbar-brand marca" href="{% url 'index' %}">MonkeyFoods</a>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -38,6 +38,9 @@
                     <a href="{% url 'historia' %}">
                         <button class="btn btn-outline-light history" type="button">Historia</button>
                     </a>
+                    <a href="{% url 'menus' %}">
+                            <button class="btn btn-outline-light history" type="button">Menús</button>
+                        </a>
                     {% if request.user.rol == 4 %}
                     <a href="{% url 'crear_empleado' %}">
                         <button class="btn btn-outline-danger history" type="button">Crear empleado</button>
@@ -57,10 +60,8 @@
                             {% endif %}
                         </a>
                         <ul class="dropdown-menu dropdown-perfil">
-                            <li>
-                                <p class="text-black text-end mx-1 text-center" style="font-weight: bold;">{{ user.first_name|upper }} {{ user.last_name|upper }}</p>
-                            </li>
-                            <li><a class="dropdown-item" href="" onclick="location.reload(); return false;">Mi perfil</a></li>
+                           <li><p class="text-black text-end mx-1 text-center" style="font-weight: bold;">{{ user.first_name|upper }} {{ user.last_name|upper }}</p></li>
+                            <li><a class="dropdown-item" href="{% url 'perfil' %}">Mi perfil</a></li>
                             {% if request.user.rol == 4 %}
                             <li><a class="dropdown-item" href="{% url 'admin_usuarios' %}">Usuarios</a></li>
                             {% endif %}
@@ -69,10 +70,13 @@
                     </div>
                 </form>
                 {% else %}
-                <div class="d-flex gap-3">
+                <div class="d-flex gap-3"> <!-- botones navbar -->
                     <div class="d-flex gap-3">
                         <a href="{% url 'historia' %}">
                             <button class="btn btn-outline-light history" type="button">Historia</button>
+                        </a>
+                        <a href="{% url 'menus' %}">
+                            <button class="btn btn-outline-light history" type="button">Menús</button>
                         </a>
                         <form class="d-flex" role="search">
                             <a href="{% url 'registrar' %}">

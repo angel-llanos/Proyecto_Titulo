@@ -36,6 +36,9 @@
                     <a href="{% url 'historia' %}">
                         <button class="btn btn-outline-light history" type="button">Historia</button>
                     </a>
+                    <a href="{% url 'menus' %}">
+                            <button class="btn btn-outline-light history" type="button">Menús</button>
+                        </a>
                     {% if request.user.rol == 4 %}
                     <a href="{% url 'crear_empleado' %}">
                         <button class="btn btn-outline-danger history" type="button">Crear empleado</button>
@@ -55,7 +58,7 @@
                             {% endif %}
                         </a>
                         <ul class="dropdown-menu dropdown-perfil">
-                           <li><p class="text-black text-end mx-1 text-center" style="font-weight: bold;">{{ user.first_name }} {{ user.last_name }}</p></li>
+                           <li><p class="text-black text-end mx-1 text-center" style="font-weight: bold;">{{ user.first_name|upper }} {{ user.last_name|upper }}</p></li>
                             <li><a class="dropdown-item" href="{% url 'perfil' %}">Mi perfil</a></li>
                             {% if request.user.rol == 4 %}
                             <li><a class="dropdown-item" href="{% url 'admin_usuarios' %}">Usuarios</a></li>
@@ -70,6 +73,9 @@
                         <a href="{% url 'historia' %}">
                             <button class="btn btn-outline-light history" type="button">Historia</button>
                         </a>
+                        <a href="{% url 'menus' %}">
+                            <button class="btn btn-outline-light history" type="button">Menús</button>
+                        </a>
                         <form class="d-flex" role="search">
                             <a href="{% url 'registrar' %}">
                                 <button class="btn btn-warning btn-settings" type="button">Acceder</button>
@@ -83,7 +89,32 @@
     </nav>
 
     <!-- contenido -->
-     <h1 class="text-white text-center">Menús disponibles:</h1>
+    <h1 class="text-white text-center">Menús disponibles:</h1>
+
+    <div class="container mt-4">
+    {% if menus %}
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+        {% for menu in menus %}
+        <div class="col">
+            <div class="card h-100 text-dark">
+            {% if menu.imagen %}
+                <img src="{{ menu.imagen.url }}" class="card-img-top" alt="{{ menu.nombre }}">
+            {% else %}
+                <img src="{% static 'menus/img/default_menu.jpg' %}" class="card-img-top" alt="Sin imagen">
+            {% endif %}
+            <div class="card-body">
+                <h5 class="card-title">{{ menu.nombre }}</h5>
+                <p class="card-text">{{ menu.descripcion }}</p>
+                <p class="card-text"><strong>Precio: </strong>${{ menu.precio }}</p>
+            </div>
+            </div>
+        </div>
+        {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-white text-center">No hay menús disponibles aún.</p>
+    {% endif %}
+    </div>
 
     
 
