@@ -1,6 +1,6 @@
-import string
 from django.db import models
 from django.conf import settings
+from apps.menus.models import Menu 
 
 class Zona(models.Model):
     nombre = models.CharField(max_length=100)
@@ -17,14 +17,6 @@ class Mesa(models.Model):
     def __str__(self):
         return f"Mesa {self.numero} - Zona {self.zona.nombre}"
 
-class Menu(models.Model):
-    nombre = models.CharField(max_length=100)
-    contenido = models.TextField()
-    precio = models.DecimalField(max_digits=8, decimal_places=2, default=0)
-
-    def __str__(self):
-        return self.nombre
-
 class Reserva(models.Model):
     ESTADOS_RESERVA = (
         ('borrador', 'Borrador'),
@@ -40,7 +32,7 @@ class Reserva(models.Model):
     comensales = models.PositiveIntegerField(default=1)
     abono = models.DecimalField(max_digits=8, decimal_places=2)
     mesas = models.ManyToManyField('Mesa')
-    menu = models.ForeignKey('Menu', on_delete=models.SET_NULL, null=True, blank=True)
+    menu = models.ForeignKey(Menu, on_delete=models.SET_NULL, null=True, blank=True)  # Nuevo modelo aquí
     zona = models.ForeignKey('Zona', on_delete=models.CASCADE, null=True, blank=True)
     estado = models.CharField(max_length=20, choices=ESTADOS_RESERVA, default='borrador')
 
@@ -53,6 +45,7 @@ class Reserva(models.Model):
             super().save(*args, **kwargs)
 
     def generar_id_alfanumerico(self):
+        import string
         base36 = ''
         chars = string.digits + string.ascii_uppercase
         num = self.id

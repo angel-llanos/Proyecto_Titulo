@@ -61,21 +61,21 @@ class CustomPasswordResetView(PasswordResetView):
     extra_context = {}
 
     def form_valid(self, form):
+        
         email = form.cleaned_data['email']
 
-        # Intentar obtener el usuario con ese correo
         try:
             user = CustomUser.objects.get(email=email)
         except CustomUser.DoesNotExist:
             form.add_error('email', 'El correo electrónico no está registrado.')
             return self.form_invalid(form)
 
-        # Verificar si el usuario tiene cuenta social vinculada (Google)
+        # aquí verifica si el usuario tiene cuenta con google
         if SocialAccount.objects.filter(user=user, provider='google').exists():
             form.add_error('email', 'Esta cuenta está registrada mediante inicio con Google. No puedes recuperar la contraseña aquí.')
             return self.form_invalid(form)
 
-        # Si todo ok, guardamos el flag para la plantilla "correo enviado"
+        # si sale bien, se muestra correo enviado
         self.extra_context = {'is_google_account': False}
         return super().form_valid(form)
 

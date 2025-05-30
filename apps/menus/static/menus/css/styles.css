@@ -1,0 +1,115 @@
+/* borde del navbar */
+.navbar-settings {
+    background-color: black;
+    border-bottom: 3px solid;
+    color: white;
+}
+/* boton de ingresar*/
+.btn-settings {
+    border-radius: 40px;
+}
+/* boton de historia*/
+.history {
+    border-radius: 40px;
+}
+/* marca monkey foods */
+.marca {
+    color: white;
+    background-color: black;
+    text-transform: uppercase;
+    font-weight: bold;
+    text-align: right;
+    background-size: 20%;
+}
+
+.marca:hover {
+    color:#ffc107;
+}
+
+/* fondo de la pagina */
+.body-fondo{
+    background-image: url(../img/fondo.png);
+    background-size: cover;
+    background-position: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+/* carrusel */
+.carrusel {
+    border-radius: 10px;
+    max-width: 900px;
+    height: 500px; /* altura fija para que todas se vean igual */
+    margin: 0 auto 20px auto;
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 60px;
+}
+
+.carrusel img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* recorta la imagen para llenar todo el contenedor */
+    display: block;
+}
+
+.dropdown-perfil {
+    min-width: auto; /* Cambia según lo que necesites */
+    max-width: auto;
+    width: auto;      /* o un valor fijo como 250px */
+}
+
+.dropdown-menu.dropdown-perfil {
+    right: 0;
+    left: auto;
+    position: absolute;  /* Asegura que el dropdown se posicione correctamente */
+}
+
+/* MEDIA QUERY para móviles */
+@media (max-width: 768px) {
+    /* Ajustar márgenes y tamaño de los títulos */
+    .letras,
+    .letra-carrusel {
+        margin-left: 5%;
+        margin-right: 5%;
+        padding: 1rem;
+        font-size: 22px;
+    }
+
+    /* Ajustar el título principal directamente */
+    .letras h1 {
+        font-size: 32px; /* Reducimos más el tamaño en móvil */
+        line-height: 1.2;
+    }
+
+    /* Botones del navbar */
+    .btn-settings,
+    .history {
+        padding: 8px 16px;
+        font-size: 0.9rem;
+    }
+
+    /* Marca del navbar */
+    .marca {
+        font-size: 18px;
+        text-align: center;
+    }
+
+    /* Footer */
+    footer .container {
+        padding: 2rem 1rem;
+    }
+}
+
+/* MEDIA QUERY para móviles muy pequeños */
+@media (max-width: 576px) {
+    .letras h1 {
+        font-size: 28px; /* Más pequeño aún para celulares chicos */
+    }
+
+    .btn-settings,
+    .history {
+        font-size: 0.8rem;
+        padding: 6px 12px;
+    }
+}

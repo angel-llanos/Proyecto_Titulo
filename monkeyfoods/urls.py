@@ -31,6 +31,7 @@ urlpatterns = [
     path('historia/',include('apps.historia.urls')),
     path('perfil/',include('apps.perfil.urls')),
     path('reservas/',include('apps.reservas.urls')),
+    path('menus/',include('apps.menus.urls')),
 
     # urls de recuperación de contraseña
     path('password_reset/', CustomPasswordResetView.as_view(), name='password_reset'),
