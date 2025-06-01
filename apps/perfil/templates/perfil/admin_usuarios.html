@@ -138,7 +138,7 @@
                             </form>
                             {% endif %}
 
-                            <!-- Eliminar usuario -->
+                            <!-- eliminar usuario -->
                             <form method="POST" action="{% url 'eliminar_usuario' u.id %}">
                                 {% csrf_token %}
                                 <button class="btn btn-danger" onclick="return confirm('¿Estás seguro de eliminar este usuario?')">Eliminar Usuario</button>

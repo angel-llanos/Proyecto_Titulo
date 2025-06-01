@@ -36,9 +36,15 @@
                     <a href="{% url 'historia' %}">
                         <button class="btn btn-outline-light history" type="button">Historia</button>
                     </a>
+                    {% if request.user.rol == 4 %}
+                    <a href="{% url 'agregar_menu' %}">
+                        <button class="btn btn-outline-danger history" type="button">Agregar menú</button>
+                    </a>
+                    {% else %}
                     <a href="{% url 'menus' %}">
-                            <button class="btn btn-outline-light history" type="button">Menús</button>
-                        </a>
+                        <button class="btn btn-outline-light history" type="button">Menús</button>
+                    </a>
+                    {% endif %}
                     {% if request.user.rol == 4 %}
                     <a href="{% url 'crear_empleado' %}">
                         <button class="btn btn-outline-danger history" type="button">Crear empleado</button>
@@ -88,35 +94,61 @@
         </div>
     </nav>
 
-    <!-- contenido -->
-    <h1 class="text-white text-center">Menús disponibles:</h1>
-
-    <div class="container mt-4">
-    {% if menus %}
-        <div class="row row-cols-1 row-cols-md-3 g-4">
-        {% for menu in menus %}
-        <div class="col">
-            <div class="card h-100 text-dark">
-            {% if menu.imagen %}
-                <img src="{{ menu.imagen.url }}" class="card-img-top" alt="{{ menu.nombre }}">
-            {% else %}
-                <img src="{% static 'menus/img/default_menu.jpg' %}" class="card-img-top" alt="Sin imagen">
-            {% endif %}
-            <div class="card-body">
-                <h5 class="card-title">{{ menu.nombre }}</h5>
-                <p class="card-text">{{ menu.descripcion }}</p>
-                <p class="card-text"><strong>Precio: </strong>${{ menu.precio }}</p>
-            </div>
-            </div>
+    {% if messages %}
+    <div class="container mt-3">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
         </div>
         {% endfor %}
-        </div>
-    {% else %}
-        <p class="text-white text-center">No hay menús disponibles aún.</p>
+    </div>
     {% endif %}
+
+    <!-- contenido -->
+    <div class="m-4" style="background-color: black; border-radius: 10px;">
+
+        <h1 class="text-white text-center">Menús disponibles:</h1>
+
+        <div class="container">
+        {% if menus %}
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+            {% for menu in menus %}
+            <div class="col mb-4">
+                <div class="card h-100 text-dark">
+                    {% if menu.imagen %}
+                        <img src="{{ menu.imagen.url }}" class="card-img-top" alt="{{ menu.nombre }}">
+                    {% else %}
+                        <img src="{% static 'menus/img/default_menu.jpg' %}" class="card-img-top" alt="Sin imagen">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ menu.nombre }}</h5>
+                        <p class="card-text">{{ menu.descripcion }}</p>
+                        <p class="card-text" style="text-align: center;"><strong>${{ menu.precio }}</strong></p>
+
+                        {% if request.user.is_authenticated and request.user.rol == 3 or request.user.rol == 4 %}
+                        <div class="text-center">
+                            <a href="{% url 'modificar_menu' menu.id %}" class="btn btn-sm btn-warning" style="white-space: nowrap; padding: 0.25rem 0.75rem;">Modificar menú</a>
+
+                            <form method="POST" action="{% url 'eliminar_menu' menu.id %}" 
+                                onsubmit="return confirm('¿Estás seguro de eliminar este menú?');" 
+                                style="margin: 0; width: auto; display: inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger btn-sm" style="white-space: nowrap; padding: 0.25rem 0.75rem;">Eliminar Menú</button>
+                            </form>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            </div>
+        {% else %}
+            <p class="text-white text-center">No hay menús disponibles aún.</p>
+        {% endif %}
+        </div>
     </div>
 
-    
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl5/0U5Y1Uhe5z4K0P/dFYi5PUFEnFUn9LohPybU8a"

@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.http import HttpResponseForbidden
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Menu
@@ -27,20 +28,42 @@ def agregar_menu(request):
     
     return render(request, 'menus/agregar_menu.html', {'form': form})
 
-# Vista para modificar un menú existente (solo administrador)
 @login_required
 def modificar_menu(request, menu_id):
+    # Solo administrador (rol 4) por ahora
     if request.user.rol != 4:
         return HttpResponseForbidden("No tienes permiso para acceder a esta página.")
-    
+
     menu = get_object_or_404(Menu, id=menu_id)
-    
+
     if request.method == 'POST':
         form = MenuForm(request.POST, request.FILES, instance=menu)
         if form.is_valid():
             form.save()
-            return redirect('menus')
+            messages.success(request, 'Menú modificado correctamente.')
+            return redirect('menus')  # o usa 'menus:lista_menus' si tienes namespace
     else:
         form = MenuForm(instance=menu)
-    
-    return render(request, 'menus/modificar_menu.html', {'form': form, 'menu': menu})
+
+    context = {
+        'form': form,
+        'menu': menu
+    }
+    return render(request, 'menus/modificar_menu.html', context)
+
+@login_required
+def eliminar_menu(request, menu_id):
+    # Solo admin por ahora (rol 4)
+    if request.user.rol != 4:
+        return HttpResponseForbidden("No tienes permiso para eliminar este menú.")
+
+    menu = get_object_or_404(Menu, id=menu_id)
+
+    if request.method == 'POST':
+        menu.delete()
+        messages.success(request, 'Menú eliminado correctamente.')
+        return redirect('menus')
+    else:
+        # Si no es POST, no se elimina, redirige o muestra error
+        messages.error(request, 'Solicitud no permitida.')
+        return redirect('menus')

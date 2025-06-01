@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'menus/css/styles.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h2 class="text-center mb-4">Modificar Menú: {{ menu.nombre }}</h2>
+
+    <form method="post" enctype="multipart/form-data" novalidate>
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+            <div class="alert alert-danger">
+                {% for error in form.non_field_errors %}
+                    <div>{{ error }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <div class="form-group">
+            <label for="{{ form.nombre.id_for_label }}">Nombre*</label>
+            {{ form.nombre }}
+            {% if form.nombre.errors %}
+                <div class="text-danger small">{{ form.nombre.errors }}</div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.descripcion.id_for_label }}">Descripción</label>
+            {{ form.descripcion }}
+            {% if form.descripcion.errors %}
+                <div class="text-danger small">{{ form.descripcion.errors }}</div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.precio.id_for_label }}">Precio*</label>
+            {{ form.precio }}
+            {% if form.precio.errors %}
+                <div class="text-danger small">{{ form.precio.errors }}</div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.imagen.id_for_label }}">Imagen</label>
+            {% if menu.imagen %}
+                <div class="mb-2">
+                    <img src="{{ menu.imagen.url }}" alt="{{ menu.nombre }}" class="img-thumbnail" style="max-width: 200px;">
+                </div>
+            {% endif %}
+            {{ form.imagen }}
+            {% if form.imagen.errors %}
+                <div class="text-danger small">{{ form.imagen.errors }}</div>
+            {% endif %}
+        </div>
+
+        <button type="submit" class="btn btn-warning" style="width: 100%;">Guardar Cambios</button>
+    </form>
+</div>
+{% endblock %}

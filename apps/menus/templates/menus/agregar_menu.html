@@ -82,7 +82,8 @@
 
     <!-- contenedor del formulario de creación de menú -->
     <div class="form-container">
-        <div style="margin: auto;">
+        <!-- boton para volver -->
+        <div style="display: flex;">
             <style>
                 .boton-volver {
                     text-decoration: none;
@@ -93,8 +94,8 @@
                     text-decoration: none;
                 }
             </style>
-            <a href="{% url 'index' %}" class="boton-volver" style="margin: auto; padding: auto;">
-                <p>&lt; Volver al inicio</p>
+            <a href="{% url 'menus' %}" class="boton-volver">
+                <p>&lt; Volver a menús</p>
             </a>
         </div>
 
