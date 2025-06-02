@@ -15,7 +15,7 @@ def menus(request):
 # Vista para agregar un nuevo menú (solo administrador)
 @login_required
 def agregar_menu(request):
-    if request.user.rol != 4:  # Solo rol 4 (Administrador)
+    if request.user.rol not in [4, 3]:
         return HttpResponseForbidden("No tienes permiso para acceder a esta página.")
     
     if request.method == 'POST':
@@ -30,8 +30,7 @@ def agregar_menu(request):
 
 @login_required
 def modificar_menu(request, menu_id):
-    # Solo administrador (rol 4) por ahora
-    if request.user.rol != 4:
+    if request.user.rol not in [4, 3]:
         return HttpResponseForbidden("No tienes permiso para acceder a esta página.")
 
     menu = get_object_or_404(Menu, id=menu_id)
@@ -53,8 +52,7 @@ def modificar_menu(request, menu_id):
 
 @login_required
 def eliminar_menu(request, menu_id):
-    # Solo admin por ahora (rol 4)
-    if request.user.rol != 4:
+    if request.user.rol not in [4, 3]:
         return HttpResponseForbidden("No tienes permiso para eliminar este menú.")
 
     menu = get_object_or_404(Menu, id=menu_id)

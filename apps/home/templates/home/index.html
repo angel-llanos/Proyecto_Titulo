@@ -62,7 +62,8 @@
                             <li><a class="dropdown-item" href="{% url 'perfil' %}">Mi perfil</a></li>
                             {% if request.user.rol == 4 %}
                             <li><a class="dropdown-item" href="{% url 'admin_usuarios' %}">Usuarios</a></li>
-                            {% else %}
+                            {% endif %}
+                            {% if request.user.rol == 1 %}
                             <li><a class="dropdown-item" href="{% url 'historial_reservas' %}">Mis reservas</a></li>
                             {% endif %}
                             <li><a class="dropdown-item" href="{% url 'exit' %}">Salir</a></li>

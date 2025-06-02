@@ -36,7 +36,7 @@
                     <a href="{% url 'historia' %}">
                         <button class="btn btn-outline-light history" type="button">Historia</button>
                     </a>
-                    {% if request.user.rol == 4 %}
+                    {% if request.user.rol == 3 or request.user.rol == 4 %}
                     <a href="{% url 'agregar_menu' %}">
                         <button class="btn btn-outline-danger history" type="button">Agregar menú</button>
                     </a>
@@ -66,7 +66,9 @@
                         <ul class="dropdown-menu dropdown-perfil">
                            <li><p class="text-black text-end mx-1 text-center" style="font-weight: bold;">{{ user.first_name|upper }} {{ user.last_name|upper }}</p></li>
                             <li><a class="dropdown-item" href="{% url 'perfil' %}">Mi perfil</a></li>
+                            {% if request.user.rol == 1 %}
                             <li><a class="dropdown-item" href="{% url 'historial_reservas' %}">Mis reservas</a></li>
+                            {% endif %}
                             {% if request.user.rol == 4 %}
                             <li><a class="dropdown-item" href="{% url 'admin_usuarios' %}">Usuarios</a></li>
                             {% endif %}
