@@ -62,10 +62,10 @@ select,
 textarea {
     width: 100%;
     padding: 0.75rem 1rem;
-    background-color: #333;
+    background-color: white;
     border: 1px solid #777;
     border-radius: 5px;
-    color: white;
+    color: black;
     font-size: 1rem;
     transition: all 0.3s ease;
 }
@@ -76,7 +76,7 @@ textarea:focus {
     outline: none;
     border-color: #ffc107;
     box-shadow: 0 0 6px #ffc107;
-    background-color: #444;
+    background-color: white;
 }
 
 .btn-warning {
