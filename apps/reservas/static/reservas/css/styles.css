@@ -1,11 +1,38 @@
-.form-container {
-    max-width: 600px;
-    width: 90%;
+/* borde del navbar */
+.navbar-settings {
+    background-color: black;
+    border-bottom: 3px solid;
+    color: white;
+}
+/* boton de ingresar*/
+.btn-settings {
+    border-radius: 40px;
+}
+/* boton de historia*/
+.history {
+    border-radius: 40px;
+}
+/* marca monkey foods */
+.marca {
     color: white;
     background-color: black;
-    border-radius: 10px;
-    padding: 20px;
-    margin: 2rem auto;
+    text-transform: uppercase;
+    font-weight: bold;
+    text-align: right;
+    background-size: 20%;
+}
+
+.marca:hover {
+    color:#ffc107;
+}
+
+/* fondo de la pagina */
+.body-fondo{
+    background-image: url(../img/fondo.png);
+    background-size: cover;
+    background-position: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 
 .form-row {
@@ -64,4 +91,37 @@ textarea:focus {
 
 .btn-warning:hover {
     background-color: #e0ac00;
+}
+
+.dropdown-perfil {
+    min-width: auto;
+    max-width: auto;
+    width: auto;
+}
+
+/* posición dropdown */
+.dropdown-menu.dropdown-perfil {
+    right: 0;
+    left: auto;
+    position: absolute;
+}
+
+/* Contenedor principal del formulario */
+.form-container {
+    max-width: 600px;
+    width: 90%;
+    display: grid;
+    color: white;
+    background-color: black;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 2rem auto;
+}
+
+/* Estilo de los inputs deshabilitados */
+.form-control[disabled] {
+    background-color: #333;
+    color: white;
+    border: 1px solid #777;
+    border-radius: 5px;
 }

@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
+from apps.registrar.models import CustomUser
 from .forms import ReservaForm
-from .models import Reserva, Mesa, Menu, Zona
+from .models import Reserva, Mesa
 from decimal import Decimal
 from datetime import datetime, timedelta
 from django.db.models import Q
@@ -116,4 +117,22 @@ def reserva_exito(request, reserva_id):
     return render(request, 'reservas/reserva_exito.html', {
         'reserva': reserva,
         'cliente': reserva.cliente,
+    })
+
+@login_required
+def historial_reservas(request):
+    reservas = Reserva.objects.filter(cliente=request.user).order_by('-fecha', '-hora')
+    return render(request, 'reservas/historial_reservas.html', {'reservas': reservas})
+
+# funciones admin
+def es_admin(user):
+    return user.is_authenticated and user.rol == 4
+
+@user_passes_test(es_admin)
+def historial_usuario_admin(request, usuario_id):
+    usuario = get_object_or_404(CustomUser, id=usuario_id)
+    reservas = Reserva.objects.filter(cliente=usuario).order_by('-fecha', '-hora')
+    return render(request, 'reservas/historial_usuario_admin.html', {
+        'usuario': usuario,
+        'reservas': reservas
     })

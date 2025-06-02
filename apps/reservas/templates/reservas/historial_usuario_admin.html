@@ -1,0 +1,36 @@
+<!-- reservas/templates/reservas/historial_usuario_admin.html -->
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="form-container">
+  <div class="container mb-2">
+    <h2 class="text-white text-center mb-3">Historial de Reservas de {{ usuario.username }}</h2>
+    <div class="accordion" id="accordionReservas">
+      {% for reserva in reservas %}
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="heading{{ reserva.id }}">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ reserva.id }}">
+            Reserva #{{ reserva.id }} - {{ reserva.fecha }} {{ reserva.hora }}
+          </button>
+        </h2>
+        <div id="collapse{{ reserva.id }}" class="accordion-collapse collapse" data-bs-parent="#accordionReservas">
+          <div class="accordion-body">
+            <p><strong>ID:</strong> {{ reserva.id }}</p>
+            <p><strong>Fecha:</strong> {{ reserva.fecha }}</p>
+            <p><strong>Hora:</strong> {{ reserva.hora }}</p>
+            <p><strong>Mesa:</strong> {{ reserva.mesa }}</p>
+            {% if reserva.menu %}
+            <p><strong>Menú:</strong> {{ reserva.menu.nombre }} (${{ reserva.menu.precio }})</p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      {% empty %}
+      <p class="text-center" style="font-size: 18px; color: grey; font-style: italic;">Este usuario no tiene reservas registradas.</p>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% endblock %}

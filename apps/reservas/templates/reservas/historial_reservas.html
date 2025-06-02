@@ -1,0 +1,179 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio - MonkeyFoods</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="{% static 'reservas/css/styles.css' %}">
+</head>
+
+<body class="body-fondo">
+
+  <!-- Header/Navbar -->
+  <nav class="navbar navbar-expand-lg bg-body-primary navbar-settings p-4">
+      <div class="container-fluid">
+          <a href="{% url 'index' %}">
+              <img src="{% static 'home/img/marca.png' %}" alt="marca">
+              <a class="navbar-brand marca" href="{% url 'index' %}">MonkeyFoods</a>
+          </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+              data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+              aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                  <li></li>
+              </ul>
+              {% if request.user.is_authenticated %}
+              <form class="d-flex gap-4" role="search">
+                  <a href="{% url 'historia' %}">
+                      <button class="btn btn-outline-light history" type="button">Historia</button>
+                  </a>
+                  <a href="{% url 'menus' %}">
+                          <button class="btn btn-outline-light history" type="button">Menús</button>
+                      </a>
+                  {% if request.user.rol == 4 %}
+                  <a href="{% url 'crear_empleado' %}">
+                      <button class="btn btn-outline-danger history" type="button">Crear empleado</button>
+                  </a>
+                  {% endif %}
+                  <div class="nav-item dropdown dropdown-perfil me-2">
+                      <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                          {% if user.foto_perfil %}
+                          <img src="{{ user.foto_perfil.url }}" alt="Foto de perfil" style="border-radius: 50%; border: 1px solid #ffc107;" width="36" height="36">
+                          {% else %}
+                          <svg xmlns="http://www.w3.org/2000/svg" style="color: #ffc107" width="36" height="36"
+                              fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                              <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
+                              <path fill-rule="evenodd"
+                                  d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1" />
+                          </svg>
+                          {% endif %}
+                      </a>
+                      <ul class="dropdown-menu dropdown-perfil">
+                          <li><p class="text-black text-end mx-1 text-center" style="font-weight: bold;">{{ user.first_name|upper }} {{ user.last_name|upper }}</p></li>
+                          <li><a class="dropdown-item" href="{% url 'perfil' %}">Mi perfil</a></li>
+                          <li><a class="dropdown-item" href="{% url 'historial_reservas' %}">Mis reservas</a></li>
+                          {% if request.user.rol == 4 %}
+                          <li><a class="dropdown-item" href="{% url 'admin_usuarios' %}">Usuarios</a></li>
+                          {% endif %}
+                          <li><a class="dropdown-item" href="{% url 'exit' %}">Salir</a></li>
+                      </ul>
+                  </div>
+              </form>
+              {% else %}
+              <div class="d-flex gap-3"> <!-- botones navbar -->
+                  <div class="d-flex gap-3">
+                      <a href="{% url 'historia' %}">
+                          <button class="btn btn-outline-light history" type="button">Historia</button>
+                      </a>
+                      <a href="{% url 'menus' %}">
+                          <button class="btn btn-outline-light history" type="button">Menús</button>
+                      </a>
+                      <form class="d-flex" role="search">
+                          <a href="{% url 'registrar' %}">
+                              <button class="btn btn-warning btn-settings" type="button">Acceder</button>
+                          </a>
+                      </form>
+                  </div>
+              </div>
+              {% endif %}
+          </div>
+      </div>
+  </nav>
+
+  <!-- contenido principal -->
+  <div class="form-container">
+    <div class="container mb-2">
+      <h2 class="text-white text-center mb-3">Historial de Reservas</h2>
+      <div class="accordion" id="accordionReservas">
+        {% for reserva in reservas %}
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="heading{{ reserva.id }}">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ reserva.id }}">
+              Reserva #{{ reserva.id_reserva }} - {{ reserva.fecha }} a las {{ reserva.hora }}
+            </button>
+          </h2>
+          <div id="collapse{{ reserva.id }}" class="accordion-collapse collapse" data-bs-parent="#accordionReservas">
+            <div class="accordion-body">
+              <p><strong>Nombre de reserva:</strong> {{ reserva.nombre_reserva }}</p>
+              <p><strong>Fecha:</strong> {{ reserva.fecha }}</p>
+              <p><strong>Hora:</strong> {{ reserva.hora }}</p>
+              <p><strong>Teléfono:</strong> {{ reserva.telefono }}</p>
+              <p><strong>Mesas reservadas:</strong></p>
+              <ul>
+              {% for mesa in reserva.mesas.all %}
+                  <li>{{ mesa.numero }} (Capacidad: {{ mesa.capacidad }})</li>
+              {% empty %}
+                  <li>No hay mesas asignadas</li>
+              {% endfor %}
+              </ul>
+              {% if reserva.menu %}
+              <p><strong>Menú:</strong> {{ reserva.menu.nombre }}</p>
+              {% endif %}
+              <p><strong>Abono:</strong> ${{ reserva.abono }}</p>
+            </div>
+          </div>
+        </div>
+        {% empty %}
+        <p class="text-center" style="font-size: 18px; color: grey; font-style: italic;">No tienes reservas registradas.</p>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+      integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl5/0U5Y1Uhe5z4K0P/dFYi5PUFEnFUn9LohPybU8a"
+      crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+      integrity="sha384-oBqDVmMz4fnFO9gybXV8FQFt4rAHg7S4FczD/OSa1u/p5p1F9p38BennQG8suC2g"
+      crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"></script>
+</body>
+
+<!-- Pie de página -->
+<footer class="text-white text-center" style="background-color: black;">
+    <div class="container p-4">
+        <div class="row">
+            <div class="col-lg-6 col-md-12 mb-4 mb-md-0 text-center">
+                <h5 class="text">SOBRE NOSOTROS</h5>
+                <p class="mt-3">
+                    MONKEY FOODS
+                </p>
+            </div>
+
+            <div class="col-lg-3 col-md-6 mb-4 mb-md-0 ms-auto text-center">
+                <h5 class="text">CONTÁCTANOS:</h5>
+                <ul class="list-unstyled mb-0">
+                    <li>
+                        <a class="text-white" href="#">
+                            <i class="bi bi-facebook" style="font-size: 23px;"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="text-white" href="#">
+                            <i class="bi bi-instagram" style="font-size: 23px;"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Parte inferior footer -->
+    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+        © 2025
+        <a class="text-white" href="{% url 'index' %}">MonkeyFoods</a>
+    </div>
+</footer>
+
+</html>

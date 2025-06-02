@@ -15,8 +15,7 @@
     <p><strong>Apellido:</strong> {{ reserva.cliente.last_name }}</p>
     <p><strong>Correo:</strong> {{ reserva.cliente.email }}</p>
     <p><strong>Nombre de usuario:</strong> {{ reserva.cliente.username }}</p>
-
-    <h3>Mesas reservadas</h3>
+    <p><strong>Mesas reservadas:</strong></p>
     <ul>
       {% for mesa in reserva.mesas.all %}
         <li>{{ mesa.numero }} (Capacidad: {{ mesa.capacidad }})</li>
