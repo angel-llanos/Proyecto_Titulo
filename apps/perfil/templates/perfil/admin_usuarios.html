@@ -136,17 +136,20 @@
                                     <button class="btn btn-warning" type="submit">Actualizar Rol</button>
                                 </div>
                             </form>
-                            {% endif %}
                             <div class="d-flex gap-3" style="text-align: center;">
-                                <a href="{% url 'historial_usuario_admin' u.id %}">
-                                    <button class="btn btn-warning">Ver reservas</button>
-                                </a>
                                 <!-- eliminar usuario -->
                                 <form method="POST" action="{% url 'eliminar_usuario' u.id %}">
                                     {% csrf_token %}
                                     <button class="btn btn-danger" onclick="return confirm('¿Estás seguro de eliminar este usuario?')">Eliminar Usuario</button>
                                 </form>
                             </div>
+                            {% else %}
+                            <div class="d-flex gap-3" style="text-align: center;">
+                                <a href="{% url 'historial_usuario_admin' u.id %}">
+                                    <button class="btn btn-warning">Ver reservas</button>
+                                </a>
+                            </div>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
