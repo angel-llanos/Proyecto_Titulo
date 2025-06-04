@@ -20,7 +20,7 @@
             </div>
         {% endif %}
 
-        <div class="form-group">
+        <div class="form-group" style="margin-top: 20px;">
             <label for="{{ form.nombre.id_for_label }}">Nombre*</label>
             {{ form.nombre }}
             {% if form.nombre.errors %}
@@ -28,7 +28,7 @@
             {% endif %}
         </div>
 
-        <div class="form-group">
+        <div class="form-group" style="margin-top: 20px;">
             <label for="{{ form.descripcion.id_for_label }}">Descripción</label>
             {{ form.descripcion }}
             {% if form.descripcion.errors %}
@@ -36,7 +36,7 @@
             {% endif %}
         </div>
 
-        <div class="form-group">
+        <div class="form-group" style="margin-top: 20px;">
             <label for="{{ form.precio.id_for_label }}">Precio*</label>
             {{ form.precio }}
             {% if form.precio.errors %}
@@ -44,10 +44,10 @@
             {% endif %}
         </div>
 
-        <div class="form-group">
-            <label for="{{ form.imagen.id_for_label }}">Imagen</label>
+        <div class="form-group" style="margin-top: 20px;">
+            <label for="{{ form.imagen.id_for_label }}">Imagen (Opcional)</label>
             {% if menu.imagen %}
-                <div class="mb-2">
+                <div class="mb-3">
                     <img src="{{ menu.imagen.url }}" alt="{{ menu.nombre }}" class="img-thumbnail" style="max-width: 200px;">
                 </div>
             {% endif %}
@@ -57,7 +57,7 @@
             {% endif %}
         </div>
 
-        <button type="submit" class="btn btn-warning" style="width: 100%;">Guardar Cambios</button>
+        <button type="submit" class="btn btn-warning" style="width: 100%; margin-top: 20px;">Guardar Cambios</button>
     </form>
 </div>
 {% endblock %}
