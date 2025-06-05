@@ -15,15 +15,15 @@
 /* marca monkey foods */
 .marca {
     color: white;
-    background-color: black;
-    text-transform: uppercase;
     font-weight: bold;
     text-align: right;
     background-size: 20%;
+    font-family: "Century Gothic", sans-serif;
 }
 
 .marca:hover {
     color:#ffc107;
+    transition: 0.5s;
 }
 
 /* fondo de la pagina */
