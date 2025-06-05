@@ -22,7 +22,10 @@ def crear_reserva(request):
         if form.is_valid():
             menu = form.cleaned_data.get('menu')
             comensales = int(form.cleaned_data.get('comensales'))
-            abono = ((menu.precio * ABONO_PORCENTAJE) * comensales) if menu else 0
+            
+            ABONO_SIN_MENU = Decimal('5000')  # por ejemplo
+
+            abono = ((menu.precio * ABONO_PORCENTAJE) * comensales) if menu else ABONO_SIN_MENU
 
             reserva = form.save(commit=False)
             reserva.cliente = request.user

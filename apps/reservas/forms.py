@@ -34,6 +34,7 @@ class ReservaForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['zona'].queryset = Zona.objects.all().only('id', 'nombre')
         self.fields['menu'].queryset = Menu.objects.all().only('id', 'nombre')
+        self.fields['menu'].required = False
 
         # Generar lista de horas disponibles cada 15 minutos desde 11:00 hasta 00:00
         horas = []

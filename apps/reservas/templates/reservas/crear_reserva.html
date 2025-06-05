@@ -63,8 +63,15 @@
                 {% endif %}
             </div>
             <div class="col-md-6">
-                <label for="{{ form.menu.id_for_label }}" class="form-label">Menú*</label>
-                {{ form.menu|add_class:"form-select" }}
+                <label for="{{ form.menu.id_for_label }}" class="form-label">Menú (opcional)</label>
+                <select name="{{ form.menu.name }}" class="form-select" id="{{ form.menu.id_for_label }}">
+                    <option value="" {% if not form.menu.value %}selected{% endif %}>Sin menú (elegiré en el local)</option>
+                    {% for option in form.menu.field.queryset %}
+                        <option value="{{ option.pk }}" {% if option.pk|stringformat:"s" == form.menu.value|stringformat:"s" %}selected{% endif %}>
+                            {{ option }}
+                        </option>
+                    {% endfor %}
+                </select>
                 {% if form.menu.errors %}
                     <div class="text-danger small">{{ form.menu.errors }}</div>
                 {% endif %}
