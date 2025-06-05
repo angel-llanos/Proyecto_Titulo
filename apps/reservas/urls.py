@@ -8,4 +8,6 @@ urlpatterns = [
     path('exito/<str:reserva_id>/', views.reserva_exito, name='reserva_exito'),
     path('historial/', views.historial_reservas, name='historial_reservas'),
     path('historial-usuario/<int:usuario_id>/', views.historial_usuario_admin, name='historial_usuario_admin'),
+    path('cancelar/<int:reserva_id>/', views.cancelar_reserva_admin, name='cancelar_reserva_admin'),
+
 ]

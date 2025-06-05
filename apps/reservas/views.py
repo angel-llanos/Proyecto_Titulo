@@ -139,3 +139,14 @@ def historial_usuario_admin(request, usuario_id):
         'usuario': usuario,
         'reservas': reservas
     })
+
+@user_passes_test(es_admin)
+def cancelar_reserva_admin(request, reserva_id):
+    reserva = get_object_or_404(Reserva, id=reserva_id)
+    
+    if reserva.estado != 'cancelada':
+        reserva.estado = 'cancelada'
+        reserva.mesas.clear()  # <-- Aquí liberamos las mesas asociadas
+        reserva.save()
+    
+    return redirect('historial_usuario_admin', usuario_id=reserva.cliente.id)

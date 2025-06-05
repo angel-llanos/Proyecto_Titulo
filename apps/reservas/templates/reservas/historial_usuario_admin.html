@@ -19,9 +19,26 @@
             <p><strong>ID:</strong> {{ reserva.id }}</p>
             <p><strong>Fecha:</strong> {{ reserva.fecha }}</p>
             <p><strong>Hora:</strong> {{ reserva.hora }}</p>
-            <p><strong>Mesa:</strong> {{ reserva.mesa }}</p>
+            <p><strong>Mesas:</strong> 
+              {% for mesa in reserva.mesas.all %}
+                {{ mesa.numero }}{% if not forloop.last %}, {% endif %}
+              {% empty %}
+                Sin mesas asignadas
+              {% endfor %}
+            </p>
             {% if reserva.menu %}
             <p><strong>Menú:</strong> {{ reserva.menu.nombre }} (${{ reserva.menu.precio }})</p>
+            {% endif %}
+
+            <p><strong>Estado:</strong> {{ reserva.estado|capfirst }}</p>
+
+            {% if reserva.estado != 'cancelada' %}
+            <form method="post" action="{% url 'cancelar_reserva_admin' reserva.id %}" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de cancelar esta reserva?');">Cancelar Reserva</button>
+            </form>
+            {% else %}
+            <span class="badge bg-secondary">Reserva Cancelada</span>
             {% endif %}
           </div>
         </div>
