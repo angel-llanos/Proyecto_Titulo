@@ -133,12 +133,24 @@
                         <div class="text-center">
                             <a href="{% url 'modificar_menu' menu.id %}" class="btn btn-sm btn-warning" style="white-space: nowrap; padding: 0.25rem 0.75rem;">Modificar menú</a>
 
+                            <form method="POST" action="{% url 'toggle_menu_estado' menu.id %}" 
+                                onsubmit="return confirm('¿Estás seguro de cambiar el estado de este menú?');" 
+                                style="margin: 0; width: auto; display: inline;">
+                                {% csrf_token %}
+                                {% if menu.activo %}
+                                    <button type="submit" class="btn btn-secondary btn-sm" style="white-space: nowrap; padding: 0.25rem 0.75rem;">Desactivar menú</button>
+                                {% else %}
+                                    <button type="submit" class="btn btn-success btn-sm" style="white-space: nowrap; padding: 0.25rem 0.75rem;">Activar menú</button>
+                                {% endif %}
+                            </form>
+
                             <form method="POST" action="{% url 'eliminar_menu' menu.id %}" 
                                 onsubmit="return confirm('¿Estás seguro de eliminar este menú?');" 
                                 style="margin: 0; width: auto; display: inline;">
                                 {% csrf_token %}
-                                <button type="submit" class="btn btn-danger btn-sm" style="white-space: nowrap; padding: 0.25rem 0.75rem;">Eliminar Menú</button>
+                                <button type="submit" class="btn btn-danger btn-sm" style="white-space: nowrap; padding: 0.25rem 0.75rem;">Eliminar menú</button>
                             </form>
+
                         </div>
                         {% endif %}
                     </div>

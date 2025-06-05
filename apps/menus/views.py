@@ -7,8 +7,12 @@ from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 # Vista pública o general de menús
+@login_required
 def menus(request):
-    lista_menus = Menu.objects.all()
+    if request.user.rol in [3,4]:  # admins ven todo
+        lista_menus = Menu.objects.all()
+    else:
+        lista_menus = Menu.objects.filter(activo=True)
     context = {'menus': lista_menus}
     return render(request, 'menus/menus.html', context)
 
@@ -58,10 +62,27 @@ def eliminar_menu(request, menu_id):
     menu = get_object_or_404(Menu, id=menu_id)
 
     if request.method == 'POST':
-        menu.delete()
-        messages.success(request, 'Menú eliminado correctamente.')
+        menu.activo = False
+        menu.save()
+        messages.success(request, 'Menú desactivado correctamente.')
         return redirect('menus')
     else:
-        # Si no es POST, no se elimina, redirige o muestra error
+        messages.error(request, 'Solicitud no permitida.')
+        return redirect('menus')
+    
+@login_required
+def toggle_menu_estado(request, menu_id):
+    if request.user.rol not in [3, 4]:
+        return HttpResponseForbidden("No tienes permiso para modificar este menú.")
+
+    menu = get_object_or_404(Menu, id=menu_id)
+
+    if request.method == 'POST':
+        menu.activo = not menu.activo
+        menu.save()
+        estado = "activado" if menu.activo else "desactivado"
+        messages.success(request, f'Menú {estado} correctamente.')
+        return redirect('menus')
+    else:
         messages.error(request, 'Solicitud no permitida.')
         return redirect('menus')
