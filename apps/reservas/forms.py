@@ -36,7 +36,7 @@ class ReservaForm(forms.ModelForm):
         self.fields['menu'].queryset = Menu.objects.all().only('id', 'nombre')
         self.fields['menu'].required = False
 
-        # Generar lista de horas disponibles cada 15 minutos desde 11:00 hasta 00:00
+        #generar horas disponibles cada 15 minutos (11:00 - 00:00))
         horas = []
         actual = datetime.combine(datetime.today(), self.HORA_INICIO)
         fin = datetime.combine(datetime.today(), time(0, 0)) + timedelta(days=1)
@@ -44,12 +44,12 @@ class ReservaForm(forms.ModelForm):
         while actual < fin:
             hora_texto = actual.strftime('%H:%M')
             hora_obj = actual.time()
-            horas.append((hora_texto, hora_texto))  # key y label iguales
+            horas.append((hora_texto, hora_texto))  #key y label iguales
             actual += self.INTERVALO
 
         self.fields['hora'].choices = horas
 
-        # Inicial por defecto (próximo intervalo disponible)
+        #hora iniciol por defecto con intervalo disponible
         if not self.is_bound:
             now = datetime.now()
             minuto = ((now.minute + 14) // 15) * 15  # próximo cuarto de hora
@@ -60,7 +60,7 @@ class ReservaForm(forms.ModelForm):
             if now.time() < self.HORA_INICIO:
                 now = now.replace(hour=11, minute=0)
             elif now.time() >= time(0, 0):
-                # Si es pasada la medianoche, mover al día siguiente
+                #si pasa las 12, se mueve al día siguiente
                 now = datetime.combine(now.date() + timedelta(days=1), self.HORA_INICIO)
             self.initial['fecha'] = now.date()
             self.initial['hora'] = now.strftime('%H:%M')
@@ -79,18 +79,18 @@ class ReservaForm(forms.ModelForm):
         if fecha < now.date():
             self.add_error('fecha', "No puedes reservar en fechas pasadas.")
 
-        # Validación segura del tiempo
+        #validación segura del tiempo
         try:
             hora_time = datetime.strptime(hora, '%H:%M').time()
         except ValueError:
             self.add_error('hora', "Formato de hora inválido.")
             return cleaned_data
 
-        # Validar que esté dentro del rango
+        #valida que esté dentro del rango
         if not (time(11, 0) <= hora_time or hora_time == time(0, 0)):
             self.add_error('hora', "El horario de reserva es entre 11:00 y 00:00.")
 
-        # Validar múltiplos de 15 minutos
+        #validar múltiplos de 15 minutos (sólo por si acaso)
         if hora_time.minute % 15 != 0:
             self.add_error('hora', "Selecciona una hora con intervalo de 15 minutos.")
 

@@ -1,7 +1,6 @@
-# forms.py
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from .models import CustomUser  #modelo personalizado usuario
+from .models import CustomUser  #modelo personalizado de usuario
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import PasswordResetForm
 
@@ -19,7 +18,7 @@ class CustomUserCreationForm(UserCreationForm):
 
     def save(self, commit=True):
         user = super().save(commit=False)
-        user.rol = 1  # Cliente por defecto
+        user.rol = 1 #cliente (1) por defecto
         if commit:
             user.save()
         return user
@@ -35,11 +34,11 @@ class CustomPasswordResetForm(forms.Form):
         return email
 
     def save(self, **kwargs):
-        # Crear el PasswordResetForm con los datos validados
+        #crear el PasswordResetForm con los datos validados
         actual_form = PasswordResetForm(data=self.cleaned_data)
         
-        # Validar el formulario para asegurar que 'cleaned_data' esté disponible
+        #validar el formulario para asegurar que 'cleaned_data' esté disponible
         if actual_form.is_valid():
             return actual_form.save(**kwargs)
         else:
-            return actual_form  # En caso de que el formulario no sea válido, lo devolvemos
+            return actual_form  #en caso de que el formulario no sea válido, se devuelve

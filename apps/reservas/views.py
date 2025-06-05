@@ -14,7 +14,7 @@ def reservas(request):
 
 @login_required
 def crear_reserva(request):
-    # Buscar si ya existe reserva borrador para el usuario
+
     reserva_borrador = Reserva.objects.filter(cliente=request.user, estado='borrador').first()
 
     if request.method == 'POST':
@@ -32,8 +32,7 @@ def crear_reserva(request):
             reserva.abono = abono
             reserva.estado = 'borrador'
             reserva.save()
-
-            # Guardar en sesión el ID de reserva y datos
+            
             request.session['reserva_id'] = reserva.id
             request.session['reserva_datos'] = {
                 'nombre_reserva': reserva.nombre_reserva,

@@ -12,7 +12,7 @@ class Mesa(models.Model):
     zona = models.ForeignKey(Zona, on_delete=models.CASCADE)
     numero = models.PositiveIntegerField()
     capacidad = models.PositiveIntegerField()
-    estado = models.BooleanField(default=True)  # Disponible o no
+    estado = models.BooleanField(default=True)  #mesa disponible o no
 
     def __str__(self):
         return f"Mesa {self.numero} - Zona {self.zona.nombre}"

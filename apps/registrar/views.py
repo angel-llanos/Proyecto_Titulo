@@ -8,7 +8,7 @@ from django.urls import reverse_lazy
 from .models import CustomUser
 from allauth.socialaccount.models import SocialAccount
 
-
+# Create your views here.
 def exit(request):
     logout(request)
     return redirect('index')

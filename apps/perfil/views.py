@@ -19,16 +19,16 @@ def editar_perfil(request):
         username = request.POST.get('username')
         email = request.POST.get('email')
 
-        # Si el usuario tiene cuenta social, no debe modificar su correo
+        #si el usuario tiene socialaccount, no debe poder modificar su correo
         tiene_google = SocialAccount.objects.filter(user=user, provider='google').exists()
         
-        # Validar que el username no esté en uso por otro usuario
+        #validar que el nombre de usuario no esté en uso
         if User.objects.filter(username=username).exclude(pk=user.pk).exists():
             messages.error(request, 'Ese nombre de usuario ya está en uso.')
             request.session['abrir_modal'] = True
             return redirect('perfil')
 
-        # Validar correo solo si puede modificarlo
+        #validar correo solo si puede modificarlo
         if not tiene_google:
             if User.objects.filter(email=email).exclude(pk=user.pk).exists():
                 messages.error(request, 'Ese correo ya está registrado en otra cuenta.')
@@ -36,22 +36,22 @@ def editar_perfil(request):
                 return redirect('perfil')
             user.email = email
         else:
-            # Evita que lo cambie y muestra mensaje si intenta
+            #evita que lo cambie y muestra mensaje si intenta
             if email != user.email:
                 messages.error(request, 'No puedes cambiar el correo porque iniciaste sesión con Google.')
                 request.session['abrir_modal'] = True
                 return redirect('perfil')
 
-        # Eliminar foto si se marcó la opción
+        #eliminar foto si se marcó la casilla
         if request.POST.get('eliminar_foto') == 'on' and user.foto_perfil:
             user.foto_perfil.delete()
             user.foto_perfil = None
 
-        # Subir nueva foto si se proporcionó
+        #subir nueva foto si se escogió
         if request.FILES.get('foto_perfil'):
             user.foto_perfil = request.FILES['foto_perfil']
 
-        # Actualizar otros datos
+        #actualizar otros datos
         user.first_name = request.POST.get('first_name')
         user.last_name = request.POST.get('last_name')
         user.username = username
@@ -63,7 +63,7 @@ def editar_perfil(request):
     return redirect('perfil')
 
 
-# funciones admin
+#funciones admin
 def es_admin(user):
     return user.is_authenticated and user.rol == 4
 

@@ -3,7 +3,6 @@ from apps.registrar.models import CustomUser
 from django.core.exceptions import ValidationError
 from django.contrib.auth.password_validation import validate_password
 
-
 class CrearEmpleadoForm(forms.ModelForm):
     ROL_CHOICES_LIMITED = (
         (2, 'Mesero'),
@@ -42,12 +41,12 @@ class CrearEmpleadoForm(forms.ModelForm):
         password1 = cleaned_data.get("password1")
         password2 = cleaned_data.get("password2")
 
-        # Validación de que las contraseñas coincidan
+        #validación de que las contraseñas coincidan
         if password1 and password2:
             if password1 != password2:
                 self.add_error('password2', "Las contraseñas no coinciden")
 
-            # Validación de fortaleza de la contraseña
+            #validación de consistencia de la contraseña
             try:
                 validate_password(password1)
             except ValidationError as e:
