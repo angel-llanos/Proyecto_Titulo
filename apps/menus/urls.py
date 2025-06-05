@@ -6,5 +6,6 @@ urlpatterns = [
     path('agregar/', views.agregar_menu, name='agregar_menu'),
     path('modificar/<int:menu_id>/', views.modificar_menu, name='modificar_menu'),
     path('eliminar/<int:menu_id>/', views.eliminar_menu, name='eliminar_menu'),
-    path('menus/toggle_estado/<int:menu_id>/', views.toggle_menu_estado, name='toggle_menu_estado'),
+    path('menus/toggle_estado/<int:menu_id>/', views.activar_desactivar_menu, name='activar_desactivar_menu'),
+
 ]

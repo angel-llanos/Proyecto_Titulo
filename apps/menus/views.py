@@ -1,6 +1,8 @@
 from django.contrib import messages
 from django.http import HttpResponseForbidden
 from django.shortcuts import render, redirect, get_object_or_404
+
+from apps.reservas.models import Reserva
 from .models import Menu
 from .forms import MenuForm
 from django.contrib.auth.decorators import login_required
@@ -56,22 +58,23 @@ def modificar_menu(request, menu_id):
 
 @login_required
 def eliminar_menu(request, menu_id):
-    if request.user.rol not in [4, 3]:
-        return HttpResponseForbidden("No tienes permiso para eliminar este menú.")
-
     menu = get_object_or_404(Menu, id=menu_id)
 
-    if request.method == 'POST':
-        menu.activo = False
-        menu.save()
-        messages.success(request, 'Menú desactivado correctamente.')
-        return redirect('menus')
-    else:
-        messages.error(request, 'Solicitud no permitida.')
+    # Verifica si hay reservas vinculadas
+    reservas_ligadas = Reserva.objects.filter(menu=menu).exists()
+
+    if reservas_ligadas:
+        messages.warning(request, "Este menú está asociado a una o más reservas. Solo puede ser desactivado.")
+        return redirect('menus')  # o el nombre de tu vista principal
+
+    # Si no hay reservas, eliminar normalmente
+    if request.method == "POST":
+        menu.delete()
+        messages.success(request, "Menú eliminado correctamente.")
         return redirect('menus')
     
 @login_required
-def toggle_menu_estado(request, menu_id):
+def activar_desactivar_menu(request, menu_id):
     if request.user.rol not in [3, 4]:
         return HttpResponseForbidden("No tienes permiso para modificar este menú.")
 

@@ -133,7 +133,7 @@
                         <div class="text-center">
                             <a href="{% url 'modificar_menu' menu.id %}" class="btn btn-sm btn-warning" style="white-space: nowrap; padding: 0.25rem 0.75rem;">Modificar menú</a>
 
-                            <form method="POST" action="{% url 'toggle_menu_estado' menu.id %}" 
+                            <form method="POST" action="{% url 'activar_desactivar_menu' menu.id %}" 
                                 onsubmit="return confirm('¿Estás seguro de cambiar el estado de este menú?');" 
                                 style="margin: 0; width: auto; display: inline;">
                                 {% csrf_token %}

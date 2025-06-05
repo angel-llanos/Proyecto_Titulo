@@ -28,8 +28,10 @@
             </p>
             {% if reserva.menu %}
             <p><strong>Menú:</strong> {{ reserva.menu.nombre }} (${{ reserva.menu.precio }})</p>
+            {% else %}
+            <p><strong>Sin menú elegido</strong></p>
             {% endif %}
-
+            <p><strong>Abono:</strong> ${{ reserva.abono }}</p>
             <p><strong>Estado:</strong> {{ reserva.estado|capfirst }}</p>
 
             {% if reserva.estado != 'cancelada' %}

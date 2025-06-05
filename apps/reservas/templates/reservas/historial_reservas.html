@@ -126,6 +126,8 @@
                             </ul>
                             {% if reserva.menu %}
                             <p><strong>Menú:</strong> {{ reserva.menu.nombre }}</p>
+                            {% else %}
+                            <p><strong>Sin menú elegido</strong></p>
                             {% endif %}
                             <p><strong>Abono:</strong> ${{ reserva.abono }}</p>
                         </div>
