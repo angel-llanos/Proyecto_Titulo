@@ -44,6 +44,11 @@
                         <button class="btn btn-outline-danger history" type="button">Crear empleado</button>
                     </a>
                     {% endif %}
+                    {% if request.user.rol == 2 %}
+                    <a href="{% url 'reservas_mesero' %}">
+                        <button class="btn btn-outline-danger history" type="button">Reservas mesero</button>
+                    </a>
+                    {% endif %}
                     <div class="nav-item dropdown dropdown-perfil me-2">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
                             {% if user.foto_perfil %}
@@ -67,9 +72,6 @@
                             <li><a class="dropdown-item" href="{% url 'historial_reservas' %}">Mis reservas</a></li>
                             {% endif %}
                             <li><a class="dropdown-item" href="{% url 'exit' %}">Salir</a></li>
-                            {% if request.user.rol == 2 %}
-                            <li><a class="dropdown-item" href="{% url 'reservas_mesero' %}">Mis reservas</a></li>
-                            {% endif %}
 
                         </ul>
                     </div>

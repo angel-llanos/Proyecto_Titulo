@@ -91,7 +91,55 @@
         </div>
     </nav>
 
-    <h1>hola esta es la pagina de reservas de meseros</h1>
+     <div class="form-container">
+        <div class="container mb-2">
+            <h2 class="text-white text-center mb-3">Reservas de los clientes</h2>
+            <div class="accordion" id="accordionReservas">
+                {% for reserva in reservas %}
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="heading{{ reserva.id }}">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapse{{ reserva.id }}">
+                            Reserva #{{ reserva.id_reserva }} de {{ reserva.cliente.username }} - {{ reserva.fecha }} a las {{ reserva.hora }}
+                            {% if reserva.estado == 'cancelada' %}
+                            <span class="badge bg-danger ms-2">Cancelada</span>
+                            {% endif %}
+                        </button>
+                    </h2>
+                    <div id="collapse{{ reserva.id }}" class="accordion-collapse collapse"
+                        data-bs-parent="#accordionReservas">
+                        <div class="accordion-body">
+                            <p><strong>Nombre de reserva:</strong> {{ reserva.nombre_reserva }}</p>
+                            <p><strong>Nombre del cliente:</strong> {{ reserva.cliente.username }}</p>
+                            <p><strong>Fecha:</strong> {{ reserva.fecha }}</p>
+                            <p><strong>Hora:</strong> {{ reserva.hora }}</p>
+                            <p><strong>Estado:</strong> {{ reserva.estado|capfirst }}</p>
+                            <p><strong>Teléfono:</strong> {{ reserva.telefono }}</p>
+                            <p><strong>Mesas reservadas:</strong></p>
+                            <ul>
+                                {% for mesa in reserva.mesas.all %}
+                                <li>{{ mesa.numero }} (Capacidad: {{ mesa.capacidad }})</li>
+                                {% empty %}
+                                <li>No hay mesas asignadas</li>
+                                {% endfor %}
+                            </ul>
+                            {% if reserva.menu %}
+                            <p><strong>Menú:</strong> {{ reserva.menu.nombre }}</p>
+                            {% else %}
+                            <p><strong>Sin menú elegido</strong></p>
+                            {% endif %}
+                            <p><strong>Abono:</strong> ${{ reserva.abono }}</p>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <p class="text-center" style="font-size: 18px; color: grey; font-style: italic;">No tienes reservas
+                    registradas.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
 <!-- Pie de página -->
 <footer class="text-white text-center" style="background-color: black;">
     <div class="container p-4">
