@@ -67,6 +67,10 @@
                             <li><a class="dropdown-item" href="{% url 'historial_reservas' %}">Mis reservas</a></li>
                             {% endif %}
                             <li><a class="dropdown-item" href="{% url 'exit' %}">Salir</a></li>
+                            {% if request.user.rol == 2 %}
+                            <li><a class="dropdown-item" href="{% url 'reservas_mesero' %}">Mis reservas</a></li>
+                            {% endif %}
+
                         </ul>
                     </div>
                 </form>
