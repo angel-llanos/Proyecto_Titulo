@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
 # Create your views here.
-def index(request):
+def reservas_mesero(request):
     context = { }
     return render(request, "reservas_mesero/reservas_mesero.html", context)
