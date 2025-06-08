@@ -1,16 +1,20 @@
-# dependencias principales
+#dependencias principales
 Django>=5.0
 Pillow
 crispy-bootstrap5
 python-decouple
 
-# dependencias para login con google
+#dependencias para login con google
 django-allauth
 requests
 PyJWT
 cryptography
 
-# dependencia para reservas
+#dependencia para reservas
 django-widget-tweaks
 
+#método de pago
 stripe
+
+#exportar pdf
+xhtml2pdf

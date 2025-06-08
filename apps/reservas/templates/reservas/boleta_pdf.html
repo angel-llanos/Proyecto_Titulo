@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            font-family: Helvetica, Arial, sans-serif;
+            font-size: 12px;
+            background-color: black;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 600px;
+            margin: auto;
+        }
+
+        h2,
+        h3 {
+            color: white;
+        }
+
+        p,
+        li {
+            margin: 5px 0;
+        }
+
+        ul {
+            margin: 0;
+            padding-left: 15px;
+        }
+
+        .section {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="section">
+        <img src="data:image/png;base64,{{ logo_base64 }}" alt="Logo MonkeyFoods" style="width: 180px; height: auto; display: flex; justify-content: center; align-items: center;">
+    </div>
+
+    <h2>¡Reserva realizada con éxito!</h2>
+
+    <div class="section">
+        <p><strong>ID de Reserva:</strong> #{{ reserva.id_reserva }}</p>
+        <p><strong>Nombre de Reserva:</strong> {{ reserva.nombre_reserva }}</p>
+        <p><strong>Fecha:</strong> {{ reserva.fecha }}</p>
+        <p><strong>Hora:</strong> {{ reserva.hora }}</p>
+        <p><strong>Teléfono:</strong> {{ reserva.telefono }}</p>
+        <p><strong>Abono:</strong> ${{ reserva.abono }}</p>
+    </div>
+
+    <div class="section">
+        <h3>Cliente</h3>
+        <p><strong>Nombre:</strong> {{ reserva.cliente.first_name }}</p>
+        <p><strong>Apellido:</strong> {{ reserva.cliente.last_name }}</p>
+        <p><strong>Correo:</strong> {{ reserva.cliente.email }}</p>
+        <p><strong>Nombre de usuario:</strong> {{ reserva.cliente.username }}</p>
+    </div>
+
+    <div class="section">
+        <h3>Mesas reservadas</h3>
+        <ul>
+            {% for mesa in reserva.mesas.all %}
+            <li>{{ mesa.numero }} (Capacidad: {{ mesa.capacidad }})</li>
+            {% empty %}
+            <li>No hay mesas asignadas</li>
+            {% endfor %}
+            <h3>Menú</h3>
+            <p>{{ reserva.menu.nombre|default:"Sin menú asignado" }}</p>
+        </ul>
+    </div>
+</body>
+
+</html>
