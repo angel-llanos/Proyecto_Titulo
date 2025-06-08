@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}Confirmar Reserva y Pagar - MonkeyFoods{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+  <h2>Confirmar Reserva</h2>
+
+  <div class="card mb-3">
+    <div class="card-body">
+      <p><strong>Nombre de reserva:</strong> {{ reserva.nombre_reserva }}</p>
+      <p><strong>Fecha:</strong> {{ reserva.fecha }}</p>
+      <p><strong>Hora:</strong> {{ reserva.hora }}</p>
+      <p><strong>Zona:</strong> {{ reserva.zona.nombre }}</p>
+      <p><strong>Mesas seleccionadas:</strong>
+        <ul>
+          {% for mesa in reserva.mesas.all %}
+            <li>Mesa {{ mesa.numero }} (Capacidad: {{ mesa.capacidad }})</li>
+          {% endfor %}
+        </ul>
+      </p>
+      <p><strong>Comensales:</strong> {{ reserva.comensales }}</p>
+      <p><strong>Menú:</strong> {{ reserva.menu.nombre|default:"Sin menú asignado" }}</p>
+      <p><strong>Abono a pagar:</strong> ${{ reserva.abono }}</p>
+    </div>
+  </div>
+
+  <form method="POST" action="{% url 'checkout' reserva.id %}">
+    {% csrf_token %}
+    <button type="submit">Pagar</button>
+  </form>
+</div>
+{% endblock %}

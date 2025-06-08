@@ -1,38 +1,39 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.conf import settings
+from django.urls import reverse
 from apps.registrar.models import CustomUser
 from .forms import ReservaForm
 from .models import Reserva, Mesa
 from decimal import Decimal
 from datetime import datetime, timedelta
 from django.db.models import Q
+import stripe
 
 ABONO_PORCENTAJE = Decimal('0.3')
+stripe.api_key = settings.STRIPE_SECRET_KEY
 
 def reservas(request):
     return redirect('crear_reserva')
 
 @login_required
 def crear_reserva(request):
-
     reserva_borrador = Reserva.objects.filter(cliente=request.user, estado='borrador').first()
 
     if request.method == 'POST':
-        form = ReservaForm(request.POST, instance=reserva_borrador)  # si hay borrador, editarlo
+        form = ReservaForm(request.POST, instance=reserva_borrador)
         if form.is_valid():
             menu = form.cleaned_data.get('menu')
             comensales = int(form.cleaned_data.get('comensales'))
-            
-            ABONO_SIN_MENU = Decimal('5000')  # por ejemplo
-
-            abono = ((menu.precio * ABONO_PORCENTAJE) * comensales) if menu else ABONO_SIN_MENU
+            ABONO_SIN_MENU = Decimal('2000')
+            abono = ((menu.precio * ABONO_PORCENTAJE) * comensales) if menu else ABONO_SIN_MENU * comensales
 
             reserva = form.save(commit=False)
             reserva.cliente = request.user
             reserva.abono = abono
             reserva.estado = 'borrador'
             reserva.save()
-            
+
             request.session['reserva_id'] = reserva.id
             request.session['reserva_datos'] = {
                 'nombre_reserva': reserva.nombre_reserva,
@@ -56,17 +57,14 @@ def elegir_mesas(request, reserva_id):
     reserva = get_object_or_404(Reserva, id=reserva_id, cliente=request.user)
 
     zona = reserva.zona
-    menu = reserva.menu
     fecha = reserva.fecha
     hora = reserva.hora
     comensales = reserva.comensales
 
-    # Combinar fecha y hora en un datetime completo
     hora_inicio = datetime.combine(fecha, hora)
     hora_fin = hora_inicio + timedelta(hours=2)
     hora_limite_inferior = hora_inicio - timedelta(hours=2)
 
-    # Buscar reservas que se solapen en el rango de 2 horas (excepto la misma reserva actual)
     reservas_solapadas = Reserva.objects.filter(
         fecha=fecha,
         zona=zona
@@ -77,7 +75,6 @@ def elegir_mesas(request, reserva_id):
         )
     )
 
-    # Obtener los IDs de mesas ocupadas en esas reservas
     mesas_ocupadas_ids = Mesa.objects.filter(
         reserva__in=reservas_solapadas
     ).values_list('id', flat=True)
@@ -97,16 +94,14 @@ def elegir_mesas(request, reserva_id):
                 'capacidades_disponibles': sorted(set(m.capacidad for m in mesas)),
             })
 
-        # Actualizar la reserva existente
         reserva.mesas.set(Mesa.objects.filter(id__in=mesas_seleccionadas_ids))
-        reserva.estado = 'completada'
+        reserva.estado = 'pendiente_pago'
         reserva.save()
 
-        # Limpiar sesión
         request.session.pop('reserva_id', None)
         request.session.pop('reserva_datos', None)
 
-        return redirect('reserva_exito', reserva_id=reserva.id)
+        return redirect('reserva_checkout', reserva_id=reserva.id)
 
     return render(request, 'reservas/elegir_mesas.html', {
         'mesas': mesas,
@@ -114,9 +109,63 @@ def elegir_mesas(request, reserva_id):
         'capacidades_disponibles': sorted(set(m.capacidad for m in mesas)),
     })
 
+@login_required
+def reserva_checkout(request, reserva_id):
+    reserva = get_object_or_404(Reserva, id=reserva_id, cliente=request.user)
+    return render(request, 'reservas/reserva_checkout.html', {'reserva': reserva})
+
+@login_required
+def checkout(request, reserva_id):
+    reserva = get_object_or_404(Reserva, id=reserva_id, cliente=request.user)
+
+    if request.method == 'POST':
+        try:
+            success_url = request.build_absolute_uri(reverse('reserva_exito', args=[reserva.id]))
+            cancel_url = request.build_absolute_uri(reverse('reserva_fallo', args=[reserva.id]))
+
+            checkout_session = stripe.checkout.Session.create(
+                payment_method_types=['card'],
+                line_items=[{
+                    'price_data': {
+                        'currency': 'clp',
+                        'unit_amount': int(reserva.abono),
+                        'product_data': {
+                            'name': f'Reserva MonkeyFoods: {reserva.nombre_reserva}',
+                        },
+                    },
+                    'quantity': 1,
+                }],
+                mode='payment',
+                success_url=success_url,
+                cancel_url=cancel_url,
+                metadata={
+                    'reserva_id': reserva.id,
+                    'cliente_id': request.user.id
+                }
+            )
+
+            return redirect(checkout_session.url)
+
+        except Exception as e:
+            print("Error en Stripe:", str(e))
+            return redirect('reserva_fallo', reserva_id=reserva.id)
+
+    else:
+        return redirect('reserva_checkout', reserva_id=reserva.id)
+
 def reserva_exito(request, reserva_id):
     reserva = get_object_or_404(Reserva, id=reserva_id)
+    if reserva.estado != 'completada':
+        reserva.estado = 'completada'
+        reserva.save()
     return render(request, 'reservas/reserva_exito.html', {
+        'reserva': reserva,
+        'cliente': reserva.cliente,
+    })
+
+def reserva_fallo(request, reserva_id):
+    reserva = get_object_or_404(Reserva, id=reserva_id)
+    return render(request, 'reservas/reserva_fallo.html', {
         'reserva': reserva,
         'cliente': reserva.cliente,
     })
@@ -126,7 +175,6 @@ def historial_reservas(request):
     reservas = Reserva.objects.filter(cliente=request.user).order_by('-fecha', '-hora')
     return render(request, 'reservas/historial_reservas.html', {'reservas': reservas})
 
-# funciones admin
 def es_admin(user):
     return user.is_authenticated and user.rol == 4
 
@@ -142,10 +190,8 @@ def historial_usuario_admin(request, usuario_id):
 @user_passes_test(es_admin)
 def cancelar_reserva_admin(request, reserva_id):
     reserva = get_object_or_404(Reserva, id=reserva_id)
-    
     if reserva.estado != 'cancelada':
         reserva.estado = 'cancelada'
-        reserva.mesas.clear()  # <-- Aquí liberamos las mesas asociadas
+        reserva.mesas.clear()
         reserva.save()
-    
     return redirect('historial_usuario_admin', usuario_id=reserva.cliente.id)

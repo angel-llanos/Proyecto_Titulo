@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -178,3 +179,6 @@ EMAIL_PORT = 25                        # Puerto para conexión TLS
 EMAIL_USE_TLS = True                    # Usar TLS para seguridad
 EMAIL_HOST_USER = 'monkeyfoodsteam@gmail.com'  # Tu correo de Gmail (el que enviará los correos)
 EMAIL_HOST_PASSWORD = 'lljqnqxqfegjncng'    # La contraseña (o contraseña de aplicación) para esta cuenta
+
+STRIPE_SECRET_KEY = config('STRIPE_SECRET_KEY')
+STRIPE_PUBLIC_KEY = config('STRIPE_PUBLIC_KEY')

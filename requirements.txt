@@ -2,6 +2,7 @@
 Django>=5.0
 Pillow
 crispy-bootstrap5
+python-decouple
 
 # dependencias para login con google
 django-allauth
@@ -11,3 +12,5 @@ cryptography
 
 # dependencia para reservas
 django-widget-tweaks
+
+stripe

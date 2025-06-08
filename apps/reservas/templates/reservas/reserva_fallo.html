@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Pago no realizado</h2>
+  <p>Lo sentimos, tu pago para la reserva <strong>{{ reserva.nombre_reserva }}</strong> no pudo completarse.</p>
+  <p>Por favor, intenta nuevamente o contacta con soporte si el problema persiste.</p>
+
+  <h4>Detalles de la reserva:</h4>
+  <ul>
+    <li>Fecha: {{ reserva.fecha }}</li>
+    <li>Hora: {{ reserva.hora }}</li>
+    <li>Comensales: {{ reserva.comensales }}</li>
+    <li>Abono: ${{ reserva.abono }}</li>
+  </ul>
+
+  <a href="{% url 'reserva_checkout' reserva.id %}" class="btn btn-primary">Intentar pagar de nuevo</a>
+  <a href="{% url 'historial_reservas' %}" class="btn btn-secondary">Volver al historial</a>
+{% endblock %}
