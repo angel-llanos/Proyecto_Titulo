@@ -181,4 +181,4 @@ EMAIL_HOST_USER = 'monkeyfoodsteam@gmail.com'  # Tu correo de Gmail (el que envi
 EMAIL_HOST_PASSWORD = 'lljqnqxqfegjncng'    # La contraseña (o contraseña de aplicación) para esta cuenta
 
 STRIPE_SECRET_KEY = config('STRIPE_SECRET_KEY')
-STRIPE_PUBLIC_KEY = config('STRIPE_PUBLIC_KEY')
+STRIPE_PUBLISHABLE_KEY = config('STRIPE_PUBLISHABLE_KEY')
