@@ -109,6 +109,11 @@
                 <button type="button" class="btn btn-warning btn-lg boton" style="--bs-btn-font-size: 1.5rem;">Ver reservas</button>
             </a>
         {% endif %}
+         {% if request.user.rol == 3 %}
+            <a href="{% url 'reservas_cocinero' %}">
+                <button type="button" class="btn btn-warning btn-lg boton" style="--bs-btn-font-size: 1.5rem;">Ver pedidos</button>
+            </a>
+        {% endif %}
     </div>
 
     <!-- Titulo de el carrusel -->

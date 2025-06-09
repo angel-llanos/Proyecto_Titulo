@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'apps.reservas',
     'apps.menus',
     'apps.reservas_mesero',
+    'apps.reservas_cocinero',
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"

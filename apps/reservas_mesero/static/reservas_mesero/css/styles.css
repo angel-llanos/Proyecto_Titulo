@@ -1,0 +1,127 @@
+/* borde del navbar */
+.navbar-settings {
+    background-color: black;
+    border-bottom: 3px solid;
+    color: white;
+}
+/* boton de ingresar*/
+.btn-settings {
+    border-radius: 40px;
+}
+/* boton de historia*/
+.history {
+    border-radius: 40px;
+}
+/* marca monkey foods */
+.marca {
+    color: white;
+    font-weight: bold;
+    text-align: right;
+    background-size: 20%;
+    font-family: "Century Gothic", sans-serif;
+}
+
+.marca:hover {
+    color:#ffc107;
+    transition: 0.5s;
+}
+
+/* fondo de la pagina */
+.body-fondo{
+    background-image: url(../img/fondo.png);
+    background-size: cover;
+    background-position: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+.form-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.form-group {
+    flex: 1;
+    min-width: 150px;
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: white;
+}
+
+input[type="text"],
+input[type="date"],
+input[type="time"],
+input[type="number"],
+input[type="tel"],
+select,
+textarea {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background-color: white;
+    border: 1px solid #777;
+    border-radius: 5px;
+    color: black;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    border-color: #ffc107;
+    box-shadow: 0 0 6px #ffc107;
+    background-color: white;
+}
+
+.btn-warning {
+    background-color: #ffc107;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    padding: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-warning:hover {
+    background-color: #e0ac00;
+}
+
+.dropdown-perfil {
+    min-width: auto;
+    max-width: auto;
+    width: auto;
+}
+
+/* posición dropdown */
+.dropdown-menu.dropdown-perfil {
+    right: 0;
+    left: auto;
+    position: absolute;
+}
+
+/* Contenedor principal del formulario */
+.form-container {
+    max-width: 600px;
+    width: 90%;
+    display: grid;
+    color: white;
+    background-color: black;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 2rem auto;
+}
+
+/* Estilo de los inputs deshabilitados */
+.form-control[disabled] {
+    background-color: #333;
+    color: white;
+    border: 1px solid #777;
+    border-radius: 5px;
+}
