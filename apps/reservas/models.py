@@ -31,6 +31,7 @@ class Reserva(models.Model):
     telefono = models.CharField(max_length=20)
     comensales = models.PositiveIntegerField(default=1)
     abono = models.DecimalField(max_digits=8, decimal_places=2)
+    total = models.DecimalField(max_digits=8, decimal_places=2)
     mesas = models.ManyToManyField('Mesa')
     menu = models.ForeignKey(Menu, on_delete=models.SET_NULL, null=True, blank=True)  #modelo menú
     zona = models.ForeignKey('Zona', on_delete=models.CASCADE, null=True, blank=True)

@@ -32,12 +32,14 @@ def crear_reserva(request):
         if form.is_valid():
             menu = form.cleaned_data.get('menu')
             comensales = int(form.cleaned_data.get('comensales'))
-            ABONO_SIN_MENU = Decimal('2000')
+            ABONO_SIN_MENU = Decimal('3000')
             abono = ((menu.precio * ABONO_PORCENTAJE) * comensales) if menu else ABONO_SIN_MENU * comensales
-
+            total = ((menu.precio * comensales) - abono)
+            
             reserva = form.save(commit=False)
             reserva.cliente = request.user
             reserva.abono = abono
+            reserva.total = total
             reserva.estado = 'borrador'
             reserva.save()
 
@@ -51,6 +53,7 @@ def crear_reserva(request):
                 'menu_id': reserva.menu.id if reserva.menu else None,
                 'comensales': reserva.comensales,
                 'abono': str(abono),
+                'total': str(total)
             }
 
             return redirect('elegir_mesas', reserva_id=reserva.id)
