@@ -16,8 +16,6 @@ from django.db.models import Q
 import stripe
 from xhtml2pdf import pisa
 from io import BytesIO
-
-ABONO_PORCENTAJE = Decimal('0.3')
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 def reservas(request):
@@ -32,8 +30,7 @@ def crear_reserva(request):
         if form.is_valid():
             menu = form.cleaned_data.get('menu')
             comensales = int(form.cleaned_data.get('comensales'))
-            ABONO_SIN_MENU = Decimal('3000')
-            abono = ((menu.precio * ABONO_PORCENTAJE) * comensales) if menu else ABONO_SIN_MENU * comensales
+            abono = Decimal('4000') * comensales
             total = ((menu.precio * comensales) - abono)
             
             reserva = form.save(commit=False)
