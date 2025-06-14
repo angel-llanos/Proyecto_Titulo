@@ -16,6 +16,8 @@ from django.db.models import Q
 import stripe
 from xhtml2pdf import pisa
 from io import BytesIO
+from django.contrib import messages
+from django.utils.timezone import now
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 def reservas(request):
@@ -39,6 +41,8 @@ def crear_reserva(request):
             reserva.total = total
             reserva.estado = 'borrador'
             reserva.save()
+            messages.success(request, f'Reserva #{reserva.id} creada para {reserva.cliente.username}')
+            request.session['reserva_timestamp'] = now().timestamp()
 
             request.session['reserva_id'] = reserva.id
             request.session['reserva_datos'] = {
