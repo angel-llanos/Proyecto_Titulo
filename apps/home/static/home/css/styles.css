@@ -1,16 +1,14 @@
-/* borde del navbar */
+/* Evita scroll horizontal global */
+html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+/* NAVBAR */
 .navbar-settings {
     background-color: black;
     border-bottom: 3px solid;
     color: white;
-}
-/* boton de ingresar*/
-.btn-settings {
-    border-radius: 40px;
-}
-/* boton de historia*/
-.history {
-    border-radius: 40px;
 }
 
 .marca {
@@ -26,64 +24,178 @@
     transition: 0.5s;
 }
 
-/* fondo de la pagina */
+.btn-settings {
+    border-radius: 40px;
+}
+
+.history {
+    border-radius: 40px;
+}
+
+/* BODY/FONDO PÁGINA */
 .body-fondo{
-    background-image: url(../img/fondo.png);
     background-size: cover;
-    background-position: cover;
+    background-position: center;
     background-repeat: no-repeat;
     background-attachment: fixed;
+    margin: 0;
+    padding: 0;
 }
-/* titulo */
+
+/* titulo y botón de reserva */
+.reserva-div {
+    display: flex;
+    padding-top: 90px; /* Aumenta este valor para más espacio */
+    padding-bottom: 145px; /* Aumenta este valor para más espacio */
+    justify-content: flex-start; /* Alinea el contenido arriba */
+    position: relative;
+    background-image: url('../img/fondo.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    min-height: 300px;
+    flex-direction: column;
+    align-items: flex-start; /* Alinea todo a la izquierda */
+    color: white;
+    z-index: 1;
+    padding-left: 5%; /* Ajusta este valor según el margen deseado */
+    box-sizing: border-box; /* Asegura que el padding no afecte el ancho total */
+    border-bottom: 3px solid;
+}
+
+.reserva-div::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: inherit;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    filter: blur(1px);
+    z-index: -1;
+}
+
 .letras {
     margin-top: 50px;
-    margin-bottom: 50px;
-    text-transform: uppercase;
-    font-weight: bold;
-    color: black;
-    background-color: white;
-    margin-left: 20%;
-    margin-right: 20%;
-    text-align: center;
+    font-family: "Century Gothic", sans-serif;
+    margin-bottom: 30px;
+    font-weight: bolder;
+    color: white;
+    text-align: left; /* Alineación izquierda */
     border-radius: 10px;
-
+    margin-left: 0; /* Elimina el margin-left anterior */
+    margin-right: 0; /* Elimina el margin-right anterior */
+    width: auto; /* Ajusta al contenido */
 }
-/* centrar boton */
+
+.letras h1 {
+    font-size: 72px;
+    margin: 0;
+    max-width: 700px; /* Ajusta este valor según el largo deseado */
+    line-height: 1.1; /* Espaciado entre líneas (opcional) */
+    text-align: left; /* Alineación izquierda (como un párrafo) */
+}
+
+/* Botón */
 .boton {
     color: black;
-    text-transform: uppercase;
+    font-family: "Century Gothic", sans-serif;
     font-weight: bold;
-}
-/* Titulo del carrusel */
-.letra-carrusel{
-    margin-bottom: 20px;
-    text-transform: uppercase;
-    font-size: 36px;
-    font-weight: bold;
-    color:black;
-    background-color: #ffc107;
-    text-align: center;
-    border-radius: 10px;
-    margin-left: 25%;
-    margin-right: 25%;
+    margin-bottom: 50px;
 }
 
-/* carrusel */
+/* Carrusel y subtitulo */
+.reserva-div-2 {
+    background-color: black;
+    color: white;
+    padding: 60px 20px;
+    border-bottom: 3px solid;
+}
+
+/* Flexbox para las columnas */
+.contenedor-izq-der {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    max-width: 90%;
+    padding: 0 20px; /* margen interno para evitar que toque los bordes */
+    box-sizing: border-box;
+    margin: 0 auto;
+    gap: 50px;
+}
+
+/* Columna izquierda (texto) */
+.columna-izquierda {
+    flex: 1;
+    max-width: 600px;
+    padding-top: 20px;
+}
+
+/* Estilo del subtítulo */
+.letra-carrusel {
+    font-family: "Century Gothic", sans-serif;
+    font-size: 38px;
+    font-weight: bolder;
+    color: #ffc107;
+    text-align: left;
+    margin-bottom: 25px;
+}
+
+/* Párrafo descriptivo */
+.descripcion-restaurante {
+    font-family: "Century Gothic", sans-serif;
+    font-size: 22px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+/* Columna derecha (carrusel) */
+.columna-derecha {
+    flex: 1;
+    max-width: 900px;
+}
+
+/* Ajustes para el carrusel de Bootstrap */
 .carrusel {
     border-radius: 10px;
-    max-width: 900px;
-    height: 500px; /* altura fija para que todas se vean igual */
-    margin: 0 auto 20px auto;
     overflow: hidden;
-    position: relative;
-    margin-bottom: 60px;
+    height: 500px;
 }
 
 .carrusel img {
-    width: 100%;
+    object-fit: cover;
     height: 100%;
-    object-fit: cover; /* recorta la imagen para llenar todo el contenedor */
-    display: block;
+}
+
+/* Menús disponibles */
+.reserva-div-3 {
+    background-color: rgb(20, 20, 20);
+    color: white;
+    padding: 40px;
+    border-bottom: 3px solid;
+}
+
+.reserva-div-3 h2 {
+    text-transform: uppercase;
+    font-family: "Century Gothic", sans-serif;
+    font-size: 38px;
+    font-weight: bolder;
+    color: #ffc107;
+    text-align: left;
+    margin-bottom: 25px;
+}
+
+.reserva-div-3 p {
+    color: white;
+    text-align: center;
+    font-family: "Century Gothic", sans-serif;
+    font-size: 22px;
+    line-height: 1.6;
+    margin-bottom: 20px;
 }
 
 .dropdown-perfil {
@@ -98,78 +210,87 @@
     position: absolute;  /* Asegura que el dropdown se posicione correctamente */
 }
 
-/* MEDIA QUERY para móviles */
-@media (max-width: 768px) {
-    /* Ajustar márgenes y tamaño de los títulos */
-    .letras,
-    .letra-carrusel {
-        margin-left: 5%;
-        margin-right: 5%;
-        padding: 1rem;
-        font-size: 22px;
-    }
-
-    /* Ajustar el título principal directamente */
-    .letras h1 {
-        font-size: 32px; /* Reducimos más el tamaño en móvil */
-        line-height: 1.2;
-    }
-
-    /* Ajuste para botones */
-    .row {
-        margin-left: 15%;
-        margin-right: 15%;
-    }
-
-    .boton {
-        font-size: 1.2rem; /* Hacemos el texto del botón un poquito más pequeño */
-        padding: 10px 20px;
-    }
-
-    /* Botones del navbar */
-    .btn-settings,
-    .history {
-        padding: 8px 16px;
-        font-size: 0.9rem;
-    }
-
-    /* Carrusel responsivo */
-    .carrusel {
-        max-width: 100%;
-        height: 250px; /* Altura más amigable en móvil */
-    }
-
-    .carrusel img {
-        height: 100%;
-        object-fit: cover;
-    }
-
-    /* Marca del navbar */
-    .marca {
-        font-size: 18px;
-        text-align: center;
-    }
-
-    /* Footer */
-    footer .container {
-        padding: 2rem 1rem;
-    }
+/* Footer */
+.footer-triple {
+    background: black;
+    color: white;
+    font-family: "Century Gothic", sans-serif;
+    padding: 40px 0 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
 }
 
-/* MEDIA QUERY para móviles muy pequeños */
-@media (max-width: 576px) {
-    .letras h1 {
-        font-size: 28px; /* Más pequeño aún para celulares chicos */
-    }
+/* Contenedor de columnas */
+.footer-contenido {
+    display: flex;
+    justify-content: space-around;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    gap: 30px;
+}
 
-    .boton {
-        font-size: 1rem;
-        padding: 8px 16px;
-    }
+/* Columnas */
+.footer-columna {
+    width: 280px;
+    padding: 0 10px;
+    text-align: left;
+}
 
-    .btn-settings,
-    .history {
-        font-size: 0.8rem;
-        padding: 6px 12px;
-    }
+.footer-columna h3 {
+    color: #ffc107;
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+/* Enlaces */
+.footer-links,
+.redes-sociales {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-links li,
+.redes-sociales a {
+    margin-bottom: 10px;
+}
+
+.footer-links a,
+.redes-sociales a {
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.footer-links a:hover {
+    color: #ffc107;
+}
+
+.redes-sociales svg {
+    margin-right: 25px;
+    color: white;
+}
+
+.redes-sociales svg:hover {
+    color: #ffc107;
+    transition: color 0.3s;
+}
+
+/* Logo del footer */
+.footer-logo-container {
+    width: 100%;
+    text-align: center;
+    margin-top: 40px;
+    padding: 20px 0;
+    border-top: 1px solid #333333;
+}
+
+.footer-logo {
+    margin-top: 15px;
+    max-width: 300px;
+    height: auto;
+    filter: brightness(0) invert(1);
 }

@@ -8,13 +8,16 @@ from .forms import MenuForm
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
-# Vista pública o general de menús
-@login_required
 def menus(request):
-    if request.user.rol in [3,4]:  # admins ven todo
-        lista_menus = Menu.objects.all()
+    if request.user.is_authenticated:
+        if request.user.rol in [3, 4]:  # Admins y staff ven todo
+            lista_menus = Menu.objects.all()
+        else:
+            lista_menus = Menu.objects.filter(activo=True)
     else:
+        # Usuarios anónimos solo ven menús activos
         lista_menus = Menu.objects.filter(activo=True)
+
     context = {'menus': lista_menus}
     return render(request, 'menus/menus.html', context)
 
