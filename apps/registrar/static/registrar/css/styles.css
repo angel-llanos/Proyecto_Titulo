@@ -7,14 +7,13 @@
     background-attachment: fixed;
 }
 
-/* borde del navbar */
+/* NAVBAR */
 .navbar-settings {
     background-color: black;
     border-bottom: 3px solid;
     color: white;
 }
 
-/* marca monkey foods */
 .marca {
     color: white;
     font-weight: bold;
@@ -43,4 +42,89 @@
 
 .nav-tabs .nav-link.active {
     color: black !important;
+}
+
+/* Footer */
+.footer-triple {
+    background: black;
+    color: white;
+    font-family: "Century Gothic", sans-serif;
+    padding: 40px 0 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+/* Contenedor de columnas */
+.footer-contenido {
+    display: flex;
+    justify-content: space-around;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    gap: 30px;
+}
+
+/* Columnas */
+.footer-columna {
+    width: 280px;
+    padding: 0 10px;
+    text-align: left;
+}
+
+.footer-columna h3 {
+    color: #ffc107;
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+/* Enlaces */
+.footer-links,
+.redes-sociales {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-links li,
+.redes-sociales a {
+    margin-bottom: 10px;
+}
+
+.footer-links a,
+.redes-sociales a {
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.footer-links a:hover {
+    color: #ffc107;
+}
+
+.redes-sociales svg {
+    margin-right: 25px;
+    color: white;
+}
+
+.redes-sociales svg:hover {
+    color: #ffc107;
+    transition: color 0.3s;
+}
+
+/* Logo del footer */
+.footer-logo-container {
+    width: 100%;
+    text-align: center;
+    margin-top: 40px;
+    padding: 20px 0;
+    border-top: 1px solid #333333;
+}
+
+.footer-logo {
+    margin-top: 15px;
+    max-width: 300px;
+    height: auto;
+    filter: brightness(0) invert(1);
 }
