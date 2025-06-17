@@ -1,6 +1,6 @@
 /* fondo de la pagina */
 .body-fondo {
-    background-image: url(../img/fondo.png);
+    background-image: url(../img/fondo.jpg);
     background-size: cover;
     background-position: cover;
     background-repeat: no-repeat;

@@ -1,88 +1,17 @@
 {% extends "base.html" %}
+{% load static %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'registrar/css/elegir_mesas.css' %}">
+{% endblock %}
 
 {% block content %}
-<style>
-  .container {
-    max-width: 900px;
-    margin: 2rem auto;
-    display: flex;
-    gap: 2rem;
-    color: #222;
-  }
-  .left-panel, .right-panel {
-    background: #f0f0f0;
-    border-radius: 8px;
-    padding: 1rem 1.5rem;
-    box-shadow: 0 0 8px rgba(0,0,0,0.1);
-  }
-  .left-panel {
-    flex: 1;
-  }
-  .right-panel {
-    flex: 2;
-  }
-  h2 {
-    margin-top: 0;
-    color: #222;
-  }
-  .reserva-info p {
-    margin: 0.4rem 0;
-    font-size: 1.1rem;
-  }
-  .filters {
-    margin-bottom: 1rem;
-    display: flex;
-    gap: 1rem;
-  }
-  select {
-    padding: 0.3rem 0.6rem;
-    font-size: 1rem;
-  }
-  .mesas-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
-    gap: 10px;
-  }
-  .mesa-btn {
-    border: 2px solid #666;
-    background-color: #fff;
-    border-radius: 6px;
-    padding: 10px;
-    cursor: pointer;
-    user-select: none;
-    text-align: center;
-    font-weight: bold;
-    transition: background-color 0.3s, border-color 0.3s;
-  }
-  .mesa-btn.capacidad-2 { background-color: #d0f0fd; }
-  .mesa-btn.capacidad-4 { background-color: #c8f7c5; }
-  .mesa-btn.capacidad-6 { background-color: #fddac8; }
-  .mesa-btn.capacidad-8 { background-color: #f8d7e6; }
-  /* etc según capacidades que tengas */
-
-  .mesa-btn.selected {
-    background-color: #007bff;
-    color: white;
-    border-color: #0056b3;
-  }
-  .mesa-btn.unavailable {
-    background-color: #bbb;
-    color: #666;
-    cursor: not-allowed;
-    border-color: #999;
-  }
-  button[type="submit"] {
-    margin-top: 1rem;
-    padding: 0.6rem 1.2rem;
-    font-size: 1.1rem;
-    cursor: pointer;
-  }
-</style>
-
 <div class="container">
   <!-- Panel Izquierdo: Datos Reserva -->
   <div class="left-panel">
-    <h2>Datos de la Reserva</h2>
+    <h3 class="text-center mb-3 text-warning" style="font-family: 'Century Gothic', sans-serif; font-weight: bolder;">
+      DATOS DE LA RESERVA
+    </h3>
     <div class="reserva-info">
       <p><strong>Nombre de la reserva:</strong> {{ reserva.nombre_reserva }}</p>
       <p><strong>Fecha:</strong> {{ reserva.fecha }}</p>
@@ -90,14 +19,19 @@
       <p><strong>Zona:</strong> {{ reserva.zona.nombre }}</p>
       <p><strong>Comensales:</strong> {{ reserva.comensales }}</p>
       {% if reserva.menu %}
-      <p><strong>Menú:</strong> {{ reserva.menu }}</p>
+        <p><strong>Menú:</strong> {{ reserva.menu }}</p>
       {% endif %}
+      <p><strong>Total capacidad seleccionada:</strong> 
+        <span id="capacidadTotal" data-comensales="{{ reserva.comensales }}" data-margen-extra="0">0</span>
+      </p>
     </div>
   </div>
 
   <!-- Panel Derecho: Filtros y Selección de Mesas -->
   <div class="right-panel">
-    <h2>Selecciona las Mesas</h2>
+    <h2 class="mb-4 text-warning text-center" style="font-family: 'Century Gothic', sans-serif; font-weight: bolder;">
+      SELECCIONA LAS MESAS
+    </h2>
 
     {% if error %}
       <div style="color:red; margin-bottom: 1rem;">{{ error }}</div>
@@ -107,9 +41,8 @@
       {% csrf_token %}
 
       <div class="filters">
-        <!-- QUITAMOS el filtro Zona porque ya está seleccionada -->
         <label for="filtroCapacidad">Capacidad mínima:
-          <select id="filtroCapacidad" name="capacidad_min">
+          <select id="filtroCapacidad" name="capacidad_min" class="form-select d-inline-block w-auto ms-2">
             <option value="0">Cualquier capacidad</option>
             {% for c in capacidades_disponibles %}
               <option value="{{ c }}">{{ c }}+</option>
@@ -138,44 +71,13 @@
         {% endfor %}
       </div>
 
-      <button type="submit">Confirmar Mesas</button>
+      <div class="mt-4 text-center">
+        <button class="btn btn-warning" type="submit">Confirmar Mesas</button>
+      </div>
     </form>
   </div>
 </div>
 
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const filtroCapacidad = document.getElementById('filtroCapacidad');
-    const mesasGrid = document.getElementById('mesasGrid');
-
-    function filterMesas() {
-      const capacidadFiltro = parseInt(filtroCapacidad.value) || 0;
-
-      const mesas = mesasGrid.querySelectorAll('.mesa-btn');
-      mesas.forEach(mesa => {
-        const capacidad = parseInt(mesa.getAttribute('data-capacidad')) || 0;
-        const disponible = !mesa.classList.contains('unavailable');
-
-        let visible = true;
-        if (capacidadFiltro > 0 && capacidad < capacidadFiltro) visible = false;
-
-        mesa.style.display = visible ? 'block' : 'none';
-      });
-    }
-
-    filtroCapacidad.addEventListener('change', filterMesas);
-
-    filterMesas();
-
-    // Selector visual de mesas: clic en div.toggle checkbox y cambio de clase
-    mesasGrid.querySelectorAll('.mesa-btn').forEach(mesa => {
-      mesa.addEventListener('click', function() {
-        if (mesa.classList.contains('unavailable')) return; // no selectable
-        const checkbox = mesa.querySelector('input[type="checkbox"]');
-        checkbox.checked = !checkbox.checked;
-        mesa.classList.toggle('selected', checkbox.checked);
-      });
-    });
-  });
-</script>
+<!-- Script externo -->
+<script src="{% static 'reservas/js/elegir_mesas.js' %}"></script>
 {% endblock %}

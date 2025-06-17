@@ -8,7 +8,7 @@ class ReservaForm(forms.ModelForm):
     INTERVALO = timedelta(minutes=15)
 
     comensales = forms.ChoiceField(
-        choices=[(i, str(i)) for i in range(1, 21)],
+        choices=[(i, str(i)) for i in range(1, 13)],
         initial='1',
         label="Número de comensales",
         widget=forms.Select(attrs={'class': 'form-control select-comensales'})

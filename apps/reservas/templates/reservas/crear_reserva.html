@@ -5,89 +5,108 @@
 {% block extra_head %}
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
 <link rel="stylesheet" href="{% static 'reservas/css/styles.css' %}">
+<style>
+  .boton-volver {
+    text-decoration: none;
+    color: #ffc107;
+  }
+  .boton-volver:hover {
+    color: white;
+    text-decoration: none;
+  }
+</style>
 {% endblock %}
 
 {% block content %}
-<div class="form-container">
-    <h2 class="text-center mb-4">Crear Reserva</h2>
+<div class="container my-5">
+  <div class="mx-auto bg-black text-white p-4 rounded" style="max-width: 700px;">
+    <div class="mb-3 text-start">
+      <a href="{% url 'index' %}" class="boton-volver">&lt; Volver al inicio</a>
+    </div>
+
+    <h2 class="text-center mb-4" style="font-family: 'Century Gothic', sans-serif; font-weight: bolder; color: #ffc107;">
+      CREAR RESERVA
+    </h2>
+
     <form method="post" id="reservaForm" novalidate>
-        {% csrf_token %}
+      {% csrf_token %}
 
-        {% if form.non_field_errors %}
-        <div class="alert alert-danger">
-            {% for error in form.non_field_errors %}
-                <div>{{ error }}</div>
-            {% endfor %}
-        </div>
+      {% if form.non_field_errors %}
+      <div class="alert alert-danger">
+        {% for error in form.non_field_errors %}
+          <div>{{ error }}</div>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      <div class="mb-3">
+        <label for="{{ form.nombre_reserva.id_for_label }}" class="form-label">Nombre de la reserva*</label>
+        {{ form.nombre_reserva|add_class:"form-control" }}
+        {% if form.nombre_reserva.errors %}
+          <div class="text-danger small">{{ form.nombre_reserva.errors }}</div>
         {% endif %}
+      </div>
 
-        <div class="mb-3">
-            <label for="{{ form.nombre_reserva.id_for_label }}" class="form-label">Nombre de la reserva*</label>
-            {{ form.nombre_reserva|add_class:"form-control" }}
-            {% if form.nombre_reserva.errors %}
-                <div class="text-danger small">{{ form.nombre_reserva.errors }}</div>
-            {% endif %}
+      <div class="row mb-3">
+        <div class="col-md-6 mb-3 mb-md-0">
+          <label for="{{ form.fecha.id_for_label }}" class="form-label">Fecha*</label>
+          {{ form.fecha|add_class:"form-control" }}
+          {% if form.fecha.errors %}
+            <div class="text-danger small">{{ form.fecha.errors }}</div>
+          {% endif %}
         </div>
-
-        <div class="row mb-3">
-            <div class="col-md-6">
-                <label for="{{ form.fecha.id_for_label }}" class="form-label">Fecha*</label>
-                {{ form.fecha|add_class:"form-control" }}
-                {% if form.fecha.errors %}
-                    <div class="text-danger small">{{ form.fecha.errors }}</div>
-                {% endif %}
-            </div>
-            <div class="col-md-6">
-                <label for="{{ form.hora.id_for_label }}" class="form-label">Hora*</label>
-                {{ form.hora|add_class:"form-select" }}
-                {% if form.hora.errors %}
-                    <div class="text-danger small">{{ form.hora.errors }}</div>
-                {% endif %}
-            </div>
+        <div class="col-md-6">
+          <label for="{{ form.hora.id_for_label }}" class="form-label">Hora*</label>
+          {{ form.hora|add_class:"form-select" }}
+          {% if form.hora.errors %}
+            <div class="text-danger small">{{ form.hora.errors }}</div>
+          {% endif %}
         </div>
+      </div>
 
-        <div class="mb-3">
-            <label for="{{ form.telefono.id_for_label }}" class="form-label">Teléfono*</label>
-            {{ form.telefono|add_class:"form-control" }}
-            {% if form.telefono.errors %}
-                <div class="text-danger small">{{ form.telefono.errors }}</div>
-            {% endif %}
+      <div class="mb-3">
+        <label for="{{ form.telefono.id_for_label }}" class="form-label">Teléfono*</label>
+        {{ form.telefono|add_class:"form-control" }}
+        {% if form.telefono.errors %}
+          <div class="text-danger small">{{ form.telefono.errors }}</div>
+        {% endif %}
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-md-6 mb-3 mb-md-0">
+          <label for="{{ form.zona.id_for_label }}" class="form-label">Zona*</label>
+          {{ form.zona|add_class:"form-select" }}
+          {% if form.zona.errors %}
+            <div class="text-danger small">{{ form.zona.errors }}</div>
+          {% endif %}
         </div>
-
-        <div class="row mb-3">
-            <div class="col-md-6">
-                <label for="{{ form.zona.id_for_label }}" class="form-label">Zona*</label>
-                {{ form.zona|add_class:"form-select" }}
-                {% if form.zona.errors %}
-                    <div class="text-danger small">{{ form.zona.errors }}</div>
-                {% endif %}
-            </div>
-            <div class="col-md-6">
-                <label for="{{ form.menu.id_for_label }}" class="form-label">Menú (opcional)</label>
-                <select name="{{ form.menu.name }}" class="form-select" id="{{ form.menu.id_for_label }}">
-                    <option value="" {% if not form.menu.value %}selected{% endif %}>Sin menú (elegiré en el local)</option>
-                    {% for option in form.menu.field.queryset %}
-                        <option value="{{ option.pk }}" {% if option.pk|stringformat:"s" == form.menu.value|stringformat:"s" %}selected{% endif %}>
-                            {{ option }}
-                        </option>
-                    {% endfor %}
-                </select>
-                {% if form.menu.errors %}
-                    <div class="text-danger small">{{ form.menu.errors }}</div>
-                {% endif %}
-            </div>
+        <div class="col-md-6">
+          <label for="{{ form.menu.id_for_label }}" class="form-label">Menú (opcional)</label>
+          <select name="{{ form.menu.name }}" class="form-select" id="{{ form.menu.id_for_label }}">
+            <option value="" {% if not form.menu.value %}selected{% endif %}>Sin menú (elegiré en el local)</option>
+            {% for option in form.menu.field.queryset %}
+              <option value="{{ option.pk }}" {% if option.pk|stringformat:"s" == form.menu.value|stringformat:"s" %}selected{% endif %}>
+                {{ option }}
+              </option>
+            {% endfor %}
+          </select>
+          {% if form.menu.errors %}
+            <div class="text-danger small">{{ form.menu.errors }}</div>
+          {% endif %}
         </div>
+      </div>
 
-        <div class="mb-3">
-            <label for="{{ form.comensales.id_for_label }}" class="form-label">Comensales*</label>
-            {{ form.comensales|add_class:"form-select" }}
-            {% if form.comensales.errors %}
-                <div class="text-danger small">{{ form.comensales.errors }}</div>
-            {% endif %}
-        </div>
+      <div class="mb-4">
+        <label for="{{ form.comensales.id_for_label }}" class="form-label">Comensales*</label>
+        {{ form.comensales|add_class:"form-select" }}
+        {% if form.comensales.errors %}
+          <div class="text-danger small">{{ form.comensales.errors }}</div>
+        {% endif %}
+      </div>
 
-        <button type="submit" class="btn btn-warning w-100">Continuar y Elegir Mesas</button>
+      <button type="submit" class="btn btn-warning w-100">Continuar y Elegir Mesas</button>
     </form>
+  </div>
 </div>
 {% endblock %}
 
@@ -96,12 +115,11 @@
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script src="{% static 'reservas/js/reservas.js' %}"></script>
 <script>
-    // Inicializar Select2 para los select que quieras, por ejemplo menu y zona
-    $(document).ready(function() {
-        $('#id_menu').select2({width: '100%'});
-        $('#id_zona').select2({width: '100%'});
-        $('#id_comensales').select2({width: '100%'});
-        $('#id_hora').select2({width: '100%'});
-    });
+  $(document).ready(function () {
+    $('#id_menu').select2({ width: '100%' });
+    $('#id_zona').select2({ width: '100%' });
+    $('#id_comensales').select2({ width: '100%' });
+    $('#id_hora').select2({ width: '100%' });
+  });
 </script>
 {% endblock %}

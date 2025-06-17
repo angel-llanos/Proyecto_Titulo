@@ -7,7 +7,25 @@
 
 {% block content %}
 <div class="form-container">
-    <h2 class="text-center mb-4">Modificar Menú: {{ menu.nombre }}</h2>
+
+    <div style="display: flex;">
+        <style>
+            .boton-volver {
+                text-decoration: none;
+                color: #ffc107;
+            }
+            .boton-volver:hover {
+                color: white;
+                text-decoration: none;
+            }
+        </style>
+        <a href="{% url 'menus' %}" class="boton-volver">
+            <p>&lt; Volver a menús</p>
+        </a>
+    </div>
+    
+    <h2 class="text-center mb-4" style="font-family: 'Century Gothic', sans-serif; font-weight: bolder; color: #ffc107">MODIFICAR MENÚ</h2>
+    <h3 class="text-center mb-4">{{ menu.nombre }}</h2>
 
     <form method="post" enctype="multipart/form-data" novalidate>
         {% csrf_token %}

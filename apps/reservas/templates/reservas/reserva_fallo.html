@@ -1,18 +1,35 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h2>Pago no realizado</h2>
-  <p>Lo sentimos, tu pago para la reserva <strong>{{ reserva.nombre_reserva }}</strong> no pudo completarse.</p>
-  <p>Por favor, intenta nuevamente o contacta con soporte si el problema persiste.</p>
+<div class="container my-5">
+  <div class="mx-auto p-4 rounded bg-black text-white" style="max-width: 600px;">
+    <h2 class="text-center text-danger fw-bold mb-4" style="font-family: 'Century Gothic', sans-serif;">
+      PAGO NO REALIZADO.
+    </h2>
+    <div class="text-center fs-5">
+      <p>Lo sentimos, tu pago para la reserva <strong>{{ reserva.nombre_reserva }}</strong> no pudo completarse.</p>
+      <p>Por favor, intenta nuevamente o contacta con soporte si el problema persiste.</p>
+    </div>
 
-  <h4>Detalles de la reserva:</h4>
-  <ul>
-    <li>Fecha: {{ reserva.fecha }}</li>
-    <li>Hora: {{ reserva.hora }}</li>
-    <li>Comensales: {{ reserva.comensales }}</li>
-    <li>Abono: ${{ reserva.abono }}</li>
-  </ul>
+    <h4 class="text-warning text-center mb-4 mt-4">Detalles de la reserva:</h4>
+    <p><strong>Fecha:</strong> {{ reserva.fecha }}</p>
+    <p><strong>Hora:</strong> {{ reserva.hora }}</p>
+    <p><strong>Teléfono:</strong> {{ reserva.telefono }}</p>
+    <p><strong>Abono a pagar:</strong> ${{ reserva.abono }}</p>
+    <p><strong>Mesas reservadas:</strong></p>
+    <ul class="text-warning">
+      {% for mesa in reserva.mesas.all %}
+      <li>{{ mesa.numero }} (Capacidad: {{ mesa.capacidad }})</li>
+      {% empty %}
+      <li>No hay mesas asignadas</li>
+      {% endfor %}
+    </ul>
 
-  <a href="{% url 'reserva_checkout' reserva.id %}" class="btn btn-primary">Intentar pagar de nuevo</a>
-  <a href="{% url 'historial_reservas' %}" class="btn btn-secondary">Volver al historial</a>
+    <div class="d-flex flex-column flex-md-row justify-content-center align-items-center gap-3 mt-4">
+      <a href="{% url 'reserva_checkout' reserva.id %}" class="btn btn-warning">Intentar pagar de nuevo</a>
+      <a href="{% url 'index' %}" class="btn btn-secondary">Volver al inicio</a>
+    </div>
+
+  </div>
+</div>
 {% endblock %}

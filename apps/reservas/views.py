@@ -6,7 +6,6 @@ from django.core.mail import EmailMessage
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.conf import settings
 from django.urls import reverse
-from django.contrib.staticfiles import finders
 from apps.registrar.models import CustomUser
 from .forms import ReservaForm
 from .models import Reserva, Mesa
@@ -33,14 +32,21 @@ def crear_reserva(request):
             menu = form.cleaned_data.get('menu')
             comensales = int(form.cleaned_data.get('comensales'))
             abono = Decimal('4000') * comensales
-            total = ((menu.precio * comensales) - abono)
-            
+
+            # Manejo de total dependiendo si se seleccionó un menú o no
+            if menu:
+                total = (menu.precio * comensales) - abono
+            else:
+                # Por ejemplo, si no hay menú, solo se cobra el abono como total
+                total = abono
+
             reserva = form.save(commit=False)
             reserva.cliente = request.user
             reserva.abono = abono
             reserva.total = total
             reserva.estado = 'borrador'
             reserva.save()
+
             messages.success(request, f'Reserva #{reserva.id} creada para {reserva.cliente.username}')
             request.session['reserva_timestamp'] = now().timestamp()
 
@@ -80,10 +86,7 @@ def elegir_mesas(request, reserva_id):
         fecha=fecha,
         zona=zona
     ).exclude(id=reserva.id).filter(
-        Q(
-            hora__gte=hora_limite_inferior.time(),
-            hora__lt=hora_fin.time()
-        )
+        Q(hora__gte=hora_limite_inferior.time(), hora__lt=hora_fin.time())
     )
 
     mesas_ocupadas_ids = Mesa.objects.filter(
@@ -91,28 +94,43 @@ def elegir_mesas(request, reserva_id):
     ).values_list('id', flat=True)
 
     mesas = Mesa.objects.filter(zona=zona).all()
-
     for mesa in mesas:
-        mesa.disponible = (mesa.id not in mesas_ocupadas_ids) and (mesa.capacidad >= comensales)
+        mesa.disponible = mesa.id not in mesas_ocupadas_ids
 
     if request.method == "POST":
         mesas_seleccionadas_ids = request.POST.getlist('mesas')
-        if not mesas_seleccionadas_ids:
+        mesas_seleccionadas = Mesa.objects.filter(id__in=mesas_seleccionadas_ids)
+        capacidad_total = sum(mesa.capacidad for mesa in mesas_seleccionadas)
+
+        if not mesas_seleccionadas:
+            error = "Debes seleccionar al menos una mesa."
+        elif any(int(mesa.id) in mesas_ocupadas_ids for mesa in mesas_seleccionadas):
             return render(request, 'reservas/elegir_mesas.html', {
                 'mesas': mesas,
-                'error': "Debes seleccionar al menos una mesa.",
                 'reserva': reserva,
+                'error': "Una o más mesas seleccionadas ya no están disponibles.",
                 'capacidades_disponibles': sorted(set(m.capacidad for m in mesas)),
             })
+        elif capacidad_total < comensales:
+            error = f"La capacidad total de las mesas seleccionadas ({capacidad_total}) no cubre los {comensales} comensales."
+        elif capacidad_total > comensales + 2:
+            error = f"La capacidad total de las mesas seleccionadas ({capacidad_total}) excede demasiado los {comensales} comensales. Reduce la cantidad de mesas."
+        else:
+            # OK
+            reserva.mesas.set(mesas_seleccionadas)
+            reserva.estado = 'pendiente_pago'
+            reserva.save()
+            request.session.pop('reserva_id', None)
+            request.session.pop('reserva_datos', None)
+            return redirect('reserva_checkout', reserva_id=reserva.id)
 
-        reserva.mesas.set(Mesa.objects.filter(id__in=mesas_seleccionadas_ids))
-        reserva.estado = 'pendiente_pago'
-        reserva.save()
-
-        request.session.pop('reserva_id', None)
-        request.session.pop('reserva_datos', None)
-
-        return redirect('reserva_checkout', reserva_id=reserva.id)
+        # Si hubo error:
+        return render(request, 'reservas/elegir_mesas.html', {
+            'mesas': mesas,
+            'reserva': reserva,
+            'capacidades_disponibles': sorted(set(m.capacidad for m in mesas)),
+            'error': error,
+        })
 
     return render(request, 'reservas/elegir_mesas.html', {
         'mesas': mesas,

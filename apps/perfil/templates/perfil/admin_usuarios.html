@@ -97,7 +97,28 @@
 
     <div class="form-container">
         <div class="container mb-2">
-            <h2 class="text-white text-center mb-3">Lista de Usuarios</h2>
+
+            <div class="text-start">
+                <!-- css hipervínculo inferior / no cambiar, por favor.-->
+                <style>
+                    .boton-volver {
+                        text-decoration: none;
+                        color: #ffc107;
+                    }
+
+                    .boton-volver:hover {
+                        color: white;
+                        text-decoration: none;
+                    }
+                </style>
+
+                <a href="{% url 'index' %}" class="boton-volver" style="margin: auto; padding: auto;">
+                    <p>
+                        < Volver al inicio </p>
+                </a>
+            </div>
+
+            <h2 class="text-center mb-3" style="font-family: 'Century Gothic', sans-serif; font-weight: bolder; color: #ffc107">LISTA DE USUARIOS</h2>
             <div class="accordion" id="accordionUsuarios">
                 {% for u in usuarios %}
                 <div class="accordion-item">

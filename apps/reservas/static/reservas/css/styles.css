@@ -1,18 +1,16 @@
-/* borde del navbar */
+/* Evita scroll horizontal global */
+html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+/* NAVBAR */
 .navbar-settings {
     background-color: black;
     border-bottom: 3px solid;
     color: white;
 }
-/* boton de ingresar*/
-.btn-settings {
-    border-radius: 40px;
-}
-/* boton de historia*/
-.history {
-    border-radius: 40px;
-}
-/* marca monkey foods */
+
 .marca {
     color: white;
     font-weight: bold;
@@ -26,9 +24,16 @@
     transition: 0.5s;
 }
 
+.btn-settings {
+    border-radius: 40px;
+}
+
+.history {
+    border-radius: 40px;
+}
+
 /* fondo de la pagina */
-.body-fondo{
-    background-image: url(../img/fondo.png);
+body {
     background-size: cover;
     background-position: cover;
     background-repeat: no-repeat;
