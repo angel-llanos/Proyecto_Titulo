@@ -36,34 +36,38 @@ class ReservaForm(forms.ModelForm):
         self.fields['menu'].queryset = Menu.objects.all().only('id', 'nombre')
         self.fields['menu'].required = False
 
-        #generar horas disponibles cada 15 minutos (11:00 - 00:00))
         horas = []
         actual = datetime.combine(datetime.today(), self.HORA_INICIO)
         fin = datetime.combine(datetime.today(), time(0, 0)) + timedelta(days=1)
 
         while actual < fin:
             hora_texto = actual.strftime('%H:%M')
-            hora_obj = actual.time()
-            horas.append((hora_texto, hora_texto))  #key y label iguales
+            horas.append((hora_texto, hora_texto))
             actual += self.INTERVALO
 
         self.fields['hora'].choices = horas
 
-        #hora iniciol por defecto con intervalo disponible
         if not self.is_bound:
             now = datetime.now()
-            minuto = ((now.minute + 14) // 15) * 15  # próximo cuarto de hora
-            if minuto == 60:
-                now = now.replace(hour=now.hour + 1, minute=0)
+            minute = ((now.minute + 14) // 15) * 15
+            now = now.replace(second=0, microsecond=0)
+
+            if minute == 60:
+                if now.hour == 23:
+                    now = now.replace(hour=0, minute=0) + timedelta(days=1)
+                else:
+                    now = now.replace(hour=now.hour + 1, minute=0)
             else:
-                now = now.replace(minute=minuto)
+                now = now.replace(minute=minute)
+
             if now.time() < self.HORA_INICIO:
                 now = now.replace(hour=11, minute=0)
-            elif now.time() >= time(0, 0):
-                #si pasa las 12, se mueve al día siguiente
+            elif now.time() < time(11, 0) or now.time() >= time(0, 0) and now.time() < self.HORA_INICIO:
                 now = datetime.combine(now.date() + timedelta(days=1), self.HORA_INICIO)
+
             self.initial['fecha'] = now.date()
             self.initial['hora'] = now.strftime('%H:%M')
+
 
     def clean(self):
         cleaned_data = super().clean()
