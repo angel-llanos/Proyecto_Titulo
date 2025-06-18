@@ -163,3 +163,29 @@ html, body {
     height: auto;
     filter: brightness(0) invert(1);
 }
+
+/* Estilo general del contenedor derecho */
+.historia-wrapper {
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* Componente interior */
+.container-box {
+    background-color: black;
+    color: white;
+    border-radius: 10px;
+    max-width: 600px;
+    width: 100%;
+}
+
+/* Responsividad en móviles */
+@media (max-width: 768px) {
+    .historia-wrapper {
+        justify-content: center;
+    }
+
+    .container-box {
+        margin: 1rem 0;
+    }
+}

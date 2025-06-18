@@ -44,7 +44,9 @@
                     <div class="nav-item dropdown dropdown-perfil me-2">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
                             {% if user.foto_perfil %}
-                            <img src="{{ user.foto_perfil.url }}" alt="Foto de perfil" style="margin: auto; border-radius: 50%; border: 1px solid #ffc107;" width="36" height="36">
+                            <img src="{{ user.foto_perfil.url }}" alt="Foto de perfil"
+                                style="margin: auto; border-radius: 50%; border: 1px solid #ffc107;" width="36"
+                                height="36">
                             {% else %}
                             <svg xmlns="http://www.w3.org/2000/svg" style="color: #ffc107" width="36" height="36"
                                 fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
@@ -60,7 +62,8 @@
                             </li>
                             <li><a class="dropdown-item" href="{% url 'perfil' %}">Mi perfil</a></li>
                             {% if request.user.rol == 4 %}
-                            <li><a class="dropdown-item" href="" onclick="location.reload(); return false;">Usuarios</a></li>
+                            <li><a class="dropdown-item" href="" onclick="location.reload(); return false;">Usuarios</a>
+                            </li>
                             {% endif %}
                             <li><a class="dropdown-item" href="{% url 'exit' %}">Salir</a></li>
                         </ul>
@@ -88,18 +91,18 @@
 
     {% if messages %}
     {% for message in messages %}
-        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
         {{ message }}
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
-        </div>
+    </div>
     {% endfor %}
     {% endif %}
 
     <div class="form-container">
-        <div class="container mb-2">
+        <div class="container mb-4 px-3">
 
-            <div class="text-start">
-                <!-- css hipervínculo inferior / no cambiar, por favor.-->
+            <div class="text-start mb-3">
+                <!-- css hipervínculo inferior / no cambiar, por favor. -->
                 <style>
                     .boton-volver {
                         text-decoration: none;
@@ -112,23 +115,28 @@
                     }
                 </style>
 
-                <a href="{% url 'index' %}" class="boton-volver" style="margin: auto; padding: auto;">
-                    <p>
-                        < Volver al inicio </p>
+                <a href="{% url 'index' %}" class="boton-volver d-inline-block">
+                    <p class="mb-0">&lt; Volver al inicio</p>
                 </a>
             </div>
 
-            <h2 class="text-center mb-3" style="font-family: 'Century Gothic', sans-serif; font-weight: bolder; color: #ffc107">LISTA DE USUARIOS</h2>
+            <h2 class="text-center mb-4"
+                style="font-family: 'Century Gothic', sans-serif; font-weight: bolder; color: #ffc107">
+                LISTA DE USUARIOS
+            </h2>
+
             <div class="accordion" id="accordionUsuarios">
                 {% for u in usuarios %}
-                <div class="accordion-item">
+                <div class="accordion-item mb-2">
                     <h2 class="accordion-header" id="heading{{ u.id }}">
-                        <button class="accordion-button collapsed d-flex align-items-center gap-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ u.id }}">
+                        <button class="accordion-button collapsed d-flex flex-wrap align-items-center gap-2"
+                            type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ u.id }}">
                             {% if u.foto_perfil %}
-                            <img src="{{ u.foto_perfil.url }}" alt="Foto de perfil" width="40" height="40" class="rounded-circle">
+                            <img src="{{ u.foto_perfil.url }}" alt="Foto de perfil" width="40" height="40"
+                                class="rounded-circle">
                             {% else %}
-                            <svg xmlns="http://www.w3.org/2000/svg" style="color: #ffc107" fill="currentColor" width="40" height="40"
-                                class="bi bi-person-circle rounded-circle" viewBox="0 0 16 16">
+                            <svg xmlns="http://www.w3.org/2000/svg" style="color: #ffc107" fill="currentColor"
+                                width="40" height="40" class="bi bi-person-circle rounded-circle" viewBox="0 0 16 16">
                                 <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
                                 <path fill-rule="evenodd"
                                     d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1" />
@@ -137,37 +145,39 @@
                             <span>{{ u.username }} ({{ u.get_rol_display }})</span>
                         </button>
                     </h2>
-                    <div id="collapse{{ u.id }}" class="accordion-collapse collapse" data-bs-parent="#accordionUsuarios">
+                    <div id="collapse{{ u.id }}" class="accordion-collapse collapse"
+                        data-bs-parent="#accordionUsuarios">
                         <div class="accordion-body">
                             <p><strong>Nombre:</strong> {{ u.first_name }} {{ u.last_name }}</p>
                             <p><strong>Correo electrónico:</strong> {{ u.email }}</p>
 
-                            <!-- solo se le puede cambiar el rol a trabajadores, no a clientes -->
                             {% if u.rol != 1 %}
-                            <form method="POST" action="{% url 'cambiar_rol' u.id %}" class="mb-2">
+                            <form method="POST" action="{% url 'cambiar_rol' u.id %}" class="mb-3">
                                 {% csrf_token %}
                                 <div class="input-group">
                                     <select name="nuevo_rol" class="form-select">
                                         {% for valor, nombre in u.ROL_CHOICES %}
-                                            {% if valor != 1 or valor == u.rol %}
-                                                <option value="{{ valor }}" {% if valor == u.rol %}selected{% endif %}>{{ nombre }}</option>
-                                            {% endif %}
+                                        {% if valor != 1 or valor == u.rol %}
+                                        <option value="{{ valor }}" {% if valor == u.rol %}selected{% endif %}>{{ nombre
+                                            }}</option>
+                                        {% endif %}
                                         {% endfor %}
                                     </select>
                                     <button class="btn btn-warning" type="submit">Actualizar Rol</button>
                                 </div>
                             </form>
-                            <div class="d-flex gap-3" style="text-align: center;">
-                                <!-- eliminar usuario -->
+
+                            <div class="d-flex flex-column flex-sm-row gap-2">
                                 <form method="POST" action="{% url 'eliminar_usuario' u.id %}">
                                     {% csrf_token %}
-                                    <button class="btn btn-danger" onclick="return confirm('¿Estás seguro de eliminar este usuario?')">Eliminar Usuario</button>
+                                    <button class="btn btn-danger w-100"
+                                        onclick="return confirm('¿Estás seguro de eliminar este usuario?')">Eliminar Usuario</button>
                                 </form>
                             </div>
                             {% else %}
-                            <div class="d-flex gap-3" style="text-align: center;">
-                                <a href="{% url 'historial_usuario_admin' u.id %}">
-                                    <button class="btn btn-warning">Ver reservas</button>
+                            <div class="d-flex flex-column flex-sm-row gap-2">
+                                <a href="{% url 'historial_usuario_admin' u.id %}" class="w-100">
+                                    <button class="btn btn-warning w-100">Ver reservas</button>
                                 </a>
                             </div>
                             {% endif %}
@@ -175,13 +185,16 @@
                     </div>
                 </div>
                 {% empty %}
-                <p class="text-center" style="font-size: 18px; color: grey; font-style: italic;">No hay otros usuarios registrados.</p>
+                <p class="text-center text-muted fst-italic mt-4" style="font-size: 18px;">
+                    No hay otros usuarios registrados.
+                </p>
                 {% endfor %}
             </div>
         </div>
     </div>
 
     {% endblock %}
+
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl5/0U5Y1Uhe5z4K0P/dFYi5PUFEnFUn9LohPybU8a"

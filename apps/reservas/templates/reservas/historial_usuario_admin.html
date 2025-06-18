@@ -1,22 +1,39 @@
-<!-- reservas/templates/reservas/historial_usuario_admin.html -->
-{% extends 'base.html' %}
+{% extends "base.html" %}
 {% load static %}
+
 {% block content %}
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'reservas/css/styles.css' %}">
+<style>
+  /* Opcional: mejora la visibilidad del contenido en pantallas pequeñas */
+  .accordion-button {
+    font-size: 1rem;
+  }
+  .accordion-body p {
+    margin-bottom: 0.5rem;
+  }
+</style>
+{% endblock %}
 
 <div class="form-container">
-  <div class="container mb-2">
-    <h2 class="text-white text-center mb-3">Historial de Reservas de {{ usuario.username }}</h2>
+  <div class="container mb-4 px-3">
+    <a href="{% url 'admin_usuarios' %}" class="text-warning text-decoration-none mb-3 d-block">&lt; Volver a usuarios</a>
+
+    <h2 class="text-warning text-center mb-4" style="font-family: 'Century Gothic', sans-serif; font-weight: bolder;">
+      Historial de Reservas de {{ usuario.username }}
+    </h2>
+
     <div class="accordion" id="accordionReservas">
       {% for reserva in reservas %}
-      <div class="accordion-item">
+      <div class="accordion-item mb-2">
         <h2 class="accordion-header" id="heading{{ reserva.id }}">
           <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ reserva.id }}">
-            Reserva #{{ reserva.id }} - {{ reserva.fecha }} {{ reserva.hora }}
+            Reserva #{{ reserva.id_reserva }} - {{ reserva.fecha }} {{ reserva.hora }}
           </button>
         </h2>
         <div id="collapse{{ reserva.id }}" class="accordion-collapse collapse" data-bs-parent="#accordionReservas">
           <div class="accordion-body">
-            <p><strong>ID:</strong> {{ reserva.id }}</p>
+            <p><strong>ID:</strong> #{{ reserva.id_reserva }}</p>
             <p><strong>Fecha:</strong> {{ reserva.fecha }}</p>
             <p><strong>Hora:</strong> {{ reserva.hora }}</p>
             <p><strong>Mesas:</strong> 
@@ -26,21 +43,23 @@
                 Sin mesas asignadas
               {% endfor %}
             </p>
+
             {% if reserva.menu %}
-            <p><strong>Menú:</strong> {{ reserva.menu.nombre }} (${{ reserva.menu.precio }})</p>
+              <p><strong>Menú:</strong> {{ reserva.menu.nombre }} (${{ reserva.menu.precio }})</p>
             {% else %}
-            <p><strong>Sin menú elegido</strong></p>
+              <p><strong>Sin menú elegido</strong></p>
             {% endif %}
+
             <p><strong>Abono:</strong> ${{ reserva.abono }}</p>
             <p><strong>Estado:</strong> {{ reserva.estado|capfirst }}</p>
 
             {% if reserva.estado != 'cancelada' %}
-            <form method="post" action="{% url 'cancelar_reserva_admin' reserva.id %}" style="display:inline;">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de cancelar esta reserva?');">Cancelar Reserva</button>
+            <form method="post" action="{% url 'cancelar_reserva_admin' reserva.id %}" class="d-inline">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-danger btn-sm mt-2" onclick="return confirm('¿Estás seguro de cancelar esta reserva?');">Cancelar Reserva</button>
             </form>
             {% else %}
-            <span class="badge bg-secondary">Reserva Cancelada</span>
+            <span class="badge bg-secondary mt-2 d-inline-block">Reserva Cancelada</span>
             {% endif %}
           </div>
         </div>
@@ -51,5 +70,4 @@
     </div>
   </div>
 </div>
-
 {% endblock %}

@@ -82,24 +82,11 @@
 
     <!-- contenedor del formulario de creación de menú -->
     <div class="form-container">
-        <!-- boton para volver -->
-        <div style="display: flex;">
-            <style>
-                .boton-volver {
-                    text-decoration: none;
-                    color: #ffc107;
-                }
-                .boton-volver:hover {
-                    color: white;
-                    text-decoration: none;
-                }
-            </style>
-            <a href="{% url 'menus' %}" class="boton-volver">
-                <p>&lt; Volver a menús</p>
-            </a>
-        </div>
 
-        <h2 class="text-center mb-4" style="font-family: 'Century Gothic', sans-serif; font-weight: bolder; color: #ffc107">AGREGAR NUEVO MENÚ</h2>
+        <!-- botón para volver -->
+        <a href="{% url 'menus' %}" class="text-warning" style="text-decoration: none;">&lt; Volver a menús</a>
+
+        <h2 class="text-warning text-center mt-4 mb-4" style="font-family: 'Century Gothic', sans-serif; font-weight: bolder;">AGREGAR NUEVO MENÚ</h2>
 
         <form method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
             {% csrf_token %}
@@ -107,25 +94,19 @@
             <div class="mb-3">
                 <label for="{{ form.nombre.id_for_label }}" class="form-label">Nombre</label>
                 {{ form.nombre }}
-                <div class="invalid-feedback">
-                    Por favor, ingresa un nombre válido.
-                </div>
+                <div class="invalid-feedback">Por favor, ingresa un nombre válido.</div>
             </div>
 
             <div class="mb-3">
                 <label for="{{ form.descripcion.id_for_label }}" class="form-label">Descripción</label>
                 {{ form.descripcion }}
-                <div class="invalid-feedback">
-                    Por favor, ingresa una descripción.
-                </div>
+                <div class="invalid-feedback">Por favor, ingresa una descripción.</div>
             </div>
 
             <div class="mb-3">
                 <label for="{{ form.precio.id_for_label }}" class="form-label">Precio</label>
                 {{ form.precio }}
-                <div class="invalid-feedback">
-                    Por favor, ingresa un precio válido.
-                </div>
+                <div class="invalid-feedback">Por favor, ingresa un precio válido.</div>
             </div>
 
             <div class="mb-4">
@@ -138,6 +119,7 @@
             </div>
         </form>
     </div>
+
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"

@@ -174,3 +174,31 @@ html, body {
     height: auto;
     filter: brightness(0) invert(1);
 }
+
+/* Estilo especial para pantallas pequeñas */
+@media (max-width: 768px) {
+    .row-cols-md-3 > * {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+
+    .card .btn {
+        display: block;
+        width: 100%;
+        margin: 6px 0;
+    }
+
+    .card-body {
+        padding: 1rem;
+    }
+
+    .card-title {
+        font-size: 1.2rem;
+        text-align: center;
+    }
+
+    .card-text {
+        font-size: 0.9rem;
+        text-align: center;
+    }
+}

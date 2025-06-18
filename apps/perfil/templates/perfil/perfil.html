@@ -39,8 +39,8 @@
                         <button class="btn btn-outline-light history" type="button">Historia</button>
                     </a>
                     <a href="{% url 'menus' %}">
-                            <button class="btn btn-outline-light history" type="button">Menús</button>
-                        </a>
+                        <button class="btn btn-outline-light history" type="button">Menús</button>
+                    </a>
                     {% if request.user.rol == 4 %}
                     <a href="{% url 'crear_empleado' %}">
                         <button class="btn btn-outline-danger history" type="button">Crear empleado</button>
@@ -49,7 +49,8 @@
                     <div class="nav-item dropdown dropdown-perfil me-2">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
                             {% if user.foto_perfil %}
-                            <img src="{{ user.foto_perfil.url }}" alt="Foto de perfil" style="border-radius: 50%; border: 1px solid #ffc107;" width="36" height="36">
+                            <img src="{{ user.foto_perfil.url }}" alt="Foto de perfil"
+                                style="border-radius: 50%; border: 1px solid #ffc107;" width="36" height="36">
                             {% else %}
                             <svg xmlns="http://www.w3.org/2000/svg" style="color: #ffc107" width="36" height="36"
                                 fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
@@ -60,7 +61,9 @@
                             {% endif %}
                         </a>
                         <ul class="dropdown-menu dropdown-perfil">
-                           <li><p class="text-black text-end mx-1 text-center" style="font-weight: bold;">{{ user.first_name|upper }} {{ user.last_name|upper }}</p></li>
+                            <li>
+                                <p class="text-black text-end mx-1 text-center" style="font-weight: bold;">{{ user.first_name|upper }} {{ user.last_name|upper }}</p>
+                            </li>
                             <li><a class="dropdown-item" href="{% url 'perfil' %}">Mi perfil</a></li>
                             {% if request.user.rol == 4 %}
                             <li><a class="dropdown-item" href="{% url 'admin_usuarios' %}">Usuarios</a></li>
@@ -93,7 +96,7 @@
         </div>
     </nav>
 
-    <!-- mensaje de edición -->
+    <!-- mensajes -->
     {% if messages %}
     <div class="container mt-3">
         {% for message in messages %}
@@ -112,10 +115,10 @@
     </script>
     {% endif %}
 
-    <!-- form de datos peronales del usuario -->
-    <div class="form-container">
-        <div class="text-start">
-            <!-- css hipervínculo inferior / no cambiar, por favor.-->
+    <div class="form-container my-4">
+        <!-- Volver -->
+        <div class="text-start mb-3">
+            <!-- css hipervínculo inferior / no cambiar, por favor. -->
             <style>
                 .boton-volver {
                     text-decoration: none;
@@ -128,65 +131,65 @@
                 }
             </style>
 
-            <a href="{% url 'index' %}" class="boton-volver" style="margin: auto; padding: auto;">
-                <p>
-                    < Volver al inicio </p>
+            <a href="{% url 'index' %}" class="boton-volver d-inline-block">
+                <p class="mb-0">&lt; Volver al inicio</p>
             </a>
         </div>
 
-        <h2 class="text-center mb-5" style="font-family: 'Century Gothic', sans-serif; font-weight: bolder; color: #ffc107">MI PERFIL</h2>
+        <!-- Título -->
+        <h2 class="text-center mb-4"
+            style="font-family: 'Century Gothic', sans-serif; font-weight: bolder; color: #ffc107">
+            MI PERFIL
+        </h2>
 
-        <!-- foto de perfil -->
-        <div class="text-center">
+        <!-- Imagen de perfil -->
+        <div class="text-center mb-4">
             {% if user.foto_perfil %}
-            <img src="{{ user.foto_perfil.url }}" alt="Foto de perfil" class="foto-perfil">
+            <img src="{{ user.foto_perfil.url }}" alt="Foto de perfil" class="foto-perfil img-fluid rounded-circle"
+                style="width: 150px; height: 150px; object-fit: cover;">
             {% else %}
             <svg xmlns="http://www.w3.org/2000/svg" style="color: #ffc107" fill="currentColor"
-                class="bi bi-person-circle foto-perfil" viewBox="0 0 16 16">
+                class="bi bi-person-circle foto-perfil" width="150" height="150" viewBox="0 0 16 16">
                 <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
                 <path fill-rule="evenodd"
                     d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1" />
             </svg>
-            <p style="font-style: italic; color: grey">*Actualmente, no tienes ninguna foto de perfil.*</p>
+            <p class="text-secondary fst-italic mt-2">*Actualmente, no tienes ninguna foto de perfil.*</p>
             {% endif %}
         </div>
 
-        <!-- nombre/apellido -->
-        <div class="form-row">
-            <div class="form-group">
-                <label for="nombre">Nombre:</label>
+        <!-- Datos del perfil -->
+        <div class="row g-3">
+            <div class="col-md-6">
+                <label for="nombre" class="form-label">Nombre:</label>
                 <input type="text" id="nombre" class="form-control" value="{{ user.first_name }}" disabled>
             </div>
-            <div class="form-group">
-                <label for="apellido">Apellido:</label>
+            <div class="col-md-6">
+                <label for="apellido" class="form-label">Apellido:</label>
                 <input type="text" id="apellido" class="form-control" value="{{ user.last_name }}" disabled>
+            </div>
+            <div class="col-12">
+                <label for="username" class="form-label">Nombre de Usuario:</label>
+                <input type="text" id="username" class="form-control" value="{{ user.username }}" disabled>
+            </div>
+            <div class="col-12">
+                <label for="email" class="form-label">Correo:</label>
+                <input type="email" id="email" class="form-control" value="{{ user.email }}" disabled>
             </div>
         </div>
 
-        <!-- nombre de usuario -->
-        <div class="form-group">
-            <label for="username">Nombre de Usuario:</label>
-            <input type="text" id="username" class="form-control" value="{{ user.username }}" disabled>
-        </div>
-
-        <!-- correo electrónico -->
-        <div class="form-group">
-            <label for="email">Correo:</label>
-            <input type="email" id="email" class="form-control" value="{{ user.email }}" disabled>
-        </div>
-
-        <div class="text-center mt-3">
+        <!-- Botón editar -->
+        <div class="text-center mt-4">
             <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editarPerfilModal">
                 Editar perfil
             </button>
         </div>
     </div>
 
-
-    <!-- modal para editar perfil -->
+    <!-- Modal -->
     <div class="modal fade" id="editarPerfilModal" tabindex="-1" aria-labelledby="editarPerfilModalLabel"
         aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content" style="background-color: #1e1e1e; color: white;">
                 <div class="modal-header">
                     <h5 class="modal-title" id="editarPerfilModalLabel">Editar Perfil</h5>
@@ -196,15 +199,14 @@
                 <form method="POST" action="{% url 'editar_perfil' %}" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="modal-body">
-
-                        <!-- foto actual -->
-                        <div class="text-center mb-3">
+                        <div class="text-center mb-4">
                             {% if user.foto_perfil %}
                             <img src="{{ user.foto_perfil.url }}" alt="Foto actual"
-                                style="width: 150px; height: 150px; object-fit: cover; border-radius: 50%; border: 2px solid #ffc107;">
+                                class="img-fluid rounded-circle border border-warning"
+                                style="width: 150px; height: 150px; object-fit: cover;">
                             {% else %}
                             <svg xmlns="http://www.w3.org/2000/svg" style="color: #ffc107" fill="currentColor"
-                                class="bi bi-person-circle foto-perfil" viewBox="0 0 16 16">
+                                class="bi bi-person-circle foto-perfil" width="150" height="150" viewBox="0 0 16 16">
                                 <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
                                 <path fill-rule="evenodd"
                                     d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1" />
@@ -212,50 +214,49 @@
                             {% endif %}
                         </div>
 
-                        <!-- subir foto -->
-                        <div class="form-group mb-3">
+                        <div class="mb-3">
                             <label for="fotoPerfil">Nueva foto de perfil:</label>
                             <input type="file" class="form-control" id="fotoPerfil" name="foto_perfil" accept="image/*">
                         </div>
 
-                        <!-- eliminar foto -->
                         {% if user.foto_perfil %}
                         <div class="form-check mb-3">
                             <input class="form-check-input" type="checkbox" value="on" id="eliminarFoto"
                                 name="eliminar_foto">
-                            <label class="form-check-label" for="eliminarFoto">
-                                Eliminar foto
-                            </label>
+                            <label class="form-check-label" for="eliminarFoto">Eliminar foto</label>
                         </div>
                         {% endif %}
 
-                        <div class="form-group mb-3">
-                            <label for="editNombre">Nombre:</label>
-                            <input type="text" class="form-control" id="editNombre" name="first_name"
-                                value="{{ user.first_name }}" {% if user.rol != 4 %} required {% endif %}>
-                        </div>
-                        <div class="form-group mb-3">
-                            <label for="editApellido">Apellido:</label>
-                            <input type="text" class="form-control" id="editApellido" name="last_name"
-                                value="{{ user.last_name }}" {% if user.rol != 4 %} required {% endif %}>
-                        </div>
-                        <div class="form-group mb-3">
-                            <label for="editUsername">Nombre de Usuario:</label>
-                            <input type="text" class="form-control" id="editUsername" name="username"
-                                value="{{ user.username }}" required>
-                        </div>
-                        <div class="form-group mb-3">
-                            <label for="editEmail">Correo:</label>
-                            {% if user.socialaccount_set.exists %}
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="editNombre">Nombre:</label>
+                                <input type="text" class="form-control" id="editNombre" name="first_name" value="{{ user.first_name }}" {% if user.rol != 4 %} required {% endif %}>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="editApellido">Apellido:</label>
+                                <input type="text" class="form-control" id="editApellido" name="last_name"
+                                    value="{{ user.last_name }}" {% if user.rol != 4 %} required {% endif %}>
+                            </div>
+                            <div class="col-12">
+                                <label for="editUsername">Nombre de Usuario:</label>
+                                <input type="text" class="form-control" id="editUsername" name="username"
+                                    value="{{ user.username }}" required>
+                            </div>
+                            <div class="col-12">
+                                <label for="editEmail">Correo:</label>
+                                {% if user.socialaccount_set.exists %}
                                 <input type="email" class="form-control" id="editEmail" name="email"
                                     value="{{ user.email }}" disabled readonly>
-                                <small class="form-text text-muted">Este correo está vinculado a tu cuenta de Google y no puede modificarse.</small>
-                            {% else %}
+                                <small class="form-text text-muted">Este correo está vinculado a tu cuenta de Google y
+                                    no puede modificarse.</small>
+                                {% else %}
                                 <input type="email" class="form-control" id="editEmail" name="email"
                                     value="{{ user.email }}" required>
-                            {% endif %}
+                                {% endif %}
+                            </div>
                         </div>
                     </div>
+
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
                         <button type="submit" class="btn btn-warning">Guardar cambios</button>
@@ -264,6 +265,7 @@
             </div>
         </div>
     </div>
+
 
     {% else %}
 

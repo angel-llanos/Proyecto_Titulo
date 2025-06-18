@@ -8,74 +8,61 @@
 {% block content %}
 <div class="form-container">
 
-    <div style="display: flex;">
-        <style>
-            .boton-volver {
-                text-decoration: none;
-                color: #ffc107;
-            }
-            .boton-volver:hover {
-                color: white;
-                text-decoration: none;
-            }
-        </style>
-        <a href="{% url 'menus' %}" class="boton-volver">
-            <p>&lt; Volver a menús</p>
-        </a>
-    </div>
-    
-    <h2 class="text-center mb-4" style="font-family: 'Century Gothic', sans-serif; font-weight: bolder; color: #ffc107">MODIFICAR MENÚ</h2>
-    <h3 class="text-center mb-4">{{ menu.nombre }}</h2>
+    <!-- Botón volver -->
+    <a href="{% url 'menus' %}" class="text-warning" style="text-decoration: none;">&lt; Volver a menús</a>
+
+    <h2 class="text-warning text-center mt-4 mb-4" style="font-family: 'Century Gothic', sans-serif; font-weight: bolder;">MODIFICAR MENÚ</h2>
+    <h3 class="text-center mb-4">{{ menu.nombre }}</h3>
 
     <form method="post" enctype="multipart/form-data" novalidate>
         {% csrf_token %}
 
         {% if form.non_field_errors %}
-            <div class="alert alert-danger">
-                {% for error in form.non_field_errors %}
-                    <div>{{ error }}</div>
-                {% endfor %}
-            </div>
+        <div class="alert alert-danger">
+            {% for error in form.non_field_errors %}
+                <div>{{ error }}</div>
+            {% endfor %}
+        </div>
         {% endif %}
 
-        <div class="form-group" style="margin-top: 20px;">
+        <div class="form-group mb-3">
             <label for="{{ form.nombre.id_for_label }}">Nombre*</label>
             {{ form.nombre }}
             {% if form.nombre.errors %}
-                <div class="text-danger small">{{ form.nombre.errors }}</div>
+            <div class="text-danger small">{{ form.nombre.errors }}</div>
             {% endif %}
         </div>
 
-        <div class="form-group" style="margin-top: 20px;">
+        <div class="form-group mb-3">
             <label for="{{ form.descripcion.id_for_label }}">Descripción</label>
             {{ form.descripcion }}
             {% if form.descripcion.errors %}
-                <div class="text-danger small">{{ form.descripcion.errors }}</div>
+            <div class="text-danger small">{{ form.descripcion.errors }}</div>
             {% endif %}
         </div>
 
-        <div class="form-group" style="margin-top: 20px;">
+        <div class="form-group mb-3">
             <label for="{{ form.precio.id_for_label }}">Precio*</label>
             {{ form.precio }}
             {% if form.precio.errors %}
-                <div class="text-danger small">{{ form.precio.errors }}</div>
+            <div class="text-danger small">{{ form.precio.errors }}</div>
             {% endif %}
         </div>
 
-        <div class="form-group" style="margin-top: 20px;">
+        <div class="form-group mb-4">
             <label for="{{ form.imagen.id_for_label }}">Imagen (Opcional)</label>
             {% if menu.imagen %}
                 <div class="mb-3">
-                    <img src="{{ menu.imagen.url }}" alt="{{ menu.nombre }}" class="img-thumbnail" style="max-width: 200px;">
+                    <img src="{{ menu.imagen.url }}" alt="{{ menu.nombre }}" class="img-thumbnail">
                 </div>
             {% endif %}
             {{ form.imagen }}
             {% if form.imagen.errors %}
-                <div class="text-danger small">{{ form.imagen.errors }}</div>
+            <div class="text-danger small">{{ form.imagen.errors }}</div>
             {% endif %}
         </div>
 
-        <button type="submit" class="btn btn-warning" style="width: 100%; margin-top: 20px;">Guardar Cambios</button>
+        <button type="submit" class="btn btn-warning w-100">Guardar Cambios</button>
     </form>
 </div>
 {% endblock %}
