@@ -105,18 +105,14 @@ def elegir_mesas(request, reserva_id):
         if not mesas_seleccionadas:
             error = "Debes seleccionar al menos una mesa."
         elif any(int(mesa.id) in mesas_ocupadas_ids for mesa in mesas_seleccionadas):
-            return render(request, 'reservas/elegir_mesas.html', {
-                'mesas': mesas,
-                'reserva': reserva,
-                'error': "Una o más mesas seleccionadas ya no están disponibles.",
-                'capacidades_disponibles': sorted(set(m.capacidad for m in mesas)),
-            })
+            error = "Una o más mesas seleccionadas ya no están disponibles."
         elif capacidad_total < comensales:
             error = f"La capacidad total de las mesas seleccionadas ({capacidad_total}) no cubre los {comensales} comensales."
-        elif capacidad_total > comensales + 2:
+        # ✅ Opción 1 aplicada aquí:
+        elif capacidad_total > comensales + 2 and len(mesas_seleccionadas) > 1:
             error = f"La capacidad total de las mesas seleccionadas ({capacidad_total}) excede demasiado los {comensales} comensales. Reduce la cantidad de mesas."
         else:
-            # OK
+            # OK: guardar la reserva
             reserva.mesas.set(mesas_seleccionadas)
             reserva.estado = 'pendiente_pago'
             reserva.save()
@@ -124,7 +120,6 @@ def elegir_mesas(request, reserva_id):
             request.session.pop('reserva_datos', None)
             return redirect('reserva_checkout', reserva_id=reserva.id)
 
-        # Si hubo error:
         return render(request, 'reservas/elegir_mesas.html', {
             'mesas': mesas,
             'reserva': reserva,
