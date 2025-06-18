@@ -208,6 +208,56 @@
         {% endif %}
     {% endif %}
 
+    <!-- mesero -->
+    {% if request.user.rol == 2 %}
+    <div class="reserva-div">
+        <div class="letras">
+            <h1>¡Bienvenido, {{ user.first_name|upper }} {{ user.last_name|upper }}!</h1>
+            <h2 class="text-warning">Mesero</h2>
+        </div>
+
+        <!-- Botón para reservar (sin div que lo centre) -->
+        <a href="{% url 'reservas_mesero' %}" class="boton-link">
+            <button type="button" class="btn btn-warning btn-lg mb-0" style="--bs-btn-font-size: 1.5rem;">
+                Ver reservas
+            </button>
+        </a>
+    </div>
+    {% endif %}
+    <!-- admin -->
+    {% if request.user.rol == 4 %}
+    <div class="reserva-div">
+        <div class="letras">
+            <h1>¡Bienvenido, {{ user.first_name|upper }} {{ user.last_name|upper }}!</h1>
+            <h2 class="text-warning">Administrador</h2>
+        </div>
+
+        <!-- Botón para reservar (sin div que lo centre) -->
+        <a href="{% url 'admin_usuarios' %}" class="boton-link">
+            <button type="button" class="btn btn-warning btn-lg mb-0" style="--bs-btn-font-size: 1.5rem;">
+                Ver usuarios registrados
+            </button>
+        </a>
+    </div>
+    {% endif %}
+
+    <!-- cocinero -->
+    {% if request.user.rol == 3 %}
+    <div class="reserva-div">
+        <div class="letras">
+            <h1>¡Bienvenido, {{ user.first_name|upper }} {{ user.last_name|upper }}!</h1>
+            <h2 class="text-warning">Cocinero</h2>
+        </div>
+
+        <!-- Botón para reservar (sin div que lo centre) -->
+        <a href="{% url 'reservas_cocinero' %}" class="boton-link">
+            <button type="button" class="btn btn-warning btn-lg mb-0" style="--bs-btn-font-size: 1.5rem;">
+                Ver reservas
+            </button>
+        </a>
+    </div>
+    {% endif %}
+
     <footer class="footer-triple">
         <div class="footer-contenido">
             <div class="footer-columna">
