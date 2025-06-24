@@ -35,13 +35,19 @@
       <p><strong>Menú:</strong> {{ reserva.menu.nombre|default:"Sin menú asignado" }}</p>
       <p><strong>Abono a pagar:</strong> ${{ reserva.abono }}</p>
     </div>
+    <form method="POST" action="{% url 'reserva_checkout' reserva.id %}">
+      {% csrf_token %}
 
-    <div class="d-flex flex-column flex-md-row justify-content-center align-items-center gap-3 mt-4">
-      <form method="POST" action="{% url 'checkout' reserva.id %}">
-        {% csrf_token %}
+      <label>
+        <input type="checkbox" name="acepta_terminos" required>
+        Acepto los <a href="{% url 'terminos_condiciones' %}" target="_blank">términos y condiciones</a>
+      </label>
+      <div class="d-flex flex-column flex-md-row justify-content-center align-items-center gap-3 mt-4">
         <button class="btn btn-warning w-100 w-md-auto" type="submit">Pagar con Stripe</button>
-      </form>
-    </div>
+      </div>
+    </form>
+  
+    
 
   </div>
 </div>

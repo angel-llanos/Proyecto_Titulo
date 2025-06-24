@@ -5,3 +5,7 @@ from django.shortcuts import render
 def index(request):
     menus = Menu.objects.filter(activo=True)[:3]
     return render(request, "home/index.html", {'menus': menus})
+
+def terminos_condiciones(request):
+    context = { }
+    return render(request, "terminos_condiciones/termino_condiciones.html", context)

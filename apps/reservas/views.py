@@ -133,10 +133,18 @@ def elegir_mesas(request, reserva_id):
         'capacidades_disponibles': sorted(set(m.capacidad for m in mesas)),
     })
 
-#pantalla de checkout (antes de pagar)
 @login_required
 def reserva_checkout(request, reserva_id):
     reserva = get_object_or_404(Reserva, id=reserva_id, cliente=request.user)
+
+    if request.method == 'POST':
+        acepta = request.POST.get('acepta_terminos')
+        if not acepta:
+            messages.error(request, "Debes aceptar los términos y condiciones para continuar.")
+            return redirect('reserva_checkout', reserva_id=reserva_id)
+        else:
+            return redirect('checkout', reserva_id=str(reserva_id))  # REDIRECCIONA A CHECKOUT
+
     return render(request, 'reservas/reserva_checkout.html', {'reserva': reserva})
 
 #checkout de stripe
