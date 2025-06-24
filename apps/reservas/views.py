@@ -138,13 +138,15 @@ def reserva_checkout(request, reserva_id):
     reserva = get_object_or_404(Reserva, id=reserva_id, cliente=request.user)
 
     if request.method == 'POST':
-        acepta = request.POST.get('acepta_terminos')
-        if not acepta:
+        # 1) Validar checkbox
+        if not request.POST.get('acepta_terminos'):
             messages.error(request, "Debes aceptar los términos y condiciones para continuar.")
             return redirect('reserva_checkout', reserva_id=reserva_id)
-        else:
-            return redirect('checkout', reserva_id=str(reserva_id))  # REDIRECCIONA A CHECKOUT
 
+        # 2) Redirigir a checkout (ahí crearemos la sesión)
+        return redirect('checkout', reserva_id=reserva.id)
+
+    # GET: mostrar form con el checkbox
     return render(request, 'reservas/reserva_checkout.html', {'reserva': reserva})
 
 #checkout de stripe
@@ -152,40 +154,43 @@ def reserva_checkout(request, reserva_id):
 def checkout(request, reserva_id):
     reserva = get_object_or_404(Reserva, id=reserva_id, cliente=request.user)
 
-    if request.method == 'POST':
-        try:
-            success_url = request.build_absolute_uri(reverse('reserva_exito', args=[reserva.id]))
-            cancel_url = request.build_absolute_uri(reverse('reserva_fallo', args=[reserva.id]))
+    try:
+        # Armar URLs de éxito y cancelación
+        success_url = request.build_absolute_uri(
+            reverse('reserva_exito', args=[reserva.id])
+        )
+        cancel_url = request.build_absolute_uri(
+            reverse('reserva_fallo', args=[reserva.id])
+        )
 
-            checkout_session = stripe.checkout.Session.create(
-                payment_method_types=['card'],
-                line_items=[{
-                    'price_data': {
-                        'currency': 'clp',
-                        'unit_amount': int(reserva.abono),
-                        'product_data': {
-                            'name': f'Reserva MonkeyFoods: {reserva.nombre_reserva}',
-                        },
+        # Crear sesión de Stripe y redirigir al checkout
+        checkout_session = stripe.checkout.Session.create(
+            payment_method_types=['card'],
+            line_items=[{
+                'price_data': {
+                    'currency': 'clp',
+                    'unit_amount': int(reserva.abono),
+                    'product_data': {
+                        'name': f'Reserva MonkeyFoods: {reserva.nombre_reserva}',
                     },
-                    'quantity': 1,
-                }],
-                mode='payment',
-                success_url=success_url,
-                cancel_url=cancel_url,
-                metadata={
-                    'reserva_id': reserva.id,
-                    'cliente_id': request.user.id
-                }
-            )
+                },
+                'quantity': 1,
+            }],
+            mode='payment',
+            success_url=success_url,
+            cancel_url=cancel_url,
+            metadata={
+                'reserva_id': reserva.id,
+                'cliente_id': request.user.id
+            }
+        )
+        return redirect(checkout_session.url)
 
-            return redirect(checkout_session.url)
-
-        except Exception as e:
-            print("Error en Stripe:", str(e))
-            return redirect('reserva_fallo', reserva_id=reserva.id)
-
-    else:
-        return redirect('reserva_checkout', reserva_id=reserva.id)
+    except Exception as e:
+        # Log en consola y mensaje amigable
+        print("Error en Stripe:", e)
+        messages.error(request, "Ocurrió un error al procesar el pago. Intenta nuevamente.")
+        return redirect('reserva_fallo', reserva_id=reserva.id)
 
 def reserva_exito(request, reserva_id):
     reserva = get_object_or_404(Reserva, id=reserva_id)
