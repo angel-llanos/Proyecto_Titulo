@@ -44,6 +44,11 @@
                         <button class="btn btn-outline-danger history" type="button">Crear empleado</button>
                     </a>
                     {% endif %}
+                    {% if request.user.rol == 1 %}
+                    <a href="{% url 'contacto' %}">
+                        <button class="btn btn-outline-light history" type="button">Contacto</button>
+                    </a>
+                    {% endif %}
                     <div class="nav-item dropdown dropdown-perfil me-2">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
                             {% if user.foto_perfil %}
@@ -258,6 +263,7 @@
     </div>
     {% endif %}
 
+    <!-- Fotter o Pie de Pagina -->
     <footer class="footer-triple">
         <div class="footer-contenido">
             <div class="footer-columna">

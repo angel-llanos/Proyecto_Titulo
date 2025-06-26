@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'apps.menus',
     'apps.reservas_mesero',
     'apps.reservas_cocinero',
+    'apps.contacto',
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
@@ -183,3 +184,7 @@ EMAIL_HOST_PASSWORD = 'lljqnqxqfegjncng'    # La contraseña (o contraseña de a
 
 STRIPE_SECRET_KEY = config('STRIPE_SECRET_KEY')
 STRIPE_PUBLISHABLE_KEY = config('STRIPE_PUBLISHABLE_KEY')
+
+# Añade estas dos líneas:
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+ADMIN_EMAIL = 'monkeyfoodsteam@gmail.com'  # O pon el correo del administrador real si es otro
