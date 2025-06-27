@@ -157,10 +157,9 @@
                                 <div class="input-group">
                                     <select name="nuevo_rol" class="form-select">
                                         {% for valor, nombre in u.ROL_CHOICES %}
-                                        {% if valor != 1 or valor == u.rol %}
-                                        <option value="{{ valor }}" {% if valor == u.rol %}selected{% endif %}>{{ nombre
-                                            }}</option>
-                                        {% endif %}
+                                            {% if valor != 1 or valor == u.rol %}
+                                                <option value="{{ valor }}" {% if valor == u.rol %}selected{% endif %}>{{ nombre }}</option>
+                                            {% endif %}
                                         {% endfor %}
                                     </select>
                                     <button class="btn btn-warning" type="submit">Actualizar Rol</button>

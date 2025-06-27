@@ -217,7 +217,24 @@ def reserva_fallo(request, reserva_id):
 #historial de reservas
 @login_required
 def historial_reservas(request):
-    reservas = Reserva.objects.filter(cliente=request.user).order_by('-fecha', '-hora')
+    
+    hoy = now().date()
+
+    # Reservas desde hoy en adelante (ordenadas de más cercana a más lejana)
+    reservas_futuras = Reserva.objects.filter(
+        cliente=request.user,
+        fecha__gte=hoy
+    ).order_by('fecha', 'hora')
+
+    # Reservas anteriores a hoy (ordenadas de más reciente a más antigua)
+    reservas_pasadas = Reserva.objects.filter(
+        cliente=request.user,
+        fecha__lt=hoy
+    ).order_by('-fecha', '-hora')
+
+    # Juntamos ambas listas: futuras primero
+    reservas = list(reservas_futuras) + list(reservas_pasadas)
+
     return render(request, 'reservas/historial_reservas.html', {'reservas': reservas})
 
 def es_admin(user):
