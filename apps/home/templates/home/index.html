@@ -212,16 +212,35 @@
     {% if request.user.rol == 2 %}
     <div class="reserva-div">
         <div class="letras">
-            <h1>¡Bienvenido, {{ user.first_name|upper }} {{ user.last_name|upper }}!</h1>
+            <h1>Bienvenido, {{ user.first_name|upper }} {{ user.last_name|upper }}</h1>
             <h2 class="text-warning">Mesero</h2>
         </div>
 
         <!-- Botón para reservar (sin div que lo centre) -->
-        <a href="{% url 'reservas_mesero' %}" class="boton-link">
-            <button type="button" class="btn btn-warning btn-lg mb-0" style="--bs-btn-font-size: 1.5rem;">
-                Ver reservas
-            </button>
+        <a href="{% url 'admin_usuarios' %}" class="boton-link">
         </a>
+    </div>
+
+    <div class="panel-control-div p-5" style="background-color: #111;">
+        <div class="contenedor-izq-der">
+            
+            <div class="columna-izquierda">
+            <h2 class="letra-panel">Panel de Control</h2>
+            <p class="descripcion-panel">
+                Bienvenido al panel de control para meseros. Desde aquí puedes gestionar las reservas realizadas.
+                Usa los botones de la derecha para acceder a las secciones disponibles.
+            </p>
+            <a href="{% url 'perfil' %}">
+                <button class="btn btn-outline-light btn-lg mt-3">Administrar perfil</button>
+            </a>
+            </div>
+
+            <div class="columna-derecha d-flex flex-column gap-3">
+            <a href="{% url 'menus' %}" class="btn btn-warning btn-lg w-100">Ver menús disponibles</a>
+            <a href="{% url 'reservas_mesero' %}" class="btn btn-warning btn-lg w-100">Ver reservas</a>
+            </div>
+
+        </div>
     </div>
     {% endif %}
     
@@ -229,16 +248,36 @@
     {% if request.user.rol == 4 %}
     <div class="reserva-div">
         <div class="letras">
-            <h1>¡Bienvenido, {{ user.first_name|upper }} {{ user.last_name|upper }}!</h1>
+            <h1>Bienvenido, {{ user.first_name|upper }} {{ user.last_name|upper }}</h1>
             <h2 class="text-warning">Administrador</h2>
         </div>
 
         <!-- Botón para reservar (sin div que lo centre) -->
         <a href="{% url 'admin_usuarios' %}" class="boton-link">
-            <button type="button" class="btn btn-warning btn-lg mb-0" style="--bs-btn-font-size: 1.5rem;">
-                Ver usuarios registrados
-            </button>
         </a>
+    </div>
+
+    <div class="panel-control-div p-5" style="background-color: #111;">
+        <div class="contenedor-izq-der">
+            
+            <div class="columna-izquierda">
+            <h2 class="letra-panel">Panel de Control</h2>
+            <p class="descripcion-panel">
+                Bienvenido al panel de control para administrador. Desde aquí puedes gestionar tus menús, reservas, usuarios y más.
+                Usa los botones de la derecha para acceder a las secciones disponibles.
+            </p>
+            <a href="{% url 'perfil' %}">
+                <button class="btn btn-outline-light btn-lg mt-3">Administrar perfil</button>
+            </a>
+            </div>
+
+            <div class="columna-derecha d-flex flex-column gap-3">
+            <a href="{% url 'crear_empleado' %}" class="btn btn-warning btn-lg w-100">Agregar nuevo empleado</a>
+            <a href="{% url 'menus' %}" class="btn btn-warning btn-lg w-100">Ver y editar menús</a>
+            <a href="{% url 'admin_usuarios' %}" class="btn btn-warning btn-lg w-100">Administrar Usuarios</a>
+            </div>
+
+        </div>
     </div>
     {% endif %}
 
@@ -246,16 +285,35 @@
     {% if request.user.rol == 3 %}
     <div class="reserva-div">
         <div class="letras">
-            <h1>¡Bienvenido, {{ user.first_name|upper }} {{ user.last_name|upper }}!</h1>
+            <h1>Bienvenido, {{ user.first_name|upper }} {{ user.last_name|upper }}</h1>
             <h2 class="text-warning">Cocinero</h2>
         </div>
 
         <!-- Botón para reservar (sin div que lo centre) -->
-        <a href="{% url 'reservas_cocinero' %}" class="boton-link">
-            <button type="button" class="btn btn-warning btn-lg mb-0" style="--bs-btn-font-size: 1.5rem;">
-                Ver reservas
-            </button>
+        <a href="{% url 'admin_usuarios' %}" class="boton-link">
         </a>
+    </div>
+
+    <div class="panel-control-div p-5" style="background-color: #111;">
+        <div class="contenedor-izq-der">
+            
+            <div class="columna-izquierda">
+            <h2 class="letra-panel">Panel de Control</h2>
+            <p class="descripcion-panel">
+                Bienvenido al panel de control para cocineros. Desde aquí puedes gestionar las reservas realizadas para verificar el menú seleccionado y editar o desactivar los menús disponibles.
+                Usa los botones de la derecha para acceder a las secciones disponibles.
+            </p>
+            <a href="{% url 'perfil' %}">
+                <button class="btn btn-outline-light btn-lg mt-3">Administrar perfil</button>
+            </a>
+            </div>
+
+            <div class="columna-derecha d-flex flex-column gap-3">
+            <a href="{% url 'menus' %}" class="btn btn-warning btn-lg w-100">Ver menús disponibles</a>
+            <a href="{% url 'reservas_cocinero' %}" class="btn btn-warning btn-lg w-100">Ver reservas y menús solicitados</a>
+            </div>
+
+        </div>
     </div>
     {% endif %}
 

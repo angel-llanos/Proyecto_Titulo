@@ -130,11 +130,11 @@ def elegir_mesas(request, reserva_id):
         }
     elif zona.nombre == 'Patio':
         posiciones = {
-            13:  (45, 70),
+            17:  (45, 70),
             14:  (72, 30),
             15:  (23, 65),
             16: (25, 33),
-            17: (51, 44),
+            13: (51, 44),
             18: (69, 73),
         }
     else:

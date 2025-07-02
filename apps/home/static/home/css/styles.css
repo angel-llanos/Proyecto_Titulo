@@ -222,6 +222,42 @@ html, body {
     width: 100%;
 }
 
+.panel-control-div {
+  background-color: #111;
+  padding: 2rem;
+  color: white;
+}
+
+.letra-panel {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #ffc107;
+}
+
+.descripcion-panel {
+  font-size: 1.1rem;
+  color: #f8f9fa;
+}
+
+.contenedor-izq-der {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.columna-izquierda,
+.columna-derecha {
+  flex: 1 1 45%;
+}
+
+.columna-derecha .btn {
+  font-size: 1.1rem;
+  padding: 0.75rem;
+  text-align: center;
+}
+
 /* Contenedor de columnas */
 .footer-contenido {
     display: flex;
