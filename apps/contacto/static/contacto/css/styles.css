@@ -31,6 +31,53 @@ html, body {
 .history {
     border-radius: 40px;
 }
+
+.dropdown-perfil {
+    min-width: auto; /* Cambia según lo que necesites */
+    max-width: auto;
+    width: auto;      /* o un valor fijo como 250px */
+}
+
+.dropdown-menu.dropdown-perfil {
+    right: 0;
+    left: auto;
+    position: absolute;  /* Asegura que el dropdown se posicione correctamente */
+}
+
+.form-container {
+  max-width: 600px;
+  width: 90%;
+  background-color: #000;
+  color: white;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+}
+
+.form-container input,
+.form-container textarea {
+  background-color: #1c1c1c;
+  color: white;
+  border: 1px solid #555;
+  border-radius: 6px;
+  padding: 10px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.form-container input:focus,
+.form-container textarea:focus {
+  outline: none;
+  border-color: #ffc107;
+  background-color: #2b2b2b;
+}
+
+.form-container label {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
 /* Footer */
 .footer-triple {
     background: black;
@@ -114,4 +161,44 @@ html, body {
     max-width: 300px;
     height: auto;
     filter: brightness(0) invert(1);
+}
+
+/* media query footer */
+@media (max-width: 768px) {
+    .footer-contenido {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 0 15px;
+    }
+
+    .footer-columna {
+        width: 100%;
+        max-width: 400px;
+        padding: 20px 0;
+    }
+
+    .footer-columna h3 {
+        margin-bottom: 10px;
+    }
+
+    .redes-sociales {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
+    .redes-sociales svg {
+        margin: 0;
+    }
+
+    .footer-logo-container {
+        margin-top: 20px;
+        padding: 20px 0;
+    }
+
+    .footer-logo {
+        max-width: 200px;
+    }
 }

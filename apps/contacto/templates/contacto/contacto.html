@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="{% static 'contacto/css/styles.css' %}">
 </head>
-<body class="bg-light">
+<body style="background-color: rgb(20, 20, 20);">
 
     <!-- Header/Navbar -->
     <nav class="navbar navbar-expand-lg bg-body-primary navbar-settings p-4">
@@ -93,42 +93,46 @@
     </nav>
 
     <!-- formulario de contacto -->
-    <div class="container mt-5 d-flex justify-content-center">
-        <div class="p-4 rounded-4 shadow" style="background-color: rgba(255, 255, 255, 0.85); border: 2px solid rgba(0, 0, 0, 0.4); max-width: 500px; width: 100%;">
-            <h2 class="text-center mb-4">Formulario de Contacto</h2>
-            {% if enviado %}
-                <div class="alert alert-success" role="alert">
-                    ¡Gracias por contactarnos!
-                </div>
-            {% endif %}
-            <form method="post" novalidate>
-                {% csrf_token %}
-                <div class="mb-3">
-                    {{ form.nombre.label_tag }}
-                    {{ form.nombre }}
-                </div>
-                <div class="mb-3">
-                    {{ form.apellido.label_tag }}
-                    {{ form.apellido }}
-                </div>
-                <div class="mb-3">
-                    {{ form.correo.label_tag }}
-                    {{ form.correo }}
-                </div>
-                <div class="mb-3">
-                    {{ form.razon.label_tag }}
-                    {{ form.razon }}
-                </div>
-                <button type="submit" class="btn btn-primary w-100">Enviar</button>
-            </form>
+    <div class="container mt-5 mb-5 d-flex justify-content-center">
+    <div class="form-container">
+        <a href="{% url 'index' %}" class="text-warning" style="text-decoration: none;">&lt; Volver al inicio</a>
+        <h2 class="text-center mt-3 mb-4 text-warning" style="font-family: 'Century Gothic', sans-serif; font-weight: bolder;">FORMULARIO DE CONTACTO</h2>
+
+        {% if enviado %}
+        <div class="alert alert-success text-center" role="alert">
+            ¡Gracias por contactarnos!
         </div>
+        {% endif %}
+
+        <form method="post" novalidate>
+        {% csrf_token %}
+        <div class="mb-3">
+            {{ form.nombre.label_tag }}
+            {{ form.nombre }}
+        </div>
+        <div class="mb-3">
+            {{ form.apellido.label_tag }}
+            {{ form.apellido }}
+        </div>
+        <div class="mb-3">
+            {{ form.correo.label_tag }}
+            {{ form.correo }}
+        </div>
+        <div class="mb-3">
+            {{ form.razon.label_tag }}
+            {{ form.razon }}
+        </div>
+        <button type="submit" class="btn btn-warning w-100 fw-bold">Enviar</button>
+        </form>
     </div>
+    </div>
+
 
     <!-- Footer o Pie de Pagina -->
     <footer class="footer-triple">
         <div class="footer-contenido">
             <div class="footer-columna">
-                <h3>Contacto</h3>
+                <h3>Nosotros</h3>
                 <p><strong>Dirección:</strong> Calle Falsa 123, Santiago</p>
                 <p><strong>Teléfono:</strong> +56 9 1234 5678</p>
                 <p><strong>Horario:</strong> Lun-Dom: 12:00 - 23:00 hrs</p>
@@ -137,6 +141,9 @@
                 <h3>Enlaces</h3>
                 <ul class="footer-links">
                     <li><a href="{% url 'terminos_condiciones' %}">Términos y Condiciones</a></li>
+                    {% if request.user.rol == 1 %}
+                        <li><a href="{% url 'contacto' %}">Formulario de contacto</a></li>
+                    {% endif %}
                 </ul>
             </div>
             <div class="footer-columna">

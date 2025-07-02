@@ -163,13 +163,22 @@
         {% else %}
             <p class="text-white text-center">No hay menús disponibles aún :/</p>
         {% endif %}
+        <a class="d-flex justify-content-center mt-5 mb-3" href="{% url 'index' %}" style="text-decoration: none;">
+            <button type="submit" class="btn btn-warning" name="back">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
+                    class="bi bi-arrow-left" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                        d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8" />
+                </svg> Volver al inicio
+            </button>
+        </a>
         </div>
     </div>
 
     <footer class="footer-triple">
         <div class="footer-contenido">
             <div class="footer-columna">
-                <h3>Contacto</h3>
+                <h3>Nosotros</h3>
                 <p><strong>Dirección:</strong> Calle Falsa 123, Santiago</p>
                 <p><strong>Teléfono:</strong> +56 9 1234 5678</p>
                 <p><strong>Horario:</strong> Lun-Dom: 12:00 - 23:00 hrs</p>
@@ -178,6 +187,9 @@
                 <h3>Enlaces</h3>
                 <ul class="footer-links">
                     <li><a href="{% url 'terminos_condiciones' %}">Términos y Condiciones</a></li>
+                    {% if request.user.rol == 1 %}
+                        <li><a href="{% url 'contacto' %}">Formulario de contacto</a></li>
+                    {% endif %}
                 </ul>
             </div>
             <div class="footer-columna">

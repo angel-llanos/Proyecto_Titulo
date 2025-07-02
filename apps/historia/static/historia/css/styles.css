@@ -189,3 +189,43 @@ html, body {
         margin: 1rem 0;
     }
 }
+
+/* media query footer */
+@media (max-width: 768px) {
+    .footer-contenido {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 0 15px;
+    }
+
+    .footer-columna {
+        width: 100%;
+        max-width: 400px;
+        padding: 20px 0;
+    }
+
+    .footer-columna h3 {
+        margin-bottom: 10px;
+    }
+
+    .redes-sociales {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
+    .redes-sociales svg {
+        margin: 0;
+    }
+
+    .footer-logo-container {
+        margin-top: 20px;
+        padding: 20px 0;
+    }
+
+    .footer-logo {
+        max-width: 200px;
+    }
+}

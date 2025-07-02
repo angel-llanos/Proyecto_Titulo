@@ -1,13 +1,24 @@
 {% extends "base.html" %}
 {% load static %}
 
+
+{% if zona.nombre == 'Patio' %}
+{% static 'reservas/img/patio.png' %}
+{% elif zona.nombre == 'Primer Piso' %}
+{% static 'reservas/img/piso1.png' %}
+{% elif zona.nombre == 'Segundo Piso' %}
+{% static 'reservas/img/piso2.png' %}
+{% else %}
+{% static 'reservas/img/default.png' %}
+{% endif %}
+
 {% block extra_head %}
-<link rel="stylesheet" href="{% static 'registrar/css/elegir_mesas.css' %}">
+<link rel="stylesheet" href="{% static 'reservas/css/elegir_mesas.css' %}">
 {% endblock %}
 
 {% block content %}
 <div class="container">
-  <!-- Panel Izquierdo: Datos Reserva -->
+
   <div class="left-panel">
     <h3 class="text-center mb-3 text-warning" style="font-family: 'Century Gothic', sans-serif; font-weight: bolder;">
       DATOS DE LA RESERVA
@@ -19,22 +30,21 @@
       <p><strong>Zona:</strong> {{ reserva.zona.nombre }}</p>
       <p><strong>Comensales:</strong> {{ reserva.comensales }}</p>
       {% if reserva.menu %}
-        <p><strong>Menú:</strong> {{ reserva.menu }}</p>
+      <p><strong>Menú:</strong> {{ reserva.menu }}</p>
       {% endif %}
-      <p><strong>Total capacidad seleccionada:</strong> 
+      <p><strong>Total capacidad seleccionada:</strong>
         <span id="capacidadTotal" data-comensales="{{ reserva.comensales }}" data-margen-extra="1">0</span>
       </p>
     </div>
   </div>
 
-  <!-- Panel Derecho: Filtros y Selección de Mesas -->
   <div class="right-panel">
     <h2 class="mb-4 text-warning text-center" style="font-family: 'Century Gothic', sans-serif; font-weight: bolder;">
       SELECCIONA LAS MESAS
     </h2>
 
     {% if error %}
-      <div style="color:red; margin-bottom: 1rem;">{{ error }}</div>
+    <div style="color:red; margin-bottom: 1rem;">{{ error }}</div>
     {% endif %}
 
     <form method="post" id="mesasForm">
@@ -45,30 +55,46 @@
           <select id="filtroCapacidad" name="capacidad_min" class="form-select d-inline-block w-auto ms-2">
             <option value="0">Cualquier capacidad</option>
             {% for c in capacidades_disponibles %}
-              <option value="{{ c }}">{{ c }}+</option>
+            <option value="{{ c }}">{{ c }}+</option>
             {% endfor %}
           </select>
         </label>
       </div>
 
-      <div class="mesas-grid" id="mesasGrid">
-        {% for mesa in mesas %}
-          <div 
-            class="mesa-btn capacidad-{{ mesa.capacidad }}{% if not mesa.disponible %} unavailable{% endif %}" 
-            data-zona="{{ mesa.zona.id }}"
-            data-capacidad="{{ mesa.capacidad }}"
-            data-id="{{ mesa.id }}"
-            title="Mesa {{ mesa.numero }} - Capacidad: {{ mesa.capacidad }}"
-          >
-            <input type="checkbox" 
-                   name="mesas" 
-                   value="{{ mesa.id }}" 
-                   style="display:none;"
-                   {% if not mesa.disponible %} disabled {% endif %}
-            >
-            Mesa {{ mesa.numero }}
-          </div>
-        {% endfor %}
+      <!-- no tomar en cuenta el error en este div-->
+      <div class="mesas-wrapper">
+        <div id="mesasGrid" class="mesas-grid" style="background-image: url('{{ img_url }}'); border-radius: 10px; position: relative;">
+          {% for mesa in mesas %}
+            <div class="mesa-btn capacidad-{{ mesa.capacidad }}{% if not mesa.disponible %} unavailable{% endif %}" 
+                style="top: {{ mesa.pos_y }}%; left: {{ mesa.pos_x }}%; position: absolute; cursor: pointer;"
+                data-id="{{ mesa.id }}"
+                data-capacidad="{{ mesa.capacidad }}"
+                title="Mesa {{ mesa.numero }} - Capacidad: {{ mesa.capacidad }}">
+              
+              <input type="checkbox" name="mesas" value="{{ mesa.id }}" style="display:none;" {% if not mesa.disponible %} disabled {% endif %}>
+
+              {% if mesa.capacidad <= 4 %}
+                <!-- SVG círculo -->
+                <svg width="80" height="80" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="50" cy="50" r="40" fill="#c8f7c5" stroke="#333" stroke-width="3"/>
+                  <text x="50" y="60" text-anchor="middle" font-size="30" fill="#000" font-weight="bold">{{ mesa.numero }}</text>
+                </svg>
+              {% elif mesa.capacidad == 6 or mesa.capacidad == 8 %}
+                <!-- SVG cuadrado -->
+                <svg width="80" height="80" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="15" y="15" width="70" height="70" fill="#fddac8" stroke="#333" stroke-width="3" rx="10" ry="10"/>
+                  <text x="50" y="60" text-anchor="middle" font-size="30" fill="#000" font-weight="bold">{{ mesa.numero }}</text>
+                </svg>
+              {% elif mesa.capacidad == 12 %}
+                <!-- SVG rectángulo alargado -->
+                <svg width="120" height="60" viewBox="0 0 120 60" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="5" y="5" width="110" height="50" fill="#f8d7e6" stroke="#333" stroke-width="3" rx="15" ry="15"/>
+                  <text x="60" y="40" text-anchor="middle" font-size="30" fill="#000" font-weight="bold">{{ mesa.numero }}</text>
+                </svg>
+              {% endif %}
+            </div>
+          {% endfor %}
+        </div>
       </div>
 
       <div class="mt-4 text-center">

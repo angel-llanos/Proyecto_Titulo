@@ -44,11 +44,6 @@
                         <button class="btn btn-outline-danger history" type="button">Crear empleado</button>
                     </a>
                     {% endif %}
-                    {% if request.user.rol == 1 %}
-                    <a href="{% url 'contacto' %}">
-                        <button class="btn btn-outline-light history" type="button">Contacto</button>
-                    </a>
-                    {% endif %}
                     <div class="nav-item dropdown dropdown-perfil me-2">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
                             {% if user.foto_perfil %}
@@ -193,7 +188,7 @@
 
     {% endif %}
 
-        <!-- toast de mesero -->
+    <!-- toast de mesero -->
     {% if request.user.rol == 2 %}
         {% if messages %}
         <div aria-live="polite" aria-atomic="true" class="position-fixed bottom-0 end-0 p-3" style="z-index: 1080">
@@ -229,6 +224,7 @@
         </a>
     </div>
     {% endif %}
+    
     <!-- admin -->
     {% if request.user.rol == 4 %}
     <div class="reserva-div">
@@ -263,11 +259,11 @@
     </div>
     {% endif %}
 
-    <!-- Fotter o Pie de Pagina -->
+    <!-- Footer o Pie de Pagina -->
     <footer class="footer-triple">
         <div class="footer-contenido">
             <div class="footer-columna">
-                <h3>Contacto</h3>
+                <h3>Nosotros</h3>
                 <p><strong>Dirección:</strong> Calle Falsa 123, Santiago</p>
                 <p><strong>Teléfono:</strong> +56 9 1234 5678</p>
                 <p><strong>Horario:</strong> Lun-Dom: 12:00 - 23:00 hrs</p>
@@ -276,6 +272,9 @@
                 <h3>Enlaces</h3>
                 <ul class="footer-links">
                     <li><a href="{% url 'terminos_condiciones' %}">Términos y Condiciones</a></li>
+                    {% if request.user.rol == 1 %}
+                        <li><a href="{% url 'contacto' %}">Formulario de contacto</a></li>
+                    {% endif %}
                 </ul>
             </div>
             <div class="footer-columna">

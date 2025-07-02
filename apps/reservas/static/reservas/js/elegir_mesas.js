@@ -3,39 +3,72 @@ document.addEventListener('DOMContentLoaded', function () {
   const mesasGrid = document.getElementById('mesasGrid');
   const capacidadSpan = document.getElementById('capacidadTotal');
   const capacidadObjetivo = parseInt(capacidadSpan.dataset.comensales);
-  const margenExtra = parseInt(capacidadSpan.dataset.margenExtra || 0);
+  const margenExtra = parseInt(capacidadSpan.dataset.margenExtra || 1);
+
+  function aplicarLogicaEspecial(n) {
+    return (n % 2 !== 0) || (n === 10);
+  }
 
   function actualizarCapacidadTotal() {
     let capacidadTotal = 0;
+    let hayMesaSuficiente = false;
+
     mesasGrid.querySelectorAll('.mesa-btn.selected').forEach(mesa => {
       const capacidad = parseInt(mesa.getAttribute('data-capacidad'));
       capacidadTotal += capacidad;
+      if (capacidad >= capacidadObjetivo) {
+        hayMesaSuficiente = true;
+      }
     });
+
     capacidadSpan.textContent = capacidadTotal;
 
-    const limite = capacidadObjetivo + margenExtra;
-
-    // Bloquear mesas si se supera el límite
     mesasGrid.querySelectorAll('.mesa-btn').forEach(mesa => {
       const capacidadMesa = parseInt(mesa.getAttribute('data-capacidad'));
       const checkbox = mesa.querySelector('input[type="checkbox"]');
-
       const estaSeleccionada = mesa.classList.contains('selected');
 
-      if (
-        !estaSeleccionada &&
-        (capacidadTotal + capacidadMesa) > limite
-      ) {
-        mesa.classList.add('unavailable');
-        checkbox.disabled = true;
-      } else if (!checkbox.hasAttribute('data-permanently-disabled')) {
-        mesa.classList.remove('unavailable');
-        checkbox.disabled = false;
+      if (!estaSeleccionada) {
+        // Caso especial: si la reserva es 10, no bloquear la mesa de 12
+        if (capacidadObjetivo === 10 && capacidadMesa === 12) {
+          mesa.classList.remove('unavailable');
+          checkbox.disabled = false;
+          return; // no bloquearla
+        }
+
+        // Si ya cubrimos los comensales, bloquear las demás mesas
+        if (capacidadTotal >= capacidadObjetivo) {
+          mesa.classList.add('unavailable');
+          checkbox.disabled = true;
+          return;
+        }
+
+        if (aplicarLogicaEspecial(capacidadObjetivo)) {
+          if (hayMesaSuficiente) {
+            mesa.classList.add('unavailable');
+            checkbox.disabled = true;
+          } else {
+            if ((capacidadTotal + capacidadMesa) > (capacidadObjetivo + margenExtra)) {
+              mesa.classList.add('unavailable');
+              checkbox.disabled = true;
+            } else {
+              mesa.classList.remove('unavailable');
+              checkbox.disabled = false;
+            }
+          }
+        } else {
+          if ((capacidadTotal + capacidadMesa) > (capacidadObjetivo + margenExtra)) {
+            mesa.classList.add('unavailable');
+            checkbox.disabled = true;
+          } else {
+            mesa.classList.remove('unavailable');
+            checkbox.disabled = false;
+          }
+        }
       }
     });
   }
 
-  // Filtrado por capacidad mínima
   filtroCapacidad.addEventListener('change', function () {
     const capacidadMin = parseInt(this.value);
     mesasGrid.querySelectorAll('.mesa-btn').forEach(mesa => {
@@ -44,7 +77,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-  // Selección de mesas visual
   mesasGrid.querySelectorAll('.mesa-btn').forEach(mesa => {
     const checkbox = mesa.querySelector('input[type="checkbox"]');
 

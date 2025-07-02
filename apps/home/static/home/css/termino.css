@@ -1,5 +1,6 @@
 /* termino y condiciones */
 html, body {
+    background-color: rgb(20, 20, 20);
     max-width: 100%;
     overflow-x: hidden;
 }
@@ -14,12 +15,36 @@ html, body {
 h1, h2 {
     color: #333;
 }
-.container {
-    max-width: 800px;
-    margin: auto;
-    background: #fff;
-    padding: 30px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+
+.terminos-box {
+  background-color: #000;
+  color: white;
+  border-radius: 12px;
+  padding: 2rem;
+  max-width: 900px;
+  margin: auto;
+  border: 2px solid #444;
+  line-height: 1.7;
+}
+
+.terminos-box h1,
+.terminos-box h2 {
+  color: #ffc107;
+}
+
+.terminos-box p,
+.terminos-box li {
+  color: #f8f9fa;
+}
+
+.terminos-box a {
+  color: #17a2b8;
+  text-decoration: underline;
+}
+
+.terminos-box ul {
+  padding-left: 1.5rem;
+  margin-bottom: 1.5rem;
 }
 
 /* NAVBAR */
@@ -48,6 +73,18 @@ h1, h2 {
 
 .history {
     border-radius: 40px;
+}
+
+.dropdown-perfil {
+    min-width: auto; /* Cambia según lo que necesites */
+    max-width: auto;
+    width: auto;      /* o un valor fijo como 250px */
+}
+
+.dropdown-menu.dropdown-perfil {
+    right: 0;
+    left: auto;
+    position: absolute;  /* Asegura que el dropdown se posicione correctamente */
 }
 
 /* Footer */
@@ -133,4 +170,44 @@ h1, h2 {
     max-width: 300px;
     height: auto;
     filter: brightness(0) invert(1);
+}
+
+/* media query footer */
+@media (max-width: 768px) {
+    .footer-contenido {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 0 15px;
+    }
+
+    .footer-columna {
+        width: 100%;
+        max-width: 400px;
+        padding: 20px 0;
+    }
+
+    .footer-columna h3 {
+        margin-bottom: 10px;
+    }
+
+    .redes-sociales {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
+    .redes-sociales svg {
+        margin: 0;
+    }
+
+    .footer-logo-container {
+        margin-top: 20px;
+        padding: 20px 0;
+    }
+
+    .footer-logo {
+        max-width: 200px;
+    }
 }

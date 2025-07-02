@@ -1,4 +1,5 @@
 import base64
+from django.templatetags.static import static
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import get_template, render_to_string
@@ -56,7 +57,7 @@ def crear_reserva(request):
                 'fecha': str(reserva.fecha),
                 'hora': str(reserva.hora),
                 'telefono': reserva.telefono,
-                'zona_id': reserva.zona.id if reserva.zona else None,
+                'zona_id': reserva.zona.id,
                 'menu_id': reserva.menu.id if reserva.menu else None,
                 'comensales': reserva.comensales,
                 'abono': str(abono),
@@ -97,6 +98,53 @@ def elegir_mesas(request, reserva_id):
     for mesa in mesas:
         mesa.disponible = mesa.id not in mesas_ocupadas_ids
 
+    # Asignar URL de imagen según la zona
+    if zona.nombre == 'Patio':
+        img_url = static('reservas/img/patio.png')
+    elif zona.nombre == 'Primer Piso':
+        img_url = static('reservas/img/piso1.png')
+    elif zona.nombre == 'Segundo Piso':
+        img_url = static('reservas/img/piso2.png')
+    else:
+        img_url = static('reservas/img/default.png')
+
+    # Aquí debes definir manualmente la posición de cada mesa en porcentaje
+    # para que se posicionen correctamente sobre la imagen de fondo.
+    if zona.nombre == 'Primer Piso':
+        posiciones = {
+            1: (47, 43),
+            2: (22, 26),
+            3: (75, 27),
+            4: (73, 54),
+            5: (57, 72),
+            6: (27, 75),
+        }
+    elif zona.nombre == 'Segundo Piso':
+        posiciones = {
+            7: (51, 70),
+            8: (22, 77),
+            9: (75, 62),
+            10: (75, 27),
+            11: (49, 44),
+            12: (24, 26),
+        }
+    elif zona.nombre == 'Patio':
+        posiciones = {
+            13:  (45, 70),
+            14:  (72, 30),
+            15:  (23, 65),
+            16: (25, 33),
+            17: (51, 44),
+            18: (69, 73),
+        }
+    else:
+        posiciones = {}
+
+    for mesa in mesas:
+        pos = posiciones.get(mesa.numero, (0, 0))
+        mesa.pos_x = pos[0]
+        mesa.pos_y = pos[1]
+
     if request.method == "POST":
         mesas_seleccionadas_ids = request.POST.getlist('mesas')
         mesas_seleccionadas = Mesa.objects.filter(id__in=mesas_seleccionadas_ids)
@@ -108,11 +156,9 @@ def elegir_mesas(request, reserva_id):
             error = "Una o más mesas seleccionadas ya no están disponibles."
         elif capacidad_total < comensales:
             error = f"La capacidad total de las mesas seleccionadas ({capacidad_total}) no cubre los {comensales} comensales."
-        # ✅ Opción 1 aplicada aquí:
         elif capacidad_total > comensales + 2 and len(mesas_seleccionadas) > 1:
             error = f"La capacidad total de las mesas seleccionadas ({capacidad_total}) excede demasiado los {comensales} comensales. Reduce la cantidad de mesas."
         else:
-            # OK: guardar la reserva
             reserva.mesas.set(mesas_seleccionadas)
             reserva.estado = 'pendiente_pago'
             reserva.save()
@@ -125,12 +171,14 @@ def elegir_mesas(request, reserva_id):
             'reserva': reserva,
             'capacidades_disponibles': sorted(set(m.capacidad for m in mesas)),
             'error': error,
+            'img_url': img_url,
         })
 
     return render(request, 'reservas/elegir_mesas.html', {
         'mesas': mesas,
         'reserva': reserva,
         'capacidades_disponibles': sorted(set(m.capacidad for m in mesas)),
+        'img_url': img_url,
     })
 
 @login_required

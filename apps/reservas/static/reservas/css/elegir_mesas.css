@@ -1,0 +1,142 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 1rem;
+}
+
+.left-panel,
+.right-panel {
+    background-color: #000;
+    color: white;
+    border-radius: 10px;
+    padding: 20px;
+    flex: 1 1 350px;
+    max-width: 600px;
+}
+
+.left-panel {
+    flex: 1;
+}
+
+.right-panel {
+    flex: 2;
+}
+
+h2 {
+    margin-top: 0;
+    color: white;
+}
+
+.reserva-info p {
+    margin: 0.4rem 0;
+    font-size: 1.1rem;
+    color: white;
+}
+
+.filters {
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+select {
+    padding: 0.3rem 0.6rem;
+    font-size: 1rem;
+}
+
+/* Contenedor que controla la proporción correcta de la imagen */
+.mesas-wrapper {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    position: relative;
+    aspect-ratio: 3 / 2; /* Mantener proporción 1536x1024 */
+}
+
+.mesas-grid {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 3 / 2;
+    background-image: url('{{ img_url }}');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    border: 1px solid rgba(255, 255, 255, 0.1); /* opcional para visualizar contorno */
+}
+
+.mesa-btn {
+    position: absolute;
+    width: 80px; /* tamaño base para SVG circular y cuadrado */
+    height: 80px;
+    padding: 0;
+    cursor: pointer;
+    box-sizing: border-box;
+    transform: translate(-50%, -50%); /* centrar el centro del div en la posición */
+    transition: transform 0.2s ease, filter 0.2s ease, opacity 0.2s ease;
+}
+
+.mesa-btn svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+    pointer-events: none; /* para que el SVG no interfiera con el clic */
+}
+
+.mesa-btn:hover:not(.unavailable):not(.selected) {
+    transform: translate(-50%, -50%) scale(1.1);
+    filter: drop-shadow(0 0 4px rgba(255, 255, 0, 0.7));
+}
+
+.mesa-btn.selected {
+    filter: drop-shadow(0 0 8px #007bff);
+}
+
+.mesa-btn.unavailable {
+    opacity: 0.5;
+    cursor: not-allowed;
+    filter: grayscale(100%);
+}
+
+.mesa-btn.capacidad-6,
+.mesa-btn.capacidad-8 {
+    width: 80px;
+    height: 80px;
+}
+
+.mesa-btn.capacidad-12 {
+    width: 120px; /* para rectángulo alargado */
+    height: 60px;
+}
+
+button[type="submit"] {
+    margin-top: 1rem;
+    padding: 0.6rem 1.2rem;
+    font-size: 1.1rem;
+    cursor: pointer;
+}
+
+@supports not (aspect-ratio: 1) {
+  .mesas-grid {
+    padding-top: 66.67%; /* fallback para aspect-ratio */
+  }
+}
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        align-items: center;
+        padding: 10px;
+    }
+}
+
+@media (min-width: 992px) {
+  .container {
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  .left-panel, .right-panel {
+    flex: 0 0 45%;
+    max-width: 600px;
+  }
+}

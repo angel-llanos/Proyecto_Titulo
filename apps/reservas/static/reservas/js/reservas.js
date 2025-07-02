@@ -107,6 +107,3 @@ function actualizarOpcionesComensales(max) {
         select.appendChild(option);
     }
 }
-
-// Ejemplo: Si quisieras limitar según disponibilidad
-// actualizarOpcionesComensales(10);
