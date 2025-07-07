@@ -347,7 +347,7 @@ def descargar_boleta(request, reserva_id):
     })
     
     response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = f'attachment; filename="boleta_reserva_{reserva.id}.pdf"'
+    response['Content-Disposition'] = f'attachment; filename="boleta_{reserva.id}.pdf"'
 
     pisa.CreatePDF(BytesIO(html.encode('UTF-8')), dest=response, encoding='UTF-8')
 

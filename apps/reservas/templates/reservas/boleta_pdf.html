@@ -1,33 +1,62 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="UTF-8">
     <style>
+        @page {
+            size: A4;
+            margin: 2cm 2.5cm;
+        }
         body {
-            font-family: Helvetica, Arial, sans-serif;
-            font-size: 12px;
-            background-color: black;
-            color: white;
-            padding: 20px;
-            border-radius: 10px;
+            font-family: 'Century Gothic', Helvetica, Arial, sans-serif;
+            font-size: 14px;
+            color: #e0e0e0;
+            background-color: #000000;
+            padding: 2;
             max-width: 600px;
             margin: auto;
+            line-height: 1.4;
         }
 
-        h2,
+        .logo {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .logo img {
+            width: 160px;
+            height: auto;
+        }
+
+        h2 {
+            text-align: center;
+            color: #28a745;
+            font-weight: bold;
+            margin-bottom: 25px;
+        }
+
         h3 {
-            color: white;
+            color: #ffc107;
+            font-weight: bold;
+            margin-top: 30px;
+            margin-bottom: 12px;
+            text-align: center;
+            border-bottom: 1px solid #444;
+            padding-bottom: 6px;
         }
 
-        p,
-        li {
+        p, li {
             margin: 5px 0;
         }
 
         ul {
+            padding-left: 20px;
             margin: 0;
-            padding-left: 15px;
+        }
+
+        .highlight {
+            color: #ffc107;
+            font-weight: bold;
         }
 
         .section {
@@ -35,43 +64,46 @@
         }
     </style>
 </head>
-
 <body>
-    <div class="section">
-        <img src="data:image/png;base64,{{ logo_base64 }}" alt="Logo MonkeyFoods" style="width: 180px; height: auto; display: flex; justify-content: center; align-items: center;">
+
+    <div class="logo">
+        <img src="https://i.imgur.com/tYVZmB5.png" alt="Logo MonkeyFoods" style="width:160px; height:auto;">
     </div>
 
-    <h2>¡Reserva realizada con éxito!</h2>
+    <h2>¡RESERVA REALIZADA CON ÉXITO!</h2>
 
     <div class="section">
-        <p><strong>ID de Reserva:</strong> #{{ reserva.id_reserva }}</p>
-        <p><strong>Nombre de Reserva:</strong> {{ reserva.nombre_reserva }}</p>
-        <p><strong>Fecha:</strong> {{ reserva.fecha }}</p>
-        <p><strong>Hora:</strong> {{ reserva.hora }}</p>
-        <p><strong>Teléfono:</strong> {{ reserva.telefono }}</p>
-        <p><strong>Abono:</strong> ${{ reserva.abono }}</p>
+        <p><span class="highlight">ID de Reserva:</span> #{{ reserva.id_reserva }}</p>
+        <p><span class="highlight">Nombre de Reserva:</span> {{ reserva.nombre_reserva }}</p>
+        <p><span class="highlight">Fecha:</span> {{ reserva.fecha }}</p>
+        <p><span class="highlight">Hora:</span> {{ reserva.hora }}</p>
+        <p><span class="highlight">Teléfono:</span> {{ reserva.telefono }}</p>
+        <p><span class="highlight">Abono a pagar:</span> ${{ reserva.abono }}</p>
     </div>
 
+    <h3>Información del Cliente</h3>
     <div class="section">
-        <h3>Cliente</h3>
-        <p><strong>Nombre:</strong> {{ reserva.cliente.first_name }}</p>
-        <p><strong>Apellido:</strong> {{ reserva.cliente.last_name }}</p>
-        <p><strong>Correo:</strong> {{ reserva.cliente.email }}</p>
-        <p><strong>Nombre de usuario:</strong> {{ reserva.cliente.username }}</p>
+        <p><span class="highlight">Nombre:</span> {{ reserva.cliente.first_name }}</p>
+        <p><span class="highlight">Apellido:</span> {{ reserva.cliente.last_name }}</p>
+        <p><span class="highlight">Correo:</span> {{ reserva.cliente.email }}</p>
+        <p><span class="highlight">Nombre de usuario:</span> {{ reserva.cliente.username }}</p>
     </div>
 
+    <h3>Mesas Reservadas</h3>
     <div class="section">
-        <h3>Mesas reservadas</h3>
         <ul>
             {% for mesa in reserva.mesas.all %}
-            <li>{{ mesa.numero }} (Capacidad: {{ mesa.capacidad }})</li>
+            <li>Nº {{ mesa.numero }} (Capacidad: {{ mesa.capacidad }})</li>
             {% empty %}
             <li>No hay mesas asignadas</li>
             {% endfor %}
-            <h3>Menú</h3>
-            <p>{{ reserva.menu.nombre|default:"Sin menú asignado" }}</p>
         </ul>
     </div>
-</body>
 
+    <h3>Menú</h3>
+    <div class="section">
+        <p>{{ reserva.menu.nombre|default:"Sin menú asignado" }}</p>
+    </div>
+
+</body>
 </html>
